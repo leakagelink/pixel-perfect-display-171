@@ -10,12 +10,23 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AskRouteImport } from './routes/ask'
 import { Route as BriefingRouteImport } from './routes/briefing'
+import { Route as NotificationsRouteImport } from './routes/notifications'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as ShortsRouteImport } from './routes/shorts'
+import { Route as VideoRouteImport } from './routes/video'
+import { Route as ArticleArticleIdRouteImport } from './routes/article.$articleId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AskRoute = AskRouteImport.update({
+  id: '/ask',
+  path: '/ask',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BriefingRoute = BriefingRouteImport.update({
@@ -23,40 +34,117 @@ const BriefingRoute = BriefingRouteImport.update({
   path: '/briefing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ShortsRoute = ShortsRouteImport.update({
   id: '/shorts',
   path: '/shorts',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VideoRoute = VideoRouteImport.update({
+  id: '/video',
+  path: '/video',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticleArticleIdRoute = ArticleArticleIdRouteImport.update({
+  id: '/article/$articleId',
+  path: '/article/$articleId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ask': typeof AskRoute
   '/briefing': typeof BriefingRoute
+  '/notifications': typeof NotificationsRoute
+  '/profile': typeof ProfileRoute
+  '/search': typeof SearchRoute
   '/shorts': typeof ShortsRoute
+  '/video': typeof VideoRoute
+  '/article/$articleId': typeof ArticleArticleIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ask': typeof AskRoute
   '/briefing': typeof BriefingRoute
+  '/notifications': typeof NotificationsRoute
+  '/profile': typeof ProfileRoute
+  '/search': typeof SearchRoute
   '/shorts': typeof ShortsRoute
+  '/video': typeof VideoRoute
+  '/article/$articleId': typeof ArticleArticleIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ask': typeof AskRoute
   '/briefing': typeof BriefingRoute
+  '/notifications': typeof NotificationsRoute
+  '/profile': typeof ProfileRoute
+  '/search': typeof SearchRoute
   '/shorts': typeof ShortsRoute
+  '/video': typeof VideoRoute
+  '/article/$articleId': typeof ArticleArticleIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/briefing' | '/shorts'
+  fullPaths:
+    | '/'
+    | '/ask'
+    | '/briefing'
+    | '/notifications'
+    | '/profile'
+    | '/search'
+    | '/shorts'
+    | '/video'
+    | '/article/$articleId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/briefing' | '/shorts'
-  id: '__root__' | '/' | '/briefing' | '/shorts'
+  to:
+    | '/'
+    | '/ask'
+    | '/briefing'
+    | '/notifications'
+    | '/profile'
+    | '/search'
+    | '/shorts'
+    | '/video'
+    | '/article/$articleId'
+  id:
+    | '__root__'
+    | '/'
+    | '/ask'
+    | '/briefing'
+    | '/notifications'
+    | '/profile'
+    | '/search'
+    | '/shorts'
+    | '/video'
+    | '/article/$articleId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AskRoute: typeof AskRoute
   BriefingRoute: typeof BriefingRoute
+  NotificationsRoute: typeof NotificationsRoute
+  ProfileRoute: typeof ProfileRoute
+  SearchRoute: typeof SearchRoute
   ShortsRoute: typeof ShortsRoute
+  VideoRoute: typeof VideoRoute
+  ArticleArticleIdRoute: typeof ArticleArticleIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -68,11 +156,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ask': {
+      id: '/ask'
+      path: '/ask'
+      fullPath: '/ask'
+      preLoaderRoute: typeof AskRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/briefing': {
       id: '/briefing'
       path: '/briefing'
       fullPath: '/briefing'
       preLoaderRoute: typeof BriefingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/shorts': {
@@ -82,13 +198,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShortsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/video': {
+      id: '/video'
+      path: '/video'
+      fullPath: '/video'
+      preLoaderRoute: typeof VideoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/article/$articleId': {
+      id: '/article/$articleId'
+      path: '/article/$articleId'
+      fullPath: '/article/$articleId'
+      preLoaderRoute: typeof ArticleArticleIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AskRoute: AskRoute,
   BriefingRoute: BriefingRoute,
+  NotificationsRoute: NotificationsRoute,
+  ProfileRoute: ProfileRoute,
+  SearchRoute: SearchRoute,
   ShortsRoute: ShortsRoute,
+  VideoRoute: VideoRoute,
+  ArticleArticleIdRoute: ArticleArticleIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
