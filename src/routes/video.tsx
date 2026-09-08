@@ -24,12 +24,12 @@ export const Route = createFileRoute("/video")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: VideoPage;
+  component: VideoPage,
 });
 
 function VideoPage() {
   const [mode, setMode] = useState<"feed" | "vertical">("feed");
-  const featured = videos[0];
+  const featured = videos[0]!;
 
   return (
     <AppShell>
