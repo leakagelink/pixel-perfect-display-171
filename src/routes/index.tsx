@@ -37,21 +37,23 @@ function Index() {
       <TopHeader />
       <BreakingTicker />
 
-      <div className="mt-4 flex gap-2 overflow-x-auto px-5 pb-1 no-scrollbar">
+      <div className="sticky top-[60px] z-10 glass-bar flex gap-2 overflow-x-auto px-5 py-3 no-scrollbar">
         {categories.map((c) => (
           <button
             key={c}
             onClick={() => setActive(c)}
+            aria-pressed={active === c}
             className={`btn-press shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium ring-1 ${
               active === c
-                ? "bg-primary text-primary-foreground ring-primary/50"
-                : "bg-secondary text-muted-foreground ring-border"
+                ? "bg-primary text-primary-foreground ring-primary/50 shadow-[0_6px_18px_-8px_var(--primary)]"
+                : "bg-secondary text-muted-foreground ring-border hover:text-foreground"
             }`}
           >
             {c}
           </button>
         ))}
       </div>
+
 
       <div className="px-5 pt-6">
         <p className="text-[11px] uppercase tracking-[0.2em] text-accent">
