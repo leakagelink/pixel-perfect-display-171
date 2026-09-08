@@ -37,21 +37,23 @@ function Index() {
       <TopHeader />
       <BreakingTicker />
 
-      <div className="mt-4 flex gap-2 overflow-x-auto px-5 pb-1 no-scrollbar">
+      <div className="sticky top-[60px] z-10 glass-bar flex gap-2 overflow-x-auto px-5 py-3 no-scrollbar">
         {categories.map((c) => (
           <button
             key={c}
             onClick={() => setActive(c)}
+            aria-pressed={active === c}
             className={`btn-press shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium ring-1 ${
               active === c
-                ? "bg-primary text-primary-foreground ring-primary/50"
-                : "bg-secondary text-muted-foreground ring-border"
+                ? "bg-primary text-primary-foreground ring-primary/50 shadow-[0_6px_18px_-8px_var(--primary)]"
+                : "bg-secondary text-muted-foreground ring-border hover:text-foreground"
             }`}
           >
             {c}
           </button>
         ))}
       </div>
+
 
       <div className="px-5 pt-6">
         <p className="text-[11px] uppercase tracking-[0.2em] text-accent">
@@ -107,10 +109,11 @@ function Index() {
       <SectionHeader title="Recommended for you" meta="24 new" />
       <div className="space-y-4 px-5 pt-4">
         <ArticleCard article={articles[0]!} withImage />
-        {articles.slice(1, 3).map((a) => (
-          <ArticleCard key={a.id} article={a} />
+        {articles.slice(1, 3).map((a, i) => (
+          <ArticleCard key={a.id} article={a} index={i + 1} />
         ))}
       </div>
+
 
       <SectionHeader title="Trending" meta="live" />
       <div className="mt-3 flex gap-3 overflow-x-auto px-5 pb-1 no-scrollbar">
@@ -136,7 +139,7 @@ function Index() {
       <div className="px-5 pt-3">
         <Link
           to="/ask"
-          className="btn-press flex items-center justify-between rounded-3xl bg-card p-5 ring-1 ring-border"
+          className="card-surface group flex items-center justify-between rounded-3xl p-5 ring-1 ring-border"
         >
           <div>
             <p className="text-sm font-semibold">Ask about today's news</p>
@@ -144,18 +147,20 @@ function Index() {
               "Why is the grid under strain?"
             </p>
           </div>
-          <span className="grid size-9 shrink-0 place-items-center rounded-full gradient-brand text-sm">
+          <span className="grid size-10 shrink-0 place-items-center rounded-full gradient-brand text-sm transition-transform duration-200 group-hover:translate-x-0.5">
             →
           </span>
         </Link>
       </div>
 
+
       <SectionHeader title="Latest" />
       <div className="space-y-4 px-5 pt-4">
-        {articles.slice(3).map((a) => (
-          <ArticleCard key={a.id} article={a} withImage />
+        {articles.slice(3).map((a, i) => (
+          <ArticleCard key={a.id} article={a} withImage index={i} />
         ))}
       </div>
+
     </AppShell>
   );
 }
