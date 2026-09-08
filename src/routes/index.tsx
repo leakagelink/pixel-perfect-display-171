@@ -1,24 +1,161 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { AppShell } from "@/components/app/AppShell";
+import { TopHeader } from "@/components/app/TopHeader";
+import { BreakingTicker } from "@/components/app/BreakingTicker";
+import { ArticleCard } from "@/components/app/ArticleCard";
+import { SectionHeader } from "@/components/app/SectionHeader";
+import { articles, categories, trending } from "@/lib/news-data";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "NewsAI — News that matters to you" },
+      {
+        name: "description",
+        content:
+          "A personalized AI news feed: breaking headlines, 30-second summaries, multi-source coverage, shorts, and video briefings.",
+      },
+      { property: "og:title", content: "NewsAI — News that matters to you" },
+      {
+        property: "og:description",
+        content:
+          "Personalized feed, AI summaries, multi-source story clusters, shorts and video news.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  const [active, setActive] = useState("For You");
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <AppShell>
+      <TopHeader />
+      <BreakingTicker />
+
+      <div className="mt-4 flex gap-2 overflow-x-auto px-5 pb-1 no-scrollbar">
+        {categories.map((c) => (
+          <button
+            key={c}
+            onClick={() => setActive(c)}
+            className={`btn-press shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium ring-1 ${
+              active === c
+                ? "bg-primary text-primary-foreground ring-primary/50"
+                : "bg-secondary text-muted-foreground ring-border"
+            }`}
+          >
+            {c}
+          </button>
+        ))}
+      </div>
+
+      <div className="px-5 pt-6">
+        <p className="text-[11px] uppercase tracking-[0.2em] text-accent">
+          Good morning, Theo
+        </p>
+        <h1 className="mt-1 max-w-[24ch] text-4xl leading-[0.95] tracking-tight text-balance">
+          Your 7:42 briefing
+        </h1>
+        <p className="mt-2 max-w-[32ch] text-sm leading-relaxed text-muted-foreground text-pretty">
+          Sourced from 214 outlets and distilled into 5 minutes of signal.
+        </p>
+      </div>
+
+      <div className="relative mt-5 px-5">
+        <div className="relative rounded-[28px] gradient-briefing p-6 ring-1 ring-border">
+          <div className="pointer-events-none absolute -right-10 -top-10 size-40 rounded-full bg-accent/40 blur-2xl" />
+          <div className="relative flex items-center justify-between">
+            <span className="chip-shine rounded-full bg-foreground/15 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.15em] ring-1 ring-border">
+              Daily Briefing
+            </span>
+            <span className="text-[11px] text-foreground/70">Tue · 6 min</span>
+          </div>
+          <div className="relative mt-4 flex items-end justify-between gap-4">
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.15em] text-accent">
+                Top story
+              </p>
+              <h2 className="mt-1 text-2xl leading-tight text-balance">
+                The compute land-grab
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-foreground/70 text-pretty">
+                Three hyperscalers are racing past 100 GW of AI capacity this
+                year — and the grid can't keep up.
+              </p>
+            </div>
+            <div className="shrink-0 text-right">
+              <div className="font-display text-4xl leading-none">+7.2%</div>
+              <p className="mt-1 text-[10px] uppercase tracking-wide text-foreground/60">
+                cluster demand
+              </p>
+            </div>
+          </div>
+          <Link
+            to="/briefing"
+            className="btn-press relative mt-5 block w-full overflow-hidden rounded-full bg-foreground py-3 text-center text-sm font-semibold text-background"
+          >
+            <span className="chip-shine absolute inset-0" />
+            <span className="relative">Open briefing</span>
+          </Link>
+        </div>
+      </div>
+
+      <SectionHeader title="Recommended for you" meta="24 new" />
+      <div className="space-y-4 px-5 pt-4">
+        <ArticleCard article={articles[0]} withImage />
+        {articles.slice(1, 3).map((a) => (
+          <ArticleCard key={a.id} article={a} />
+        ))}
+      </div>
+
+      <SectionHeader title="Trending" meta="live" />
+      <div className="mt-3 flex gap-3 overflow-x-auto px-5 pb-1 no-scrollbar">
+        {trending.map((t, i) => (
+          <Link
+            key={t.tag}
+            to="/search"
+            className={`btn-press shrink-0 rounded-2xl px-4 py-3 ring-1 ${
+              i === 1
+                ? "bg-primary/25 ring-primary/30"
+                : "bg-secondary ring-border"
+            }`}
+          >
+            <p className="text-[11px] uppercase tracking-wide text-foreground/70">
+              {t.tag}
+            </p>
+            <p className="mt-0.5 text-xs text-muted-foreground">{t.count}</p>
+          </Link>
+        ))}
+      </div>
+
+      <SectionHeader title="Ask NewsAI" />
+      <div className="px-5 pt-3">
+        <Link
+          to="/ask"
+          className="btn-press flex items-center justify-between rounded-3xl bg-card p-5 ring-1 ring-border"
+        >
+          <div>
+            <p className="text-sm font-semibold">Ask about today's news</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              "Why is the grid under strain?"
+            </p>
+          </div>
+          <span className="grid size-9 shrink-0 place-items-center rounded-full gradient-brand text-sm">
+            →
+          </span>
+        </Link>
+      </div>
+
+      <SectionHeader title="Latest" />
+      <div className="space-y-4 px-5 pt-4">
+        {articles.slice(3).map((a) => (
+          <ArticleCard key={a.id} article={a} withImage />
+        ))}
+      </div>
+    </AppShell>
   );
 }
