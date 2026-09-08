@@ -28,7 +28,7 @@ export const Route = createFileRoute("/shorts")({
 function Shorts() {
   const [i, setI] = useState(0);
   const [saved, setSaved] = useState<string[]>([]);
-  const s = shorts[i];
+  const s = shorts[i]!;
   const isSaved = saved.includes(s.id);
 
   return (

@@ -106,7 +106,7 @@ function Index() {
 
       <SectionHeader title="Recommended for you" meta="24 new" />
       <div className="space-y-4 px-5 pt-4">
-        <ArticleCard article={articles[0]} withImage />
+        <ArticleCard article={articles[0]!} withImage />
         {articles.slice(1, 3).map((a) => (
           <ArticleCard key={a.id} article={a} />
         ))}
