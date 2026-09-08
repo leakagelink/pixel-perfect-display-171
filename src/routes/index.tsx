@@ -109,10 +109,11 @@ function Index() {
       <SectionHeader title="Recommended for you" meta="24 new" />
       <div className="space-y-4 px-5 pt-4">
         <ArticleCard article={articles[0]!} withImage />
-        {articles.slice(1, 3).map((a) => (
-          <ArticleCard key={a.id} article={a} />
+        {articles.slice(1, 3).map((a, i) => (
+          <ArticleCard key={a.id} article={a} index={i + 1} />
         ))}
       </div>
+
 
       <SectionHeader title="Trending" meta="live" />
       <div className="mt-3 flex gap-3 overflow-x-auto px-5 pb-1 no-scrollbar">
@@ -138,7 +139,7 @@ function Index() {
       <div className="px-5 pt-3">
         <Link
           to="/ask"
-          className="btn-press flex items-center justify-between rounded-3xl bg-card p-5 ring-1 ring-border"
+          className="card-surface group flex items-center justify-between rounded-3xl p-5 ring-1 ring-border"
         >
           <div>
             <p className="text-sm font-semibold">Ask about today's news</p>
@@ -146,18 +147,20 @@ function Index() {
               "Why is the grid under strain?"
             </p>
           </div>
-          <span className="grid size-9 shrink-0 place-items-center rounded-full gradient-brand text-sm">
+          <span className="grid size-10 shrink-0 place-items-center rounded-full gradient-brand text-sm transition-transform duration-200 group-hover:translate-x-0.5">
             →
           </span>
         </Link>
       </div>
 
+
       <SectionHeader title="Latest" />
       <div className="space-y-4 px-5 pt-4">
-        {articles.slice(3).map((a) => (
-          <ArticleCard key={a.id} article={a} withImage />
+        {articles.slice(3).map((a, i) => (
+          <ArticleCard key={a.id} article={a} withImage index={i} />
         ))}
       </div>
+
     </AppShell>
   );
 }
