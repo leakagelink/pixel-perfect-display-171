@@ -14,25 +14,37 @@ export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
-    <div className="mx-auto min-h-screen w-full max-w-[440px] bg-background pb-24 text-foreground">
+    <div className="mx-auto min-h-screen w-full max-w-[440px] bg-background pb-28 text-foreground">
       <div className="relative overflow-hidden">
         <div className="pointer-events-none absolute -left-16 -top-24 size-72 rounded-full bg-primary/40 blur-3xl floaty" />
         <div className="pointer-events-none absolute -right-20 top-40 size-72 rounded-full bg-accent/25 blur-3xl floaty" />
         <div className="relative">{children}</div>
       </div>
 
-      <nav className="fixed inset-x-0 bottom-0 z-20 mx-auto flex w-full max-w-[440px] items-center justify-around border-t border-border bg-background/85 px-2 py-3 backdrop-blur-md">
+      <nav className="safe-bottom glass-bar fixed inset-x-0 bottom-0 z-30 mx-auto flex w-full max-w-[440px] items-center justify-around border-t border-border px-2 pt-2">
         {nav.map(({ to, label, icon: Icon }) => {
           const active = to === "/" ? pathname === "/" : pathname.startsWith(to);
           return (
             <Link
               key={to}
               to={to}
-              className={`btn-press flex flex-col items-center gap-1 ${
-                active ? "text-primary" : "text-muted-foreground"
+              aria-label={label}
+              aria-current={active ? "page" : undefined}
+              className={`btn-press relative flex flex-1 flex-col items-center gap-1 rounded-2xl py-2 ${
+                active
+                  ? "text-primary"
+                  : "text-muted-foreground hover:text-foreground"
               }`}
             >
-              <Icon className="size-4" strokeWidth={2.2} />
+              {active && (
+                <span className="pointer-events-none absolute inset-x-3 inset-y-0 -z-10 rounded-2xl bg-primary/12 ring-1 ring-primary/25" />
+              )}
+              <Icon
+                className={`size-[18px] transition-transform duration-200 ${
+                  active ? "-translate-y-0.5 scale-110" : ""
+                }`}
+                strokeWidth={2.2}
+              />
               <span className="text-[10px] font-medium">{label}</span>
             </Link>
           );

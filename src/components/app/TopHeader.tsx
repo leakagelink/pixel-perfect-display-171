@@ -1,11 +1,27 @@
 import { Link } from "@tanstack/react-router";
 import { Bell, MapPin, Search } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export function TopHeader({ subtitle = "Briefing" }: { subtitle?: string }) {
+  const [stuck, setStuck] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setStuck(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <div className="relative flex items-center justify-between px-5 pt-6">
+    <header
+      className={`sticky top-0 z-20 flex items-center justify-between px-5 transition-all duration-300 ${
+        stuck
+          ? "glass-bar border-b border-border py-3"
+          : "border-b border-transparent pt-6 pb-3"
+      }`}
+    >
       <Link to="/" className="flex items-center gap-2">
-        <div className="grid size-9 place-items-center rounded-xl gradient-brand text-[13px] font-bold">
+        <div className="shimmer-sweep grid size-9 place-items-center rounded-xl gradient-brand text-[13px] font-bold">
           N
         </div>
         <div className="leading-none">
@@ -18,23 +34,25 @@ export function TopHeader({ subtitle = "Briefing" }: { subtitle?: string }) {
         </div>
       </Link>
       <div className="flex items-center gap-2">
-        <button className="btn-press flex items-center gap-1 rounded-full bg-secondary px-3 py-1.5 text-xs text-muted-foreground ring-1 ring-border">
+        <button className="btn-press flex items-center gap-1 rounded-full bg-secondary px-3 py-1.5 text-xs text-muted-foreground ring-1 ring-border hover:text-foreground">
           <MapPin className="size-3 text-accent" /> SF
         </button>
         <Link
           to="/search"
-          className="btn-press grid size-9 place-items-center rounded-full bg-secondary text-muted-foreground ring-1 ring-border"
+          aria-label="Search"
+          className="btn-press grid size-9 place-items-center rounded-full bg-secondary text-muted-foreground ring-1 ring-border hover:text-foreground"
         >
           <Search className="size-4" />
         </Link>
         <Link
           to="/notifications"
-          className="btn-press relative grid size-9 place-items-center rounded-full bg-secondary text-muted-foreground ring-1 ring-border"
+          aria-label="Notifications"
+          className="btn-press relative grid size-9 place-items-center rounded-full bg-secondary text-muted-foreground ring-1 ring-border hover:text-foreground"
         >
           <Bell className="size-4" />
-          <span className="absolute right-2 top-2 size-2 rounded-full bg-destructive ring-2 ring-background" />
+          <span className="pulse-ring absolute right-2 top-2 size-2 rounded-full bg-destructive ring-2 ring-background" />
         </Link>
       </div>
-    </div>
+    </header>
   );
 }
