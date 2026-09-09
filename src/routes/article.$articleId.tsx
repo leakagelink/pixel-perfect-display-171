@@ -69,6 +69,8 @@ function ArticlePage() {
           width={1080}
           height={640}
           className="aspect-[16/10] w-full object-cover"
+          decoding="async"
+          fetchPriority="high"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
         <Link

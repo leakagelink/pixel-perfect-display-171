@@ -60,6 +60,7 @@ function VideoPage() {
                   src={featured.image}
                   alt={featured.title}
                   loading="lazy"
+            decoding="async"
                   className="aspect-video w-full object-cover"
                 />
                 <span className="absolute bottom-3 right-3 rounded-full bg-background/80 px-2 py-1 text-[10px]">
@@ -95,6 +96,7 @@ function VideoPage() {
                     src={v.image}
                     alt={v.title}
                     loading="lazy"
+            decoding="async"
                     className="aspect-[4/3] w-full object-cover"
                   />
                   <span className="absolute bottom-2 right-2 rounded-full bg-background/80 px-1.5 py-0.5 text-[9px]">
@@ -129,6 +131,7 @@ function VideoPage() {
                 src={v.image}
                 alt={v.title}
                 loading="lazy"
+            decoding="async"
                 className="absolute inset-0 size-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />

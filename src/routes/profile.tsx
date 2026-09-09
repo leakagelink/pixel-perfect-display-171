@@ -105,6 +105,7 @@ function Profile() {
               src={a.image}
               alt={a.headline}
               loading="lazy"
+            decoding="async"
               className="size-12 shrink-0 rounded-xl object-cover"
             />
             <p className="text-sm font-medium leading-snug">{a.headline}</p>

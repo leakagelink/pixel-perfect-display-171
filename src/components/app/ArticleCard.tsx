@@ -30,6 +30,7 @@ export function ArticleCard({
             src={article.image}
             alt={article.headline}
             loading="lazy"
+            decoding="async"
             className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent" />
