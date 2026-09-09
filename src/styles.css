@@ -375,3 +375,50 @@
 @utility page-enter {
   animation: fade-in-soft 0.4s ease-out both;
 }
+
+/* ---- Splash screen ---- */
+@keyframes splash-ring {
+  0% { opacity: 0; transform: scale(0.82); }
+  45% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.28); }
+}
+
+@keyframes splash-mark {
+  0% { opacity: 0; transform: scale(0.7) rotate(-8deg); }
+  60% { transform: scale(1.06) rotate(1deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes splash-bar {
+  0% { transform: translateX(-110%); }
+  100% { transform: translateX(320%); }
+}
+
+@keyframes splash-out {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(1.04); }
+}
+
+@utility splash-ring {
+  animation: splash-ring 2.2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+@utility splash-mark {
+  animation: splash-mark 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@utility splash-title {
+  animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both;
+}
+
+@utility splash-tagline {
+  animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+
+@utility splash-bar {
+  animation: splash-bar 1.3s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+@utility splash-out {
+  animation: splash-out 0.5s ease-in forwards;
+}
