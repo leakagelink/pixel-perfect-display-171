@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import logoMark from "@/assets/newsai-logo.png";
 
 const SESSION_KEY = "newsai:splash-shown";
 const HOLD_MS = 1100;
@@ -59,9 +60,13 @@ export function SplashScreen() {
         <div className="relative grid size-24 place-items-center">
           <span className="splash-ring absolute inset-0 rounded-[28px] border border-primary/40" />
           <span className="splash-ring absolute inset-2 rounded-[24px] border border-accent/40 [animation-delay:0.35s]" />
-          <span className="gradient-brand splash-mark grid size-16 place-items-center rounded-3xl font-display text-2xl text-primary-foreground shadow-2xl shadow-primary/40">
-            N
-          </span>
+          <img
+            src={logoMark}
+            alt=""
+            width={64}
+            height={64}
+            className="splash-mark size-16 drop-shadow-[0_10px_30px_color-mix(in_oklab,var(--color-primary)_55%,transparent)]"
+          />
         </div>
 
         <h1 className="splash-title mt-7 font-display text-3xl tracking-tight">NewsAI</h1>
