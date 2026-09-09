@@ -116,11 +116,10 @@ function Shorts() {
                 <Share2 className="size-4" />
               </button>
               <Link
-                to="/article/$articleId"
-                params={{ articleId: s.id }}
+                to="/"
                 className="btn-press ml-auto rounded-full bg-foreground px-4 py-3 text-xs font-semibold text-background"
               >
-                Full story
+                Full feed
               </Link>
             </div>
           </div>

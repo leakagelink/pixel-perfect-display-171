@@ -11,28 +11,28 @@ import {
 import { AppShell } from "@/components/app/AppShell";
 import { ArticleCard } from "@/components/app/ArticleCard";
 import { SectionHeader } from "@/components/app/SectionHeader";
-import { articles } from "@/lib/news-data";
+import { getArticleBySlug } from "@/lib/content.functions";
 
 export const Route = createFileRoute("/article/$articleId")({
-  loader: ({ params }) => {
-    const article = articles.find((a) => a.id === params.articleId);
-    if (!article) throw notFound();
-    return article;
+  loader: async ({ params }) => {
+    const result = await getArticleBySlug({ data: { slug: params.articleId } });
+    if (!result.article) throw notFound();
+    return result;
   },
   head: ({ loaderData }) => ({
     meta: [
-      { title: `${loaderData?.headline ?? "Story"} — NewsAI` },
+      { title: `${loaderData?.article?.headline ?? "Story"} — NewsAI` },
       {
         name: "description",
         content:
-          loaderData?.dek ??
+          loaderData?.article?.dek ??
           "Read the full story with an AI summary, timeline and multi-source coverage.",
       },
       {
         property: "og:title",
-        content: `${loaderData?.headline ?? "Story"} — NewsAI`,
+        content: `${loaderData?.article?.headline ?? "Story"} — NewsAI`,
       },
-      { property: "og:description", content: loaderData?.dek ?? "" },
+      { property: "og:description", content: loaderData?.article?.dek ?? "" },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -48,7 +48,7 @@ const explainModes = [
 const languages = ["English", "Hindi", "Hinglish"];
 
 function ArticlePage() {
-  const article = Route.useLoaderData();
+  const { article, related } = Route.useLoaderData();
   const [summaryMode, setSummaryMode] = useState<"short" | "detailed">("short");
   const [explain, setExplain] = useState<string | null>(null);
   const [language, setLanguage] = useState("English");
@@ -57,8 +57,8 @@ function ArticlePage() {
   const [speed, setSpeed] = useState("1x");
 
   const bullets =
-    summaryMode === "short" ? article.bullets.slice(0, 2) : article.bullets;
-  const related = articles.filter((a) => a.id !== article.id).slice(0, 2);
+    summaryMode === "short" ? article!.bullets.slice(0, 2) : article!.bullets;
+
 
   return (
     <AppShell>
