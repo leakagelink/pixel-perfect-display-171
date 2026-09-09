@@ -16,9 +16,11 @@ export function AppShell({ children }: { children: ReactNode }) {
   return (
     <div className="mx-auto min-h-screen w-full max-w-[440px] bg-background pb-28 text-foreground">
       <div className="relative overflow-hidden">
-        <div className="pointer-events-none absolute -left-16 -top-24 size-72 rounded-full bg-primary/40 blur-3xl floaty" />
-        <div className="pointer-events-none absolute -right-20 top-40 size-72 rounded-full bg-accent/25 blur-3xl floaty" />
-        <div className="relative">{children}</div>
+        <div className="pointer-events-none absolute -left-16 -top-24 size-72 rounded-full bg-primary/40 blur-3xl floaty glow-pulse" />
+        <div className="pointer-events-none absolute -right-20 top-40 size-72 rounded-full bg-accent/25 blur-3xl floaty glow-pulse" />
+        <div key={pathname} className="page-enter relative">
+          {children}
+        </div>
       </div>
 
       <nav className="safe-bottom glass-bar fixed inset-x-0 bottom-0 z-30 mx-auto flex w-full max-w-[440px] items-center justify-around border-t border-border px-2 pt-2">
