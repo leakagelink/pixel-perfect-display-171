@@ -62,7 +62,7 @@ function SearchPage() {
       {q.trim() ? (
         <>
           <SectionHeader title="Results" meta={`${results.length}`} />
-          <div className="space-y-4 px-5 pt-4">
+          <div className="stagger-in space-y-4 px-5 pt-4">
             {results.length ? (
               results.map((a) => <ArticleCard key={a.id} article={a} />)
             ) : (

@@ -48,7 +48,7 @@ function Notifications() {
         <h1 className="text-xl tracking-tight">Notifications</h1>
       </div>
 
-      <div className="space-y-3 px-5 pt-6">
+      <div className="stagger-in space-y-3 px-5 pt-6">
         <div className="card-surface hover-lift rounded-3xl p-5 ring-1 ring-border">
           <p className="text-[11px] uppercase tracking-[0.15em] text-destructive">
             Breaking · 12m ago

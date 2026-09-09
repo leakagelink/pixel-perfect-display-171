@@ -110,7 +110,7 @@ function Index() {
       </div>
 
       <SectionHeader title="Recommended for you" meta="24 new" />
-      <div className="space-y-4 px-5 pt-4">
+      <div className="stagger-in space-y-4 px-5 pt-4">
         <ArticleCard article={articles[0]!} withImage />
         {articles.slice(1, 3).map((a, i) => (
           <ArticleCard key={a.id} article={a} index={i + 1} />
@@ -158,7 +158,7 @@ function Index() {
 
 
       <SectionHeader title="Latest" />
-      <div className="space-y-4 px-5 pt-4">
+      <div className="stagger-in space-y-4 px-5 pt-4">
         {articles.slice(3).map((a, i) => (
           <ArticleCard key={a.id} article={a} withImage index={i} />
         ))}

@@ -51,14 +51,14 @@ function Briefing() {
       </div>
 
       <SectionHeader title="Top stories" meta="5" />
-      <div className="space-y-4 px-5 pt-4">
+      <div className="stagger-in space-y-4 px-5 pt-4">
         {articles.map((a) => (
           <ArticleCard key={a.id} article={a} />
         ))}
       </div>
 
       <SectionHeader title="Evening brief" meta="6:00 PM" />
-      <div className="space-y-3 px-5 pt-4">
+      <div className="stagger-in space-y-3 px-5 pt-4">
         {[
           ["Today's biggest events", "Three stories reshaped the market open."],
           ["What you missed", "Two follow-ups on stories you read yesterday."],

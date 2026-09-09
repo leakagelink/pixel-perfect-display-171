@@ -272,7 +272,7 @@ function ArticlePage() {
       </div>
 
       <SectionHeader title="Related stories" />
-      <div className="space-y-4 px-5 pt-4">
+      <div className="stagger-in space-y-4 px-5 pt-4">
         {related.map((a) => (
           <ArticleCard key={a.id} article={a} />
         ))}
