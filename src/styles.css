@@ -286,3 +286,91 @@
     scroll-behavior: auto !important;
   }
 }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes fade-in-soft {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pop-in {
+  0% { opacity: 0; transform: scale(0.9); }
+  60% { transform: scale(1.02); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slide-in-x {
+  from { opacity: 0; transform: translateX(24px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes marquee-dot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.6); opacity: 0.5; }
+}
+
+@utility fade-up {
+  animation: fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@utility fade-soft {
+  animation: fade-in-soft 0.5s ease-out both;
+}
+
+@utility pop-in {
+  animation: pop-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@utility slide-in-x {
+  animation: slide-in-x 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@utility glow-pulse {
+  animation: glow-pulse 5s ease-in-out infinite;
+}
+
+/* Animate direct children in sequence */
+@utility stagger-in {
+  & > * {
+    animation: fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  & > *:nth-child(1) { animation-delay: 0.04s; }
+  & > *:nth-child(2) { animation-delay: 0.1s; }
+  & > *:nth-child(3) { animation-delay: 0.16s; }
+  & > *:nth-child(4) { animation-delay: 0.22s; }
+  & > *:nth-child(5) { animation-delay: 0.28s; }
+  & > *:nth-child(6) { animation-delay: 0.34s; }
+  & > *:nth-child(7) { animation-delay: 0.4s; }
+  & > *:nth-child(8) { animation-delay: 0.46s; }
+  & > *:nth-child(n + 9) { animation-delay: 0.5s; }
+}
+
+@utility hover-lift {
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
+  &:hover {
+    transform: translateY(-3px);
+  }
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+@utility hover-scale {
+  transition: transform 0.2s ease;
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+@utility page-enter {
+  animation: fade-in-soft 0.4s ease-out both;
+}
