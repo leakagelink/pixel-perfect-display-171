@@ -37,7 +37,7 @@ function Index() {
       <TopHeader />
       <BreakingTicker />
 
-      <div className="sticky top-[60px] z-10 glass-bar flex gap-2 overflow-x-auto px-5 py-3 no-scrollbar">
+      <div className="sticky top-[60px] z-10 glass-bar stagger-in flex gap-2 overflow-x-auto px-5 py-3 no-scrollbar">
         {categories.map((c) => (
           <button
             key={c}
@@ -55,7 +55,7 @@ function Index() {
       </div>
 
 
-      <div className="px-5 pt-6">
+      <div className="stagger-in px-5 pt-6">
         <p className="text-[11px] uppercase tracking-[0.2em] text-accent">
           Good morning, Theo
         </p>
@@ -67,7 +67,7 @@ function Index() {
         </p>
       </div>
 
-      <div className="relative mt-5 px-5">
+      <div className="fade-up relative mt-5 px-5">
         <div className="relative rounded-[28px] gradient-briefing p-6 ring-1 ring-border">
           <div className="pointer-events-none absolute -right-10 -top-10 size-40 rounded-full bg-accent/40 blur-2xl" />
           <div className="relative flex items-center justify-between">
@@ -110,7 +110,7 @@ function Index() {
       </div>
 
       <SectionHeader title="Recommended for you" meta="24 new" />
-      <div className="space-y-4 px-5 pt-4">
+      <div className="stagger-in space-y-4 px-5 pt-4">
         <ArticleCard article={articles[0]!} withImage />
         {articles.slice(1, 3).map((a, i) => (
           <ArticleCard key={a.id} article={a} index={i + 1} />
@@ -119,7 +119,7 @@ function Index() {
 
 
       <SectionHeader title="Trending" meta="live" />
-      <div className="mt-3 flex gap-3 overflow-x-auto px-5 pb-1 no-scrollbar">
+      <div className="stagger-in mt-3 flex gap-3 overflow-x-auto px-5 pb-1 no-scrollbar">
         {trending.map((t, i) => (
           <Link
             key={t.tag}
@@ -142,7 +142,7 @@ function Index() {
       <div className="px-5 pt-3">
         <Link
           to="/ask"
-          className="card-surface group flex items-center justify-between rounded-3xl p-5 ring-1 ring-border"
+          className="card-surface hover-lift group flex items-center justify-between rounded-3xl p-5 ring-1 ring-border"
         >
           <div>
             <p className="text-sm font-semibold">Ask about today's news</p>
@@ -158,7 +158,7 @@ function Index() {
 
 
       <SectionHeader title="Latest" />
-      <div className="space-y-4 px-5 pt-4">
+      <div className="stagger-in space-y-4 px-5 pt-4">
         {articles.slice(3).map((a, i) => (
           <ArticleCard key={a.id} article={a} withImage index={i} />
         ))}
