@@ -1,6 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Home, Layers, Play, Search, User } from "lucide-react";
+import { SplashScreen } from "@/components/app/SplashScreen";
 
 const nav = [
   { to: "/", label: "Home", icon: Home },
@@ -15,6 +16,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="mx-auto min-h-screen w-full max-w-[440px] bg-background pb-28 text-foreground">
+      <SplashScreen />
       <div className="relative overflow-hidden">
         <div className="pointer-events-none absolute -left-16 -top-24 size-72 rounded-full bg-primary/40 blur-3xl floaty glow-pulse" />
         <div className="pointer-events-none absolute -right-20 top-40 size-72 rounded-full bg-accent/25 blur-3xl floaty glow-pulse" />
