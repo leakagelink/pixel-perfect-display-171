@@ -402,7 +402,7 @@ function AdminPage() {
           </div>
         </header>
 
-        <main className="mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 lg:py-8">
+        <main className="mx-auto w-full max-w-5xl px-4 pb-28 pt-5 sm:px-6 sm:pb-10 sm:pt-6 lg:py-8">
           {/* Page head */}
           <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
             <div className="min-w-0">
@@ -421,7 +421,7 @@ function AdminPage() {
                   setCreating(true);
                   setEditing(null);
                 }}
-                className="btn-press flex shrink-0 items-center gap-1.5 rounded-full bg-primary px-4 py-2.5 text-xs font-semibold text-primary-foreground shadow-lg shadow-primary/20"
+                className="btn-press hidden shrink-0 items-center gap-1.5 rounded-full bg-primary px-4 py-2.5 text-xs font-semibold text-primary-foreground shadow-lg shadow-primary/20 sm:flex"
               >
                 <Plus className="size-4" /> New
               </button>
@@ -429,7 +429,7 @@ function AdminPage() {
           </div>
 
           {/* Stats */}
-          <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
+          <div className="mt-4 grid grid-cols-2 gap-2.5 sm:mt-5 sm:grid-cols-3 sm:gap-3">
             <Stat label="Total" value={total} />
             {!isUsers && <Stat label="Live" value={liveCount} />}
             {!isUsers && <Stat label="Drafts" value={Math.max(total - liveCount, 0)} />}
@@ -448,7 +448,7 @@ function AdminPage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={isUsers ? "Search users…" : `Search ${collection.label.toLowerCase()}…`}
-              className="w-full rounded-2xl bg-secondary py-3 pl-11 pr-4 text-sm ring-1 ring-border outline-none focus:ring-primary/50"
+              className="w-full rounded-2xl bg-secondary py-3 pl-11 pr-4 text-base ring-1 ring-border outline-none focus:ring-primary/50 sm:text-sm"
             />
           </div>
 
@@ -513,7 +513,7 @@ function AdminPage() {
                   return (
                     <div
                       key={id}
-                      className="card-surface hover-lift grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl p-4 ring-1 ring-border transition-shadow"
+                      className="card-surface hover-lift grid grid-cols-1 gap-3 rounded-2xl p-4 ring-1 ring-border transition-shadow xs:grid-cols-[minmax(0,1fr)_auto] xs:items-center"
                     >
                       <div className="min-w-0">
                         <p className="truncate text-sm font-medium">
@@ -543,13 +543,13 @@ function AdminPage() {
                           <>
                             <button
                               onClick={() => remove(id)}
-                              className="btn-press rounded-full bg-destructive px-3 py-2 text-[11px] font-semibold text-destructive-foreground"
+                              className="btn-press flex-1 rounded-full bg-destructive px-3 py-2.5 text-[11px] font-semibold text-destructive-foreground xs:flex-none"
                             >
                               Delete
                             </button>
                             <button
                               onClick={() => setPendingDelete(null)}
-                              className="btn-press rounded-full bg-secondary px-3 py-2 text-[11px] ring-1 ring-border"
+                              className="btn-press flex-1 rounded-full bg-secondary px-3 py-2.5 text-[11px] ring-1 ring-border xs:flex-none"
                             >
                               Cancel
                             </button>
@@ -562,16 +562,18 @@ function AdminPage() {
                                 setEditing(row);
                                 setCreating(false);
                               }}
-                              className="btn-press grid size-9 place-items-center rounded-full bg-secondary ring-1 ring-border hover:text-primary"
+                              className="btn-press flex h-10 flex-1 items-center justify-center gap-1.5 rounded-full bg-secondary text-xs ring-1 ring-border hover:text-primary xs:size-10 xs:flex-none"
                             >
-                              <Pencil className="size-3.5" />
+                              <Pencil className="size-4" />
+                              <span className="xs:hidden">Edit</span>
                             </button>
                             <button
                               aria-label="Delete"
                               onClick={() => setPendingDelete(id)}
-                              className="btn-press grid size-9 place-items-center rounded-full bg-destructive/15 text-destructive ring-1 ring-destructive/30"
+                              className="btn-press flex h-10 flex-1 items-center justify-center gap-1.5 rounded-full bg-destructive/15 text-xs text-destructive ring-1 ring-destructive/30 xs:size-10 xs:flex-none"
                             >
-                              <Trash2 className="size-3.5" />
+                              <Trash2 className="size-4" />
+                              <span className="xs:hidden">Delete</span>
                             </button>
                           </>
                         )}
@@ -583,6 +585,19 @@ function AdminPage() {
             )}
           </div>
         </main>
+
+        {!isUsers && !creating && !editing && (
+          <button
+            onClick={() => {
+              setCreating(true);
+              setEditing(null);
+            }}
+            aria-label={`Add ${collection.label.toLowerCase()}`}
+            className="btn-press safe-bottom fixed bottom-5 right-5 z-30 flex items-center gap-2 rounded-full bg-primary px-5 py-3.5 text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/30 sm:hidden"
+          >
+            <Plus className="size-5" /> New
+          </button>
+        )}
       </div>
 
       {(creating || editing) && (
