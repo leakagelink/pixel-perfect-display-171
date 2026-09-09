@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const SESSION_KEY = "newsai:splash-shown";
-const HOLD_MS = 1600;
+const HOLD_MS = 1100;
 const FADE_MS = 520;
 
 export function SplashScreen() {
