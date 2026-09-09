@@ -5,7 +5,9 @@ const HOLD_MS = 1600;
 const FADE_MS = 520;
 
 export function SplashScreen() {
-  const [visible, setVisible] = useState(false);
+  // Rendered on the server too, so it covers the first paint instead of
+  // flashing in after hydration.
+  const [visible, setVisible] = useState(true);
   const [leaving, setLeaving] = useState(false);
 
   useEffect(() => {
@@ -15,9 +17,11 @@ export function SplashScreen() {
     } catch {
       shown = false;
     }
-    if (shown) return;
+    if (shown) {
+      setVisible(false);
+      return;
+    }
 
-    setVisible(true);
     document.body.style.overflow = "hidden";
 
     const t1 = window.setTimeout(() => setLeaving(true), HOLD_MS);
