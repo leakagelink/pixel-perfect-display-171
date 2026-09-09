@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Clock } from "lucide-react";
-import type { Article } from "@/lib/news-data";
+import type { FeedArticle as Article } from "@/lib/content.functions";
 
 const chipStyles = [
   "bg-primary/20 ring-primary/40",
