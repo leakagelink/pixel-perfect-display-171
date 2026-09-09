@@ -730,9 +730,10 @@ function RecordForm({
       />
       <form
         onSubmit={submit}
-        className="card-surface pop-in flex max-h-[92vh] w-full max-w-2xl flex-col rounded-t-3xl ring-1 ring-border sm:rounded-3xl"
+        className="card-surface pop-in flex max-h-[92dvh] w-full max-w-2xl flex-col rounded-t-3xl ring-1 ring-border sm:max-h-[88vh] sm:rounded-3xl"
       >
-        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b border-border px-5 py-4">
+        <div className="mx-auto mt-2 h-1.5 w-10 shrink-0 rounded-full bg-border sm:hidden" />
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b border-border px-4 py-3.5 sm:px-5 sm:py-4">
           <p className="truncate text-sm font-semibold">
             {initial ? "Edit" : "New"} {collection.label.replace(/s$/, "")}
           </p>
@@ -746,7 +747,7 @@ function RecordForm({
           </button>
         </div>
 
-        <div className="grid flex-1 grid-cols-1 gap-4 overflow-y-auto px-5 py-5 sm:grid-cols-2">
+        <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 overflow-y-auto overscroll-contain px-4 py-4 sm:grid-cols-2 sm:px-5 sm:py-5">
           {collection.fields.map((f) => (
             <label
               key={f.name}
