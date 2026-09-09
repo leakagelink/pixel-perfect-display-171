@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import logoMark from "@/assets/newsai-logo.png";
 import {
   LogOut,
   Plus,
@@ -619,9 +620,7 @@ function AdminPage() {
 function Brand() {
   return (
     <div className="flex min-w-0 items-center gap-2">
-      <div className="grid size-8 shrink-0 place-items-center rounded-lg gradient-brand text-[12px] font-bold">
-        N
-      </div>
+      <img src={logoMark} alt="NewsAI logo" width={32} height={32} className="size-8 shrink-0" />
       <div className="min-w-0 leading-none">
         <p className="truncate font-display text-base tracking-tight">Admin</p>
         <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">

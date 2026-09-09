@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import logoMark from "@/assets/newsai-logo.png";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -58,9 +59,7 @@ function AuthPage() {
       <div className="pointer-events-none absolute -left-16 -top-24 size-72 rounded-full bg-primary/40 blur-3xl floaty" />
       <div className="relative card-surface rounded-3xl p-6 ring-1 ring-border">
         <div className="flex items-center gap-2">
-          <div className="grid size-9 place-items-center rounded-xl gradient-brand text-[13px] font-bold">
-            N
-          </div>
+          <img src={logoMark} alt="NewsAI logo" width={36} height={36} className="size-9" />
           <p className="font-display text-lg tracking-tight">
             News<span className="text-accent">AI</span>
           </p>
