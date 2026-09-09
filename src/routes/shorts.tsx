@@ -38,6 +38,8 @@ function Shorts() {
           src={s.image}
           alt={s.headline}
           className="absolute inset-0 size-full object-cover"
+          decoding="async"
+          fetchPriority="high"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/20" />
 
