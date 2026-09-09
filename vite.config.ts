@@ -12,14 +12,10 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
     pages: [
-      { path: "/" },
-      { path: "/shorts" },
-      { path: "/video" },
       { path: "/search" },
       { path: "/profile" },
       { path: "/briefing" },
       { path: "/ask" },
-      { path: "/notifications" },
     ],
     prerender: { enabled: true, autoStaticPathsDiscovery: false },
   },
