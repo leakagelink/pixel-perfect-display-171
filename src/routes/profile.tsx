@@ -50,7 +50,7 @@ function Profile() {
       <TopHeader subtitle="Profile" />
 
       <div className="mt-6 px-5">
-        <div className="flex items-center gap-4 rounded-3xl bg-card p-5 ring-1 ring-border">
+        <div className="flex items-center gap-4 card-surface rounded-3xl p-5 ring-1 ring-border">
           <div className="grid size-14 shrink-0 place-items-center rounded-2xl gradient-brand font-display text-lg">
             T
           </div>
@@ -99,7 +99,7 @@ function Profile() {
             key={a.id}
             to="/article/$articleId"
             params={{ articleId: a.id }}
-            className="btn-press flex items-center gap-3 rounded-2xl bg-card p-4 ring-1 ring-border"
+            className="btn-press flex items-center gap-3 card-surface rounded-2xl p-4 ring-1 ring-border"
           >
             <img
               src={a.image}
@@ -117,7 +117,7 @@ function Profile() {
         {settings.map(([label, value]) => (
           <div
             key={label}
-            className="flex items-center justify-between rounded-2xl bg-card p-4 ring-1 ring-border"
+            className="flex items-center justify-between card-surface rounded-2xl p-4 ring-1 ring-border"
           >
             <div>
               <p className="text-sm font-medium">{label}</p>

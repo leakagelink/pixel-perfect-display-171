@@ -76,26 +76,29 @@ function Index() {
             </span>
             <span className="text-[11px] text-foreground/70">Tue · 6 min</span>
           </div>
-          <div className="relative mt-4 flex items-end justify-between gap-4">
-            <div>
-              <p className="text-[11px] uppercase tracking-[0.15em] text-accent">
-                Top story
-              </p>
-              <h2 className="mt-1 text-2xl leading-tight text-balance">
-                The compute land-grab
-              </h2>
-              <p className="mt-2 text-sm leading-relaxed text-foreground/70 text-pretty">
-                Three hyperscalers are racing past 100 GW of AI capacity this
-                year — and the grid can't keep up.
-              </p>
-            </div>
-            <div className="shrink-0 text-right">
-              <div className="font-display text-4xl leading-none">+7.2%</div>
-              <p className="mt-1 text-[10px] uppercase tracking-wide text-foreground/60">
+          <div className="relative mt-4">
+            <p className="text-[11px] uppercase tracking-[0.15em] text-accent">
+              Top story
+            </p>
+            <h2 className="mt-1 text-2xl leading-tight text-balance">
+              The compute land-grab
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-foreground/70 text-pretty">
+              Three hyperscalers are racing past 100 GW of AI capacity this year
+              — and the grid can't keep up.
+            </p>
+            <div className="mt-4 flex items-center gap-3 rounded-2xl bg-background/25 px-4 py-3 ring-1 ring-border">
+              <div className="font-display text-3xl leading-none text-accent">
+                +7.2%
+              </div>
+              <p className="text-[10px] uppercase tracking-wide text-foreground/65">
                 cluster demand
+                <br />
+                week over week
               </p>
             </div>
           </div>
+
           <Link
             to="/briefing"
             className="btn-press relative mt-5 block w-full overflow-hidden rounded-full bg-foreground py-3 text-center text-sm font-semibold text-background"

@@ -115,7 +115,7 @@ function ArticlePage() {
 
       {/* Audio */}
       <div className="mt-6 px-5">
-        <div className="flex items-center gap-3 rounded-3xl bg-card p-4 ring-1 ring-border">
+        <div className="flex items-center gap-3 card-surface rounded-3xl p-4 ring-1 ring-border">
           <button
             onClick={() => setPlaying((v) => !v)}
             className="btn-press grid size-11 shrink-0 place-items-center rounded-full gradient-brand"
@@ -189,7 +189,7 @@ function ArticlePage() {
 
       {/* Explain */}
       <div className="mt-4 px-5">
-        <div className="rounded-3xl bg-card p-5 ring-1 ring-border">
+        <div className="card-surface rounded-3xl p-5 ring-1 ring-border">
           <p className="text-sm font-semibold">🧠 Explain this news</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {explainModes.map((m) => (
@@ -233,7 +233,7 @@ function ArticlePage() {
 
       <SectionHeader title="Why this matters" />
       <div className="px-5 pt-4">
-        <p className="rounded-3xl bg-card p-5 text-sm leading-relaxed text-muted-foreground ring-1 ring-border">
+        <p className="card-surface rounded-3xl p-5 text-sm leading-relaxed text-muted-foreground ring-1 ring-border">
           {article.whyItMatters}
         </p>
       </div>
@@ -256,7 +256,7 @@ function ArticlePage() {
       <SectionHeader title="📰 Coverage from multiple sources" />
       <div className="space-y-2 px-5 pt-4">
         {article.coverage.map((c) => (
-          <div key={c.source} className="rounded-2xl bg-card p-4 ring-1 ring-border">
+          <div key={c.source} className="card-surface rounded-2xl p-4 ring-1 ring-border">
             <div className="flex items-center gap-2">
               <span className="grid size-7 place-items-center rounded-lg bg-secondary text-[11px] font-semibold text-accent">
                 {c.source[0]}

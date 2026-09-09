@@ -54,7 +54,7 @@ function VideoPage() {
       {mode === "feed" ? (
         <>
           <div className="px-5 pt-5">
-            <div className="overflow-hidden rounded-3xl bg-card ring-1 ring-border">
+            <div className="overflow-hidden card-surface rounded-3xl ring-1 ring-border">
               <div className="relative">
                 <img
                   src={featured.image}
@@ -88,7 +88,7 @@ function VideoPage() {
             {videos.slice(1).map((v) => (
               <div
                 key={v.id}
-                className="btn-press overflow-hidden rounded-2xl bg-card ring-1 ring-border"
+                className="btn-press overflow-hidden card-surface rounded-2xl ring-1 ring-border"
               >
                 <div className="relative">
                   <img

@@ -60,7 +60,7 @@ function Ask() {
             </div>
           </div>
         ) : (
-          <div className="rounded-3xl bg-card p-5 ring-1 ring-border">
+          <div className="card-surface rounded-3xl p-5 ring-1 ring-border">
             <p className="text-sm font-semibold">Ask about today's news</p>
             <p className="mt-1 text-xs text-muted-foreground">
               Answers are drawn from the stories in your feed, with sources

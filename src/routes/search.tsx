@@ -66,7 +66,7 @@ function SearchPage() {
             {results.length ? (
               results.map((a) => <ArticleCard key={a.id} article={a} />)
             ) : (
-              <p className="rounded-3xl bg-card p-5 text-sm text-muted-foreground ring-1 ring-border">
+              <p className="card-surface rounded-3xl p-5 text-sm text-muted-foreground ring-1 ring-border">
                 Nothing matched "{q}" in today's stories.
               </p>
             )}
@@ -94,7 +94,7 @@ function SearchPage() {
               return (
                 <div
                   key={f.name}
-                  className="flex items-center gap-3 rounded-2xl bg-card p-4 ring-1 ring-border"
+                  className="flex items-center gap-3 card-surface rounded-2xl p-4 ring-1 ring-border"
                 >
                   <span className="grid size-9 place-items-center rounded-xl bg-secondary text-sm">
                     {f.emoji}
