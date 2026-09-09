@@ -5,7 +5,8 @@ import { TopHeader } from "@/components/app/TopHeader";
 import { BreakingTicker } from "@/components/app/BreakingTicker";
 import { ArticleCard } from "@/components/app/ArticleCard";
 import { SectionHeader } from "@/components/app/SectionHeader";
-import { articles, categories, trending } from "@/lib/news-data";
+import { categories } from "@/lib/news-data";
+import { getHomeFeed } from "@/lib/content.functions";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -26,16 +27,25 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  loader: () => getHomeFeed(),
   component: Index,
 });
 
 function Index() {
+  const { articles: allArticles, breaking, trending } = Route.useLoaderData();
   const [active, setActive] = useState("For You");
+  const articles =
+    active === "For You" || active === "Latest"
+      ? allArticles
+      : allArticles.filter(
+          (a) => a.category.toLowerCase() === active.toLowerCase(),
+        );
+
 
   return (
     <AppShell>
       <TopHeader />
-      <BreakingTicker />
+      <BreakingTicker headlines={breaking} />
 
       <div className="sticky top-[60px] z-10 glass-bar stagger-in flex gap-2 overflow-x-auto px-5 py-3 no-scrollbar">
         {categories.map((c) => (
@@ -109,9 +119,14 @@ function Index() {
         </div>
       </div>
 
-      <SectionHeader title="Recommended for you" meta="24 new" />
+      <SectionHeader title="Recommended for you" meta={`${articles.length}`} />
       <div className="stagger-in space-y-4 px-5 pt-4">
-        <ArticleCard article={articles[0]!} withImage />
+        {articles.length === 0 && (
+          <p className="text-sm text-muted-foreground">
+            No stories in this category yet.
+          </p>
+        )}
+        {articles[0] && <ArticleCard article={articles[0]} withImage />}
         {articles.slice(1, 3).map((a, i) => (
           <ArticleCard key={a.id} article={a} index={i + 1} />
         ))}

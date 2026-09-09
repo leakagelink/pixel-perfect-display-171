@@ -10,13 +10,16 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AskRouteImport } from './routes/ask'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BriefingRouteImport } from './routes/briefing'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as ShortsRouteImport } from './routes/shorts'
 import { Route as VideoRouteImport } from './routes/video'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ArticleArticleIdRouteImport } from './routes/article.$articleId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -24,9 +27,18 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AskRoute = AskRouteImport.update({
   id: '/ask',
   path: '/ask',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BriefingRoute = BriefingRouteImport.update({
@@ -59,6 +71,11 @@ const VideoRoute = VideoRouteImport.update({
   path: '/video',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const ArticleArticleIdRoute = ArticleArticleIdRouteImport.update({
   id: '/article/$articleId',
   path: '/article/$articleId',
@@ -68,35 +85,42 @@ const ArticleArticleIdRoute = ArticleArticleIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ask': typeof AskRoute
+  '/auth': typeof AuthRoute
   '/briefing': typeof BriefingRoute
   '/notifications': typeof NotificationsRoute
   '/profile': typeof ProfileRoute
   '/search': typeof SearchRoute
   '/shorts': typeof ShortsRoute
   '/video': typeof VideoRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/article/$articleId': typeof ArticleArticleIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ask': typeof AskRoute
+  '/auth': typeof AuthRoute
   '/briefing': typeof BriefingRoute
   '/notifications': typeof NotificationsRoute
   '/profile': typeof ProfileRoute
   '/search': typeof SearchRoute
   '/shorts': typeof ShortsRoute
   '/video': typeof VideoRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/article/$articleId': typeof ArticleArticleIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/ask': typeof AskRoute
+  '/auth': typeof AuthRoute
   '/briefing': typeof BriefingRoute
   '/notifications': typeof NotificationsRoute
   '/profile': typeof ProfileRoute
   '/search': typeof SearchRoute
   '/shorts': typeof ShortsRoute
   '/video': typeof VideoRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/article/$articleId': typeof ArticleArticleIdRoute
 }
 export interface FileRouteTypes {
@@ -104,40 +128,49 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/ask'
+    | '/auth'
     | '/briefing'
     | '/notifications'
     | '/profile'
     | '/search'
     | '/shorts'
     | '/video'
+    | '/admin'
     | '/article/$articleId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/ask'
+    | '/auth'
     | '/briefing'
     | '/notifications'
     | '/profile'
     | '/search'
     | '/shorts'
     | '/video'
+    | '/admin'
     | '/article/$articleId'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/ask'
+    | '/auth'
     | '/briefing'
     | '/notifications'
     | '/profile'
     | '/search'
     | '/shorts'
     | '/video'
+    | '/_authenticated/admin'
     | '/article/$articleId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AskRoute: typeof AskRoute
+  AuthRoute: typeof AuthRoute
   BriefingRoute: typeof BriefingRoute
   NotificationsRoute: typeof NotificationsRoute
   ProfileRoute: typeof ProfileRoute
@@ -156,11 +189,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ask': {
       id: '/ask'
       path: '/ask'
       fullPath: '/ask'
       preLoaderRoute: typeof AskRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/briefing': {
@@ -205,6 +252,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VideoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/article/$articleId': {
       id: '/article/$articleId'
       path: '/article/$articleId'
@@ -215,9 +269,22 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AskRoute: AskRoute,
+  AuthRoute: AuthRoute,
   BriefingRoute: BriefingRoute,
   NotificationsRoute: NotificationsRoute,
   ProfileRoute: ProfileRoute,

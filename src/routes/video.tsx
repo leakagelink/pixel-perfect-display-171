@@ -4,7 +4,7 @@ import { Heart, Bookmark, Share2, Play } from "lucide-react";
 import { AppShell } from "@/components/app/AppShell";
 import { TopHeader } from "@/components/app/TopHeader";
 import { SectionHeader } from "@/components/app/SectionHeader";
-import { videos } from "@/lib/news-data";
+import { getVideosFeed } from "@/lib/content.functions";
 
 export const Route = createFileRoute("/video")({
   head: () => ({
@@ -24,12 +24,25 @@ export const Route = createFileRoute("/video")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  loader: () => getVideosFeed(),
   component: VideoPage,
 });
 
 function VideoPage() {
+  const videos = Route.useLoaderData();
   const [mode, setMode] = useState<"feed" | "vertical">("feed");
-  const featured = videos[0]!;
+  const featured = videos[0];
+
+  if (!featured) {
+    return (
+      <AppShell>
+        <TopHeader subtitle="Video" />
+        <p className="px-5 pt-10 text-sm text-muted-foreground">
+          No videos published yet.
+        </p>
+      </AppShell>
+    );
+  }
 
   return (
     <AppShell>

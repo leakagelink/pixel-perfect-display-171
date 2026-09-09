@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Bookmark, ChevronLeft, ChevronRight, Share2 } from "lucide-react";
 import { AppShell } from "@/components/app/AppShell";
-import { shorts } from "@/lib/news-data";
+import { getShortsFeed } from "@/lib/content.functions";
 
 export const Route = createFileRoute("/shorts")({
   head: () => ({
@@ -22,14 +22,26 @@ export const Route = createFileRoute("/shorts")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  loader: () => getShortsFeed(),
   component: Shorts,
 });
 
 function Shorts() {
+  const shorts = Route.useLoaderData();
   const [i, setI] = useState(0);
   const [saved, setSaved] = useState<string[]>([]);
-  const s = shorts[i]!;
-  const isSaved = saved.includes(s.id);
+  const s = shorts[i];
+  const isSaved = s ? saved.includes(s.id) : false;
+
+  if (!s) {
+    return (
+      <AppShell>
+        <p className="px-5 pt-20 text-sm text-muted-foreground">
+          No shorts published yet.
+        </p>
+      </AppShell>
+    );
+  }
 
   return (
     <AppShell>
@@ -104,11 +116,10 @@ function Shorts() {
                 <Share2 className="size-4" />
               </button>
               <Link
-                to="/article/$articleId"
-                params={{ articleId: s.id }}
+                to="/"
                 className="btn-press ml-auto rounded-full bg-foreground px-4 py-3 text-xs font-semibold text-background"
               >
-                Full story
+                Full feed
               </Link>
             </div>
           </div>
