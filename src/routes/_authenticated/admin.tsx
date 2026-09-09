@@ -5,7 +5,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { LogOut, Plus, Pencil, Trash2, X } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/admin")({
-  ssr: false,
   head: () => ({
     meta: [
       { title: "Admin — NewsAI" },
