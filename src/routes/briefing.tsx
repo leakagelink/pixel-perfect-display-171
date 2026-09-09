@@ -66,7 +66,7 @@ function Briefing() {
         ].map(([title, body]) => (
           <div
             key={title}
-            className="card-surface rounded-3xl p-5 ring-1 ring-border"
+            className="card-surface hover-lift rounded-3xl p-5 ring-1 ring-border"
           >
             <p className="text-sm font-semibold">{title}</p>
             <p className="mt-1 text-xs text-muted-foreground">{body}</p>
