@@ -48,7 +48,9 @@ const explainModes = [
 const languages = ["English", "Hindi", "Hinglish"];
 
 function ArticlePage() {
-  const { article, related } = Route.useLoaderData();
+  const data = Route.useLoaderData();
+  const article = data.article!;
+  const related = data.related;
   const [summaryMode, setSummaryMode] = useState<"short" | "detailed">("short");
   const [explain, setExplain] = useState<string | null>(null);
   const [language, setLanguage] = useState("English");
@@ -57,7 +59,7 @@ function ArticlePage() {
   const [speed, setSpeed] = useState("1x");
 
   const bullets =
-    summaryMode === "short" ? article!.bullets.slice(0, 2) : article!.bullets;
+    summaryMode === "short" ? article.bullets.slice(0, 2) : article.bullets;
 
 
   return (
