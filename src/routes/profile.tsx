@@ -63,6 +63,21 @@ function Profile() {
         </div>
       </div>
 
+      <div className="mt-3 px-5">
+        <Link
+          to="/admin"
+          className="btn-press flex items-center justify-between card-surface hover-lift rounded-2xl p-4 ring-1 ring-border"
+        >
+          <div>
+            <p className="text-sm font-medium">Admin panel</p>
+            <p className="text-[11px] text-muted-foreground">
+              Manage news, shorts, video and users
+            </p>
+          </div>
+          <span className="text-muted-foreground">›</span>
+        </Link>
+      </div>
+
       <SectionHeader title="My interests" />
       <div className="mt-3 flex flex-wrap gap-2 px-5">
         {interests.map((i) => (

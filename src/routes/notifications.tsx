@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { AppShell } from "@/components/app/AppShell";
+import { getNotificationsFeed } from "@/lib/content.functions";
 
 const categories = [
   { emoji: "🔴", label: "Breaking news" },
@@ -30,10 +31,12 @@ export const Route = createFileRoute("/notifications")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  loader: () => getNotificationsFeed(),
   component: Notifications,
 });
 
 function Notifications() {
+  const items = Route.useLoaderData();
   const [on, setOn] = useState<string[]>(["Breaking news", "Markets"]);
 
   return (
@@ -49,22 +52,23 @@ function Notifications() {
       </div>
 
       <div className="stagger-in space-y-3 px-5 pt-6">
-        <div className="card-surface hover-lift rounded-3xl p-5 ring-1 ring-border">
-          <p className="text-[11px] uppercase tracking-[0.15em] text-destructive">
-            Breaking · 12m ago
-          </p>
-          <p className="mt-1.5 text-sm font-medium">
-            Northwind merger clears regulatory review
-          </p>
-        </div>
-        <div className="card-surface hover-lift rounded-3xl p-5 ring-1 ring-border">
-          <p className="text-[11px] uppercase tracking-[0.15em] text-accent">
-            Markets · 1h ago
-          </p>
-          <p className="mt-1.5 text-sm font-medium">
-            Valerion closes up 7% on record margin
-          </p>
-        </div>
+        {items.length === 0 && (
+          <p className="text-sm text-muted-foreground">No notifications yet.</p>
+        )}
+        {items.map((n) => (
+          <div
+            key={n.id}
+            className="card-surface hover-lift rounded-3xl p-5 ring-1 ring-border"
+          >
+            <p className="text-[11px] uppercase tracking-[0.15em] text-accent">
+              {n.kind} · {n.createdAt}
+            </p>
+            <p className="mt-1.5 text-sm font-medium">{n.title}</p>
+            {n.body && (
+              <p className="mt-1 text-xs text-muted-foreground">{n.body}</p>
+            )}
+          </div>
+        ))}
       </div>
 
       <p className="px-5 pt-8 text-sm font-semibold uppercase tracking-[0.12em] text-foreground/80">
