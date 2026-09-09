@@ -14,16 +14,291 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      articles: {
+        Row: {
+          bullets: string[]
+          category: string
+          coverage: Json
+          created_at: string
+          dek: string
+          headline: string
+          id: string
+          image_url: string | null
+          is_featured: boolean
+          is_published: boolean
+          published_at: string
+          reading_time: string
+          slug: string
+          sources: string[]
+          timeline: Json
+          updated_at: string
+          why_it_matters: string
+        }
+        Insert: {
+          bullets?: string[]
+          category?: string
+          coverage?: Json
+          created_at?: string
+          dek?: string
+          headline: string
+          id?: string
+          image_url?: string | null
+          is_featured?: boolean
+          is_published?: boolean
+          published_at?: string
+          reading_time?: string
+          slug: string
+          sources?: string[]
+          timeline?: Json
+          updated_at?: string
+          why_it_matters?: string
+        }
+        Update: {
+          bullets?: string[]
+          category?: string
+          coverage?: Json
+          created_at?: string
+          dek?: string
+          headline?: string
+          id?: string
+          image_url?: string | null
+          is_featured?: boolean
+          is_published?: boolean
+          published_at?: string
+          reading_time?: string
+          slug?: string
+          sources?: string[]
+          timeline?: Json
+          updated_at?: string
+          why_it_matters?: string
+        }
+        Relationships: []
+      }
+      breaking_news: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          sort_order: number
+          text: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          sort_order?: number
+          text: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          sort_order?: number
+          text?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          kind: string
+          title: string
+        }
+        Insert: {
+          body?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          title: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      shorts: {
+        Row: {
+          category: string
+          created_at: string
+          headline: string
+          id: string
+          image_url: string | null
+          is_published: boolean
+          published_at: string
+          sort_order: number
+          source: string | null
+          summary: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          headline: string
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          published_at?: string
+          sort_order?: number
+          source?: string | null
+          summary?: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          headline?: string
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          published_at?: string
+          sort_order?: number
+          source?: string | null
+          summary?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      trending_topics: {
+        Row: {
+          count_label: string
+          created_at: string
+          id: string
+          is_active: boolean
+          sort_order: number
+          tag: string
+        }
+        Insert: {
+          count_label?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          sort_order?: number
+          tag: string
+        }
+        Update: {
+          count_label?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          sort_order?: number
+          tag?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      videos: {
+        Row: {
+          ai_brief: boolean
+          category: string
+          created_at: string
+          duration: string
+          id: string
+          image_url: string | null
+          is_published: boolean
+          sort_order: number
+          source: string | null
+          status: string
+          title: string
+          updated_at: string
+          video_url: string | null
+          views: string
+        }
+        Insert: {
+          ai_brief?: boolean
+          category?: string
+          created_at?: string
+          duration?: string
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          sort_order?: number
+          source?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+          video_url?: string | null
+          views?: string
+        }
+        Update: {
+          ai_brief?: boolean
+          category?: string
+          created_at?: string
+          duration?: string
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          sort_order?: number
+          source?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+          video_url?: string | null
+          views?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +425,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const
