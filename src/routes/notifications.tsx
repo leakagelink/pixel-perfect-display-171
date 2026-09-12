@@ -16,13 +16,13 @@ const categories = [
 export const Route = createFileRoute("/notifications")({
   head: () => ({
     meta: [
-      { title: "Notifications — NewsAI" },
+      { title: "Notifications — 7 Awake News" },
       {
         name: "description",
         content:
           "Your alert centre: breaking news, markets, crypto and local updates with per-topic controls.",
       },
-      { property: "og:title", content: "Notifications — NewsAI" },
+      { property: "og:title", content: "Notifications — 7 Awake News" },
       {
         property: "og:description",
         content: "Manage which stories are allowed to interrupt you.",
