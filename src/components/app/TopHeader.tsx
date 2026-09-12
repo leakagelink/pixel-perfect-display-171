@@ -30,8 +30,8 @@ export function TopHeader({ subtitle = "Briefing" }: { subtitle?: string }) {
           className="size-11 object-contain"
         />
         <div className="leading-none">
-          <p className="font-display text-lg tracking-tight">
-            7 Awake <span className="text-accent">News</span>
+          <p className="font-display text-lg tracking-tight text-ink">
+            7 Awake <span className="text-primary">News</span>
           </p>
           <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
             {subtitle}
@@ -40,7 +40,7 @@ export function TopHeader({ subtitle = "Briefing" }: { subtitle?: string }) {
       </Link>
       <div className="flex items-center gap-2">
         <button className="btn-press flex items-center gap-1 rounded-full bg-secondary px-3 py-1.5 text-xs text-muted-foreground ring-1 ring-border hover:text-foreground">
-          <MapPin className="size-3 text-accent" /> SF
+          <MapPin className="size-3 text-primary" /> SF
         </button>
         <Link
           to="/search"

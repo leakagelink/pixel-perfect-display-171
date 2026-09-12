@@ -11,13 +11,13 @@ import { getHomeFeed } from "@/lib/content.functions";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "NewsAI — News that matters to you" },
+      { title: "7 Awake News — News that matters to you" },
       {
         name: "description",
         content:
           "A personalized AI news feed: breaking headlines, 30-second summaries, multi-source coverage, shorts, and video briefings.",
       },
-      { property: "og:title", content: "NewsAI — News that matters to you" },
+      { property: "og:title", content: "7 Awake News — News that matters to you" },
       {
         property: "og:description",
         content:
@@ -153,7 +153,7 @@ function Index() {
         ))}
       </div>
 
-      <SectionHeader title="Ask NewsAI" />
+      <SectionHeader title="Ask 7 Awake" />
       <div className="px-5 pt-3">
         <Link
           to="/ask"

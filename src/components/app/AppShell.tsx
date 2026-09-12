@@ -18,14 +18,12 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="mx-auto min-h-screen w-full max-w-[440px] bg-background pb-28 text-foreground">
       <SplashScreen />
       <div className="relative overflow-hidden">
-        <div className="pointer-events-none absolute -left-16 -top-24 size-72 rounded-full bg-primary/40 blur-3xl floaty glow-pulse" />
-        <div className="pointer-events-none absolute -right-20 top-40 size-72 rounded-full bg-accent/25 blur-3xl floaty glow-pulse" />
         <div key={pathname} className="page-enter relative">
           {children}
         </div>
       </div>
 
-      <nav className="safe-bottom glass-bar fixed inset-x-0 bottom-0 z-30 mx-auto flex w-full max-w-[440px] items-center justify-around border-t border-border px-2 pt-2">
+      <nav className="safe-bottom fixed inset-x-4 bottom-3 z-30 mx-auto flex w-[calc(100%-2rem)] max-w-[408px] items-center justify-around rounded-[28px] border border-foreground/10 bg-ink/95 px-2 pt-2 shadow-2xl backdrop-blur-xl">
         {nav.map(({ to, label, icon: Icon }) => {
           const active = to === "/" ? pathname === "/" : pathname.startsWith(to);
           return (
@@ -36,12 +34,12 @@ export function AppShell({ children }: { children: ReactNode }) {
               aria-current={active ? "page" : undefined}
               className={`btn-press relative flex flex-1 flex-col items-center gap-1 rounded-2xl py-2 ${
                 active
-                  ? "text-primary"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "text-accent"
+                  : "text-background/55 hover:text-background"
               }`}
             >
               {active && (
-                <span className="pointer-events-none absolute inset-x-3 inset-y-0 -z-10 rounded-2xl bg-primary/12 ring-1 ring-primary/25" />
+                <span className="pointer-events-none absolute inset-x-3 inset-y-0 -z-10 rounded-2xl bg-primary/20 ring-1 ring-primary/35" />
               )}
               <Icon
                 className={`size-[18px] transition-transform duration-200 ${
