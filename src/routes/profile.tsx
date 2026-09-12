@@ -26,13 +26,13 @@ const settings = [
 export const Route = createFileRoute("/profile")({
   head: () => ({
     meta: [
-      { title: "Profile — NewsAI" },
+      { title: "Profile — 7 Awake News" },
       {
         name: "description",
         content:
           "Your interests, follows, saved stories, reading history and app preferences.",
       },
-      { property: "og:title", content: "Profile — NewsAI" },
+      { property: "og:title", content: "Profile — 7 Awake News" },
       {
         property: "og:description",
         content: "Tune your interests, follows and reading preferences.",

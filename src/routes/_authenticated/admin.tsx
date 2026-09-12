@@ -24,15 +24,15 @@ import {
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
     meta: [
-      { title: "Admin — NewsAI" },
+      { title: "Admin — 7 Awake News" },
       {
         name: "description",
-        content: "Manage NewsAI articles, shorts, videos, breaking news and users.",
+        content: "Manage 7 Awake News articles, shorts, videos, breaking news and users.",
       },
-      { property: "og:title", content: "Admin — NewsAI" },
+      { property: "og:title", content: "Admin — 7 Awake News" },
       {
         property: "og:description",
-        content: "Manage NewsAI articles, shorts, videos, breaking news and users.",
+        content: "Manage 7 Awake News articles, shorts, videos, breaking news and users.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

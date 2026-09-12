@@ -3,9 +3,9 @@ import { ArrowUpRight, Clock } from "lucide-react";
 import type { FeedArticle as Article } from "@/lib/content.functions";
 
 const chipStyles = [
-  "bg-primary/20 ring-primary/40",
-  "bg-accent/20 ring-accent/40",
-  "bg-foreground/10 ring-border",
+  "bg-primary/10 text-primary ring-primary/25",
+  "bg-accent/20 text-accent-foreground ring-accent/35",
+  "bg-secondary text-muted-foreground ring-border",
 ];
 
 export function ArticleCard({
@@ -35,7 +35,7 @@ export function ArticleCard({
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent" />
           <span className="absolute bottom-2.5 left-2.5 flex items-center gap-1 rounded-full bg-background/70 px-2.5 py-1 text-[10px] text-foreground/80 backdrop-blur-sm">
-            <Clock className="size-3 text-accent" />
+            <Clock className="size-3 text-primary" />
             {article.readingTime}
           </span>
         </div>
@@ -54,12 +54,12 @@ export function ArticleCard({
       </div>
       <h3 className="mt-3 flex items-start gap-2 text-lg font-semibold leading-snug tracking-tight text-balance">
         <span>{article.headline}</span>
-        <ArrowUpRight className="mt-1 size-4 shrink-0 text-muted-foreground transition-all duration-200 group-hover:-translate-y-0.5 group-hover:text-accent" />
+        <ArrowUpRight className="mt-1 size-4 shrink-0 text-muted-foreground transition-all duration-200 group-hover:-translate-y-0.5 group-hover:text-primary" />
       </h3>
       <ul className="mt-3 space-y-1.5 text-sm text-muted-foreground">
         {article.bullets.slice(0, 2).map((b) => (
           <li key={b} className="flex gap-2">
-            <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-accent" />
+            <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary" />
             {b}
           </li>
         ))}
@@ -68,7 +68,7 @@ export function ArticleCard({
         <span>{article.publishedAt}</span>
         <span className="size-1 rounded-full bg-muted-foreground/50" />
         <span>{article.readingTime} read</span>
-        <span className="ml-auto text-accent opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+        <span className="ml-auto text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100">
           Read
         </span>
       </div>

@@ -13,7 +13,7 @@ export function BreakingTicker({ headlines }: { headlines?: string[] }) {
         {items.map((item, i) => (
           <span key={i} className="flex items-center gap-8">
             <span className="text-foreground/70">{item}</span>
-            <span className="text-accent">◆</span>
+            <span className="text-primary">◆</span>
           </span>
         ))}
       </div>

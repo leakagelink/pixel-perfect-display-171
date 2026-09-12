@@ -10,13 +10,13 @@ import { articles, followables, trendingSearches } from "@/lib/news-data";
 export const Route = createFileRoute("/search")({
   head: () => ({
     meta: [
-      { title: "Search — NewsAI" },
+      { title: "Search — 7 Awake News" },
       {
         name: "description",
         content:
           "Search articles, topics, companies, people and locations, and follow what you care about.",
       },
-      { property: "og:title", content: "Search — NewsAI" },
+      { property: "og:title", content: "Search — 7 Awake News" },
       {
         property: "og:description",
         content: "Find stories and follow topics, companies, people and places.",

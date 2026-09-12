@@ -7,13 +7,13 @@ import { suggestedQuestions } from "@/lib/news-data";
 export const Route = createFileRoute("/ask")({
   head: () => ({
     meta: [
-      { title: "Ask NewsAI" },
+      { title: "Ask 7 Awake News" },
       {
         name: "description",
         content:
           "Ask questions about today's news and get grounded answers from the stories in your feed.",
       },
-      { property: "og:title", content: "Ask NewsAI" },
+      { property: "og:title", content: "Ask 7 Awake News" },
       {
         property: "og:description",
         content: "A news assistant that answers from today's reporting.",
@@ -39,7 +39,7 @@ function Ask() {
           <ArrowLeft className="size-4" />
         </Link>
         <div>
-          <h1 className="text-xl tracking-tight">Ask NewsAI</h1>
+          <h1 className="text-xl tracking-tight">Ask 7 Awake News</h1>
           <p className="text-[11px] uppercase tracking-[0.2em] text-accent">
             News assistant
           </p>

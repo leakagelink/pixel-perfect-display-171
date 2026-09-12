@@ -9,13 +9,13 @@ import { getVideosFeed } from "@/lib/content.functions";
 export const Route = createFileRoute("/video")({
   head: () => ({
     meta: [
-      { title: "Video News — NewsAI" },
+      { title: "Video News — 7 Awake News" },
       {
         name: "description",
         content:
           "Featured, trending and vertical video news briefings with clear source attribution.",
       },
-      { property: "og:title", content: "Video News — NewsAI" },
+      { property: "og:title", content: "Video News — 7 Awake News" },
       {
         property: "og:description",
         content: "Watch the day's stories as short video briefings.",

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import logoAsset from "@/assets/7-awake-news-logo.png.asset.json";
 
-const SESSION_KEY = "newsai:splash-shown";
+const SESSION_KEY = "7awake:splash-shown";
 const HOLD_MS = 1100;
 const FADE_MS = 520;
 
@@ -52,14 +52,10 @@ export function SplashScreen() {
         leaving ? "splash-out" : ""
       }`}
     >
-      <div className="pointer-events-none absolute -left-24 -top-28 size-80 rounded-full bg-primary/40 blur-3xl glow-pulse" />
-      <div className="pointer-events-none absolute -right-24 bottom-0 size-80 rounded-full bg-accent/30 blur-3xl glow-pulse" />
-      <div className="pointer-events-none absolute inset-x-0 top-1/2 h-56 -translate-y-1/2 bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--color-primary)_22%,transparent),transparent)] blur-2xl" />
-
       <div className="relative flex flex-col items-center px-8 text-center">
         <div className="relative grid size-24 place-items-center">
           <span className="splash-ring absolute inset-0 rounded-[28px] border border-primary/40" />
-          <span className="splash-ring absolute inset-2 rounded-[24px] border border-accent/40 [animation-delay:0.35s]" />
+          <span className="splash-ring absolute inset-2 rounded-[24px] border border-primary/25 [animation-delay:0.35s]" />
           <img
             src={logoAsset.url}
             alt=""
