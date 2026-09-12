@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import logoMark from "@/assets/newsai-logo.png";
+import logoAsset from "@/assets/7-awake-news-logo.png.asset.json";
 import {
   LogOut,
   Plus,
@@ -620,11 +620,17 @@ function AdminPage() {
 function Brand() {
   return (
     <div className="flex min-w-0 items-center gap-2">
-      <img src={logoMark} alt="NewsAI logo" width={32} height={32} className="size-8 shrink-0" />
+      <img
+        src={logoAsset.url}
+        alt="7 Awake News Network Digital logo"
+        width={40}
+        height={40}
+        className="size-10 shrink-0 object-contain"
+      />
       <div className="min-w-0 leading-none">
         <p className="truncate font-display text-base tracking-tight">Admin</p>
         <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-          NewsAI control
+          7 Awake News control
         </p>
       </div>
     </div>

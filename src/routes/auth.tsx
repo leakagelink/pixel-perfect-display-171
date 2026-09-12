@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import logoMark from "@/assets/newsai-logo.png";
+import logoAsset from "@/assets/7-awake-news-logo.png.asset.json";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -59,9 +59,15 @@ function AuthPage() {
       <div className="pointer-events-none absolute -left-16 -top-24 size-72 rounded-full bg-primary/40 blur-3xl floaty" />
       <div className="relative card-surface rounded-3xl p-6 ring-1 ring-border">
         <div className="flex items-center gap-2">
-          <img src={logoMark} alt="NewsAI logo" width={36} height={36} className="size-9" />
+          <img
+            src={logoAsset.url}
+            alt="7 Awake News Network Digital logo"
+            width={48}
+            height={48}
+            className="size-12 object-contain"
+          />
           <p className="font-display text-lg tracking-tight">
-            News<span className="text-accent">AI</span>
+            7 Awake <span className="text-accent">News</span>
           </p>
         </div>
         <h1 className="mt-5 text-2xl tracking-tight">
