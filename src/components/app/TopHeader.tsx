@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Bell, MapPin, Search } from "lucide-react";
 import { useEffect, useState } from "react";
-import logoMark from "@/assets/newsai-logo.png";
+import logoAsset from "@/assets/7-awake-news-logo.png.asset.json";
 
 export function TopHeader({ subtitle = "Briefing" }: { subtitle?: string }) {
   const [stuck, setStuck] = useState(false);
@@ -23,15 +23,15 @@ export function TopHeader({ subtitle = "Briefing" }: { subtitle?: string }) {
     >
       <Link to="/" className="flex items-center gap-2">
         <img
-          src={logoMark}
-          alt="NewsAI logo"
-          width={36}
-          height={36}
-          className="size-9 rounded-xl"
+          src={logoAsset.url}
+          alt="7 Awake News Network Digital logo"
+          width={44}
+          height={44}
+          className="size-11 object-contain"
         />
         <div className="leading-none">
           <p className="font-display text-lg tracking-tight">
-            News<span className="text-accent">AI</span>
+            7 Awake <span className="text-accent">News</span>
           </p>
           <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
             {subtitle}
