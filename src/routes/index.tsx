@@ -66,7 +66,7 @@ function Index() {
 
 
       <div className="stagger-in px-5 pt-6">
-        <p className="text-[11px] uppercase tracking-[0.2em] text-accent">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
           Good morning, Theo
         </p>
         <h1 className="mt-1 max-w-[24ch] text-4xl leading-[0.95] tracking-tight text-balance">
@@ -81,13 +81,13 @@ function Index() {
         <div className="relative rounded-[28px] gradient-briefing p-6 ring-1 ring-border">
           <div className="pointer-events-none absolute -right-10 -top-10 size-40 rounded-full bg-accent/40 blur-2xl" />
           <div className="relative flex items-center justify-between">
-            <span className="chip-shine rounded-full bg-foreground/15 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.15em] ring-1 ring-border">
+            <span className="chip-shine rounded-full bg-primary px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-primary-foreground ring-1 ring-primary/20">
               Daily Briefing
             </span>
             <span className="text-[11px] text-foreground/70">Tue · 6 min</span>
           </div>
           <div className="relative mt-4">
-            <p className="text-[11px] uppercase tracking-[0.15em] text-accent">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-primary">
               Top story
             </p>
             <h2 className="mt-1 text-2xl leading-tight text-balance">
@@ -98,7 +98,7 @@ function Index() {
               — and the grid can't keep up.
             </p>
             <div className="mt-4 flex items-center gap-3 rounded-2xl bg-background/25 px-4 py-3 ring-1 ring-border">
-              <div className="font-display text-3xl leading-none text-accent">
+              <div className="font-display text-3xl leading-none text-primary">
                 +7.2%
               </div>
               <p className="text-[10px] uppercase tracking-wide text-foreground/65">

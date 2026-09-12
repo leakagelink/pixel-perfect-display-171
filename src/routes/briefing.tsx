@@ -8,13 +8,13 @@ import { articles } from "@/lib/news-data";
 export const Route = createFileRoute("/briefing")({
   head: () => ({
     meta: [
-      { title: "Daily Briefing — NewsAI" },
+      { title: "Daily Briefing — 7 Awake News" },
       {
         name: "description",
         content:
           "Your personalized morning and evening briefing: the top stories, markets, AI, and what you missed.",
       },
-      { property: "og:title", content: "Daily Briefing — NewsAI" },
+      { property: "og:title", content: "Daily Briefing — 7 Awake News" },
       {
         property: "og:description",
         content: "Top stories, markets, AI and what you missed, in five minutes.",
@@ -36,7 +36,7 @@ function Briefing() {
         >
           <ArrowLeft className="size-4" />
         </Link>
-        <p className="text-[11px] uppercase tracking-[0.2em] text-accent">
+        <p className="text-[11px] uppercase tracking-[0.2em] text-primary">
           Tuesday · 6 min
         </p>
       </div>
