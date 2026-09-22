@@ -41,9 +41,10 @@ function Briefing() {
         </p>
       </div>
 
-      <div className="px-5 pt-4">
-        <h1 className="text-4xl leading-[0.95] tracking-tight text-balance">
-          ☀️ Good morning
+       <div className="border-b border-border px-5 pt-5 pb-6">
+         <p className="text-[10px] font-semibold uppercase text-primary">Your personal edition</p>
+         <h1 className="mt-2 text-4xl leading-[0.95] text-balance">
+           Good morning
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Your daily briefing — five stories, one trend, nothing else.
@@ -51,14 +52,14 @@ function Briefing() {
       </div>
 
       <SectionHeader title="Top stories" meta="5" />
-      <div className="stagger-in space-y-4 px-5 pt-4">
+       <div className="stagger-in px-5 pt-2">
         {articles.map((a) => (
           <ArticleCard key={a.id} article={a} />
         ))}
       </div>
 
       <SectionHeader title="Evening brief" meta="6:00 PM" />
-      <div className="stagger-in space-y-3 px-5 pt-4">
+       <div className="stagger-in divide-y divide-border px-5 pt-2">
         {[
           ["Today's biggest events", "Three stories reshaped the market open."],
           ["What you missed", "Two follow-ups on stories you read yesterday."],
@@ -66,7 +67,7 @@ function Briefing() {
         ].map(([title, body]) => (
           <div
             key={title}
-            className="card-surface hover-lift rounded-3xl p-5 ring-1 ring-border"
+             className="border-l-2 border-primary py-4 pl-4"
           >
             <p className="text-sm font-semibold">{title}</p>
             <p className="mt-1 text-xs text-muted-foreground">{body}</p>

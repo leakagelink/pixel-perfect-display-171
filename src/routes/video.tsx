@@ -67,7 +67,7 @@ function VideoPage() {
       {mode === "feed" ? (
         <>
           <div className="px-5 pt-5">
-            <div className="overflow-hidden card-surface hover-lift rounded-3xl ring-1 ring-border">
+            <div className="overflow-hidden rounded-2xl bg-card shadow-[0_18px_40px_-26px_color-mix(in_oklab,var(--ink)_60%,transparent)] ring-1 ring-border">
               <div className="relative">
                 <img
                   src={featured.image}
@@ -79,12 +79,12 @@ function VideoPage() {
                 <span className="absolute bottom-3 right-3 rounded-full bg-background/80 px-2 py-1 text-[10px]">
                   {featured.duration}
                 </span>
-                <span className="absolute left-3 top-3 rounded-full bg-primary px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.15em]">
+                <span className="absolute left-3 top-3 bg-primary px-2.5 py-1 text-[10px] font-semibold uppercase text-primary-foreground">
                   Featured
                 </span>
               </div>
               <div className="p-5">
-                <p className="text-[11px] uppercase tracking-[0.15em] text-accent">
+                <p className="text-[11px] font-semibold uppercase text-primary">
                   {featured.category}
                 </p>
                 <h1 className="mt-1 text-xl leading-snug tracking-tight text-balance">
@@ -98,11 +98,11 @@ function VideoPage() {
           </div>
 
           <SectionHeader title="Latest video" meta={`${videos.length - 1}`} />
-          <div className="grid grid-cols-2 gap-3 px-5 pt-4">
+           <div className="grid grid-cols-2 gap-x-3 gap-y-5 px-5 pt-4">
             {videos.slice(1).map((v) => (
               <div
                 key={v.id}
-                className="btn-press overflow-hidden card-surface hover-lift rounded-2xl ring-1 ring-border"
+                 className="btn-press overflow-hidden border-b border-border pb-3"
               >
                 <div className="relative">
                   <img
@@ -118,7 +118,7 @@ function VideoPage() {
                 </div>
                 <div className="p-3">
                   {v.aiBrief && (
-                    <span className="rounded-full bg-accent/20 px-2 py-0.5 text-[9px] font-medium uppercase tracking-wide text-accent ring-1 ring-accent/40">
+                    <span className="bg-primary/10 px-2 py-0.5 text-[9px] font-semibold uppercase text-primary">
                       🤖 AI Brief · {v.status}
                     </span>
                   )}
@@ -147,23 +147,23 @@ function VideoPage() {
             decoding="async"
                 className="absolute inset-0 size-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+               <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-transparent" />
               <div className="relative flex h-full items-end justify-between gap-4 p-5">
                 <div>
                   <span className="grid size-12 place-items-center rounded-full bg-foreground/15 ring-1 ring-border backdrop-blur">
                     <Play className="size-5" />
                   </span>
-                  <p className="mt-4 text-[11px] uppercase tracking-[0.2em] text-accent">
+                   <p className="mt-4 text-[11px] font-semibold uppercase text-primary">
                     {v.category}
                   </p>
-                  <h2 className="mt-1 text-2xl leading-tight tracking-tight text-balance">
+                   <h2 className="mt-1 text-2xl leading-tight text-primary-foreground text-balance">
                     {v.title}
                   </h2>
-                  <p className="mt-2 text-xs text-muted-foreground">
+                   <p className="mt-2 text-xs text-primary-foreground/60">
                     {v.source} · {v.duration}
                   </p>
                   <div className="mt-3 h-1 w-full rounded-full bg-foreground/15">
-                    <div className="h-1 w-1/3 rounded-full bg-accent" />
+                     <div className="h-1 w-1/3 rounded-full bg-primary" />
                   </div>
                 </div>
                 <div className="flex shrink-0 flex-col gap-3">

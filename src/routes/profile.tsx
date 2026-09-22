@@ -50,8 +50,8 @@ function Profile() {
       <TopHeader subtitle="Profile" />
 
       <div className="mt-6 px-5">
-        <div className="flex items-center gap-4 card-surface hover-lift rounded-3xl p-5 ring-1 ring-border">
-          <div className="grid size-14 shrink-0 place-items-center rounded-2xl gradient-brand font-display text-lg">
+        <div className="flex items-center gap-4 border-b border-border pb-6">
+          <div className="grid size-16 shrink-0 place-items-center rounded-full bg-ink font-display text-lg text-primary-foreground ring-4 ring-primary/10">
             T
           </div>
           <div>
@@ -66,7 +66,7 @@ function Profile() {
       <div className="mt-3 px-5">
         <Link
           to="/admin"
-          className="btn-press flex items-center justify-between card-surface hover-lift rounded-2xl p-4 ring-1 ring-border"
+          className="btn-press flex items-center justify-between border-l-2 border-primary bg-secondary/60 p-4"
         >
           <div>
             <p className="text-sm font-medium">Admin panel</p>
@@ -83,7 +83,7 @@ function Profile() {
         {interests.map((i) => (
           <span
             key={i}
-            className="rounded-full bg-primary/20 px-3.5 py-1.5 text-xs font-medium ring-1 ring-primary/40"
+             className="rounded-full bg-primary/10 px-3.5 py-1.5 text-xs font-semibold text-primary ring-1 ring-primary/20"
           >
             {i}
           </span>
@@ -95,7 +95,7 @@ function Profile() {
         {followables.map((f) => (
           <div
             key={f.name}
-            className="shrink-0 rounded-2xl bg-secondary px-4 py-3 ring-1 ring-border"
+             className="shrink-0 border-b-2 border-primary bg-secondary px-4 py-3"
           >
             <p className="text-xs font-medium">
               {f.emoji} {f.name}
@@ -108,13 +108,13 @@ function Profile() {
       </div>
 
       <SectionHeader title="Saved news" meta="🔖" />
-      <div className="space-y-2 px-5 pt-4">
+      <div className="divide-y divide-border px-5 pt-2">
         {articles.slice(0, 2).map((a) => (
           <Link
             key={a.id}
             to="/article/$articleId"
             params={{ articleId: a.id }}
-            className="btn-press flex items-center gap-3 card-surface hover-lift rounded-2xl p-4 ring-1 ring-border"
+            className="btn-press flex items-center gap-3 py-4"
           >
             <img
               src={a.image}
@@ -129,11 +129,11 @@ function Profile() {
       </div>
 
       <SectionHeader title="Settings" />
-      <div className="space-y-2 px-5 pt-4">
+      <div className="divide-y divide-border px-5 pt-2">
         {settings.map(([label, value]) => (
           <div
             key={label}
-            className="flex items-center justify-between card-surface hover-lift rounded-2xl p-4 ring-1 ring-border"
+            className="flex items-center justify-between py-4"
           >
             <div>
               <p className="text-sm font-medium">{label}</p>

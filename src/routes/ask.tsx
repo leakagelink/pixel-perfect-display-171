@@ -7,7 +7,7 @@ import { suggestedQuestions } from "@/lib/news-data";
 export const Route = createFileRoute("/ask")({
   head: () => ({
     meta: [
-      { title: "Ask 7 Awake News" },
+       { title: "Ask 7 Awake News — AI Assistant" },
       {
         name: "description",
         content:
@@ -40,7 +40,7 @@ function Ask() {
         </Link>
         <div>
           <h1 className="text-xl tracking-tight">Ask 7 Awake News</h1>
-          <p className="text-[11px] uppercase tracking-[0.2em] text-accent">
+        <p className="text-[11px] font-semibold uppercase text-primary">
             News assistant
           </p>
         </div>
@@ -49,10 +49,10 @@ function Ask() {
       <div className="min-h-[50svh] px-5 pt-6">
         {asked ? (
           <div className="space-y-3">
-            <div className="ml-auto w-fit max-w-[85%] rounded-3xl rounded-br-lg bg-primary px-4 py-3 text-sm">
+            <div className="ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-sm bg-primary px-4 py-3 text-sm text-primary-foreground">
               {asked}
             </div>
-            <div className="w-fit max-w-[90%] rounded-3xl rounded-bl-lg bg-card px-4 py-3 text-sm text-muted-foreground ring-1 ring-border">
+            <div className="w-fit max-w-[90%] border-l-2 border-primary bg-secondary/60 px-4 py-3 text-sm text-muted-foreground">
               The assistant isn't connected to a live news source yet, so it
               can't answer this for real. Once the backend is switched on, this
               answer will be written from today's indexed reporting with the
@@ -60,7 +60,7 @@ function Ask() {
             </div>
           </div>
         ) : (
-          <div className="card-surface hover-lift rounded-3xl p-5 ring-1 ring-border">
+           <div className="border-y border-border py-5">
             <p className="text-sm font-semibold">Ask about today's news</p>
             <p className="mt-1 text-xs text-muted-foreground">
               Answers are drawn from the stories in your feed, with sources
@@ -75,7 +75,7 @@ function Ask() {
               <button
                 key={q}
                 onClick={() => setAsked(q)}
-                className="btn-press w-full rounded-2xl bg-secondary px-4 py-3 text-left text-sm ring-1 ring-border"
+                 className="btn-press w-full border-b border-border bg-secondary/60 px-4 py-3 text-left text-sm"
               >
                 {q}
               </button>
@@ -92,7 +92,7 @@ function Ask() {
             setAsked(draft.trim());
             setDraft("");
           }}
-          className="flex items-center gap-2 rounded-full bg-secondary px-4 py-2.5 ring-1 ring-border backdrop-blur focus-within:ring-primary/60"
+          className="flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2.5 shadow-lg focus-within:border-primary"
         >
           <input
             value={draft}
@@ -102,7 +102,7 @@ function Ask() {
           />
           <button
             type="submit"
-            className="btn-press grid size-9 shrink-0 place-items-center rounded-full gradient-brand"
+            className="btn-press grid size-9 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground"
             aria-label="Send question"
           >
             <Send className="size-4" />
