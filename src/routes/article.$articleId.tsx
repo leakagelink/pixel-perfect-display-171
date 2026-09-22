@@ -49,7 +49,8 @@ const languages = ["English", "Hindi", "Hinglish"];
 
 function ArticlePage() {
   const data = Route.useLoaderData();
-  const article = data.article!;
+  const article = data.article;
+  if (!article) return null;
   const related = data.related;
   const [summaryMode, setSummaryMode] = useState<"short" | "detailed">("short");
   const [explain, setExplain] = useState<string | null>(null);
@@ -74,7 +75,7 @@ function ArticlePage() {
           decoding="async"
           fetchPriority="high"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+         <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent" />
         <Link
           to="/"
           className="btn-press absolute left-5 top-6 grid size-9 place-items-center rounded-full bg-background/70 ring-1 ring-border backdrop-blur"
@@ -83,8 +84,8 @@ function ArticlePage() {
         </Link>
       </div>
 
-      <div className="-mt-8 px-5">
-        <p className="text-[11px] uppercase tracking-[0.2em] text-accent">
+       <div className="relative -mt-7 bg-background px-5 pt-5">
+         <p className="text-[11px] font-semibold uppercase text-primary">
           {article.category}
         </p>
         <h1 className="mt-2 text-3xl leading-[1.03] tracking-tight text-balance">
@@ -105,7 +106,7 @@ function ArticlePage() {
             onClick={() => setSaved((v) => !v)}
             className={`btn-press flex items-center gap-2 rounded-full px-4 py-2 text-xs font-medium ring-1 ${
               saved
-                ? "bg-accent/20 text-accent ring-accent/40"
+                 ? "bg-ink text-primary-foreground ring-ink"
                 : "bg-secondary text-muted-foreground ring-border"
             }`}
           >
@@ -119,22 +120,22 @@ function ArticlePage() {
 
       {/* Audio */}
       <div className="mt-6 px-5">
-        <div className="flex items-center gap-3 card-surface hover-lift rounded-3xl p-4 ring-1 ring-border">
+         <div className="flex items-center gap-3 border-y border-border py-4">
           <button
             onClick={() => setPlaying((v) => !v)}
-            className="btn-press grid size-11 shrink-0 place-items-center rounded-full gradient-brand"
+             className="btn-press grid size-11 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground"
             aria-label={playing ? "Pause article audio" : "Listen to article"}
           >
             {playing ? <Pause className="size-4" /> : <Play className="size-4" />}
           </button>
           <div className="min-w-0 flex-1">
             <p className="flex items-center gap-1.5 text-xs font-medium">
-              <Headphones className="size-3.5 text-accent" /> Listen to article
+               <Headphones className="size-3.5 text-primary" /> Listen to article
             </p>
             <div className="mt-2 h-1 rounded-full bg-secondary">
               <div
                 className={`h-1 rounded-full bg-accent transition-all ${
-                  playing ? "w-1/3" : "w-0"
+                   playing ? "w-1/3 bg-primary" : "w-0 bg-primary"
                 }`}
               />
             </div>
@@ -158,10 +159,10 @@ function ArticlePage() {
       </div>
 
       {/* AI summary */}
-      <div className="mt-4 px-5">
-        <div className="rounded-3xl gradient-briefing p-5 ring-1 ring-border">
+       <div className="mt-4 px-5">
+         <div className="border-l-4 border-primary bg-primary/5 p-5">
           <div className="flex items-center justify-between">
-            <p className="text-[11px] uppercase tracking-[0.15em] text-accent">
+             <p className="text-[11px] font-semibold uppercase text-primary">
               ⚡ Read in 30 seconds
             </p>
             <div className="flex gap-1">
@@ -183,7 +184,7 @@ function ArticlePage() {
           <ul className="mt-3 space-y-2 text-sm text-foreground/80">
             {bullets.map((b) => (
               <li key={b} className="flex gap-2">
-                <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-accent" />
+                 <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary" />
                 {b}
               </li>
             ))}
@@ -193,7 +194,7 @@ function ArticlePage() {
 
       {/* Explain */}
       <div className="mt-4 px-5">
-        <div className="card-surface hover-lift rounded-3xl p-5 ring-1 ring-border">
+         <div className="border-y border-border py-5">
           <p className="text-sm font-semibold">🧠 Explain this news</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {explainModes.map((m) => (
@@ -217,7 +218,7 @@ function ArticlePage() {
                 onClick={() => setLanguage(l)}
                 className={`rounded-full px-3 py-1 text-[11px] ring-1 ${
                   language === l
-                    ? "bg-accent/20 text-accent ring-accent/40"
+                     ? "bg-ink text-primary-foreground ring-ink"
                     : "bg-secondary text-muted-foreground ring-border"
                 }`}
               >
@@ -237,7 +238,7 @@ function ArticlePage() {
 
       <SectionHeader title="Why this matters" />
       <div className="px-5 pt-4">
-        <p className="card-surface hover-lift rounded-3xl p-5 text-sm leading-relaxed text-muted-foreground ring-1 ring-border">
+         <p className="border-l-2 border-primary py-2 pl-4 text-sm leading-relaxed text-muted-foreground">
           {article.whyItMatters}
         </p>
       </div>
@@ -247,8 +248,8 @@ function ArticlePage() {
         <ol className="space-y-4 border-l border-border pl-5">
           {article.timeline.map((t) => (
             <li key={t.time} className="relative">
-              <span className="absolute -left-[26px] top-1.5 size-2 rounded-full bg-accent" />
-              <p className="text-[11px] uppercase tracking-wide text-accent">
+               <span className="absolute -left-[26px] top-1.5 size-2 rounded-full bg-primary" />
+               <p className="text-[11px] font-semibold uppercase text-primary">
                 {t.time}
               </p>
               <p className="text-sm">{t.event}</p>
@@ -260,9 +261,9 @@ function ArticlePage() {
       <SectionHeader title="📰 Coverage from multiple sources" />
       <div className="space-y-2 px-5 pt-4">
         {article.coverage.map((c) => (
-          <div key={c.source} className="card-surface hover-lift rounded-2xl p-4 ring-1 ring-border">
+           <div key={c.source} className="border-b border-border py-4">
             <div className="flex items-center gap-2">
-              <span className="grid size-7 place-items-center rounded-lg bg-secondary text-[11px] font-semibold text-accent">
+               <span className="grid size-7 place-items-center bg-primary/10 text-[11px] font-semibold text-primary">
                 {c.source[0]}
               </span>
               <p className="text-sm font-medium">{c.source}</p>
@@ -276,7 +277,7 @@ function ArticlePage() {
       </div>
 
       <SectionHeader title="Related stories" />
-      <div className="stagger-in space-y-4 px-5 pt-4">
+       <div className="stagger-in px-5 pt-2">
         {related.map((a) => (
           <ArticleCard key={a.id} article={a} />
         ))}

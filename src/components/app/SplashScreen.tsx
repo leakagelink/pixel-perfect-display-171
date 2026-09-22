@@ -71,7 +71,7 @@ export function SplashScreen() {
         </p>
 
         <div className="splash-tagline mt-8 h-1 w-40 overflow-hidden rounded-full bg-secondary">
-          <span className="splash-bar block h-full w-1/3 rounded-full gradient-brand" />
+          <span className="splash-bar block h-full w-1/3 rounded-full bg-primary" />
         </div>
       </div>
     </div>
