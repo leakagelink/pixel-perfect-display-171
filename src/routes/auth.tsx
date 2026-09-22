@@ -55,8 +55,8 @@ function AuthPage() {
   }
 
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-[440px] flex-col justify-center px-6">
-      <div className="relative card-surface rounded-3xl p-6 ring-1 ring-border">
+    <div className="mx-auto flex min-h-screen w-full max-w-[440px] flex-col justify-center bg-background px-6">
+      <div className="relative border-t-4 border-primary bg-card p-6 shadow-[0_20px_55px_-35px_color-mix(in_oklab,var(--ink)_60%,transparent)] ring-1 ring-border">
         <div className="flex items-center gap-2">
           <img
             src={logoAsset.url}
@@ -84,7 +84,7 @@ function AuthPage() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
             autoComplete="email"
-            className="w-full rounded-2xl bg-secondary px-4 py-3 text-sm ring-1 ring-border outline-none"
+            className="w-full border-b-2 border-border bg-secondary/60 px-4 py-3 text-sm outline-none focus:border-primary"
           />
           <input
             type="password"
@@ -94,13 +94,13 @@ function AuthPage() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
             autoComplete={mode === "signin" ? "current-password" : "new-password"}
-            className="w-full rounded-2xl bg-secondary px-4 py-3 text-sm ring-1 ring-border outline-none"
+            className="w-full border-b-2 border-border bg-secondary/60 px-4 py-3 text-sm outline-none focus:border-primary"
           />
           {msg && <p className="text-xs text-destructive">{msg}</p>}
           <button
             type="submit"
             disabled={busy}
-            className="btn-press w-full rounded-2xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground disabled:opacity-60"
+            className="btn-press w-full rounded-full bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground disabled:opacity-60"
           >
             {busy ? "Please wait…" : mode === "signin" ? "Sign in" : "Sign up"}
           </button>

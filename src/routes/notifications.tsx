@@ -51,14 +51,14 @@ function Notifications() {
         <h1 className="text-xl tracking-tight">Notifications</h1>
       </div>
 
-      <div className="stagger-in space-y-3 px-5 pt-6">
+      <div className="stagger-in divide-y divide-border px-5 pt-4">
         {items.length === 0 && (
           <p className="text-sm text-muted-foreground">No notifications yet.</p>
         )}
         {items.map((n) => (
           <div
             key={n.id}
-            className="card-surface hover-lift rounded-3xl p-5 ring-1 ring-border"
+            className="relative py-5 pl-4 before:absolute before:left-0 before:top-6 before:size-2 before:rounded-full before:bg-primary"
           >
             <p className="text-[11px] uppercase tracking-[0.15em] text-accent">
               {n.kind} · {n.createdAt}
@@ -74,7 +74,7 @@ function Notifications() {
       <p className="px-5 pt-8 text-sm font-semibold uppercase tracking-[0.12em] text-foreground/80">
         Preferences
       </p>
-      <div className="space-y-2 px-5 pt-4">
+      <div className="divide-y divide-border px-5 pt-2">
         {categories.map((c) => {
           const active = on.includes(c.label);
           return (
@@ -85,7 +85,7 @@ function Notifications() {
                   active ? v.filter((x) => x !== c.label) : [...v, c.label],
                 )
               }
-              className="flex w-full items-center gap-3 card-surface hover-lift rounded-2xl p-4 ring-1 ring-border"
+              className="flex w-full items-center gap-3 py-4 text-left"
             >
               <span className="grid size-9 place-items-center rounded-xl bg-secondary text-sm">
                 {c.emoji}
@@ -97,7 +97,7 @@ function Notifications() {
                 }`}
               >
                 <span
-                  className={`block size-5 rounded-full bg-foreground transition-transform ${
+                  className={`block size-5 rounded-full bg-background shadow-sm transition-transform ${
                     active ? "translate-x-5" : ""
                   }`}
                 />

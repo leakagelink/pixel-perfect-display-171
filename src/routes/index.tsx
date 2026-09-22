@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Bookmark, Clock, Play } from "lucide-react";
+import { Clock, Play } from "lucide-react";
 import { AppShell } from "@/components/app/AppShell";
 import { TopHeader } from "@/components/app/TopHeader";
 import { BreakingTicker } from "@/components/app/BreakingTicker";

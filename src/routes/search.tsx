@@ -48,7 +48,7 @@ function SearchPage() {
       <TopHeader subtitle="Search" />
 
       <div className="px-5 pt-5">
-        <div className="flex items-center gap-2 rounded-2xl bg-secondary px-4 py-3 ring-1 ring-border focus-within:ring-primary/60">
+        <div className="flex items-center gap-3 border-b-2 border-foreground bg-secondary/60 px-4 py-3 focus-within:border-primary">
           <SearchIcon className="size-4 text-muted-foreground" />
           <input
             value={q}
@@ -62,11 +62,11 @@ function SearchPage() {
       {q.trim() ? (
         <>
           <SectionHeader title="Results" meta={`${results.length}`} />
-          <div className="stagger-in space-y-4 px-5 pt-4">
+          <div className="stagger-in px-5 pt-2">
             {results.length ? (
               results.map((a) => <ArticleCard key={a.id} article={a} />)
             ) : (
-              <p className="card-surface hover-lift rounded-3xl p-5 text-sm text-muted-foreground ring-1 ring-border">
+              <p className="border-y border-border py-6 text-sm text-muted-foreground">
                 Nothing matched "{q}" in today's stories.
               </p>
             )}
@@ -88,13 +88,13 @@ function SearchPage() {
           </div>
 
           <SectionHeader title="Follow" meta="topics · people · places" />
-          <div className="space-y-2 px-5 pt-4">
+          <div className="divide-y divide-border px-5 pt-2">
             {followables.map((f) => {
               const on = following.includes(f.name);
               return (
                 <div
                   key={f.name}
-                  className="flex items-center gap-3 card-surface hover-lift rounded-2xl p-4 ring-1 ring-border"
+                  className="flex items-center gap-3 py-4"
                 >
                   <span className="grid size-9 place-items-center rounded-xl bg-secondary text-sm">
                     {f.emoji}
@@ -111,9 +111,9 @@ function SearchPage() {
                         on ? v.filter((x) => x !== f.name) : [...v, f.name],
                       )
                     }
-                    className={`btn-press ml-auto shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium ring-1 ${
+                    className={`btn-press ml-auto shrink-0 rounded-full px-3.5 py-1.5 text-xs font-semibold ring-1 ${
                       on
-                        ? "bg-accent/20 text-accent ring-accent/40"
+                        ? "bg-ink text-primary-foreground ring-ink"
                         : "bg-primary text-primary-foreground ring-primary/50"
                     }`}
                   >
