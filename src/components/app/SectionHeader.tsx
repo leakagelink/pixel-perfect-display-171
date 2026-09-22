@@ -6,13 +6,13 @@ export function SectionHeader({
   meta?: string;
 }) {
   return (
-    <div className="flex items-end justify-between px-5 pt-9">
-      <h2 className="flex items-center gap-2.5 text-sm font-semibold uppercase tracking-[0.12em] text-foreground/85">
-        <span className="h-4 w-1 rounded-full gradient-brand" />
+    <div className="flex items-end justify-between px-5 pt-8">
+      <h2 className="flex items-center gap-2.5 font-display text-lg text-foreground">
+        <span className="h-5 w-1 bg-primary" />
         {title}
       </h2>
       {meta && (
-        <span className="rounded-full bg-secondary px-2.5 py-1 text-[10px] uppercase tracking-wide text-muted-foreground ring-1 ring-border">
+        <span className="text-[10px] font-semibold uppercase text-primary">
           {meta}
         </span>
       )}

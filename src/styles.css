@@ -41,47 +41,47 @@
 }
 
 :root {
-  --radius: 1rem;
+  --radius: 0.75rem;
 
   --font-display-family: "Archivo Black", ui-sans-serif, sans-serif;
-  --font-sans-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans-family: "Hind", ui-sans-serif, system-ui, sans-serif;
 
-  /* 7 Awake News — sunset editorial palette */
-  --ink: oklch(0.205 0.035 254);
-  --ink2: oklch(0.285 0.04 252);
+  /* 7 Awake News — logo red editorial palette */
+  --ink: oklch(0.255 0.058 253);
+  --ink2: oklch(0.355 0.05 253);
 
-  --background: oklch(0.985 0.006 75);
-  --foreground: oklch(0.205 0.035 254);
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.255 0.058 253);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.205 0.035 254);
+  --card-foreground: oklch(0.255 0.058 253);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.205 0.035 254);
-  --brand: oklch(0.635 0.205 39);
-  --primary: oklch(0.635 0.205 39);
+  --popover-foreground: oklch(0.255 0.058 253);
+  --brand: oklch(0.615 0.245 27);
+  --primary: oklch(0.615 0.245 27);
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.965 0.012 72);
-  --secondary-foreground: oklch(0.285 0.04 252);
-  --muted: oklch(0.95 0.012 72);
-  --muted-foreground: oklch(0.525 0.025 252);
-  --accent: oklch(0.79 0.154 77);
-  --accent-foreground: oklch(0.205 0.035 254);
-  --hot: oklch(0.57 0.225 28);
-  --destructive: oklch(0.57 0.225 28);
+  --secondary: oklch(0.97 0.006 250);
+  --secondary-foreground: oklch(0.355 0.05 253);
+  --muted: oklch(0.955 0.008 250);
+  --muted-foreground: oklch(0.53 0.025 253);
+  --accent: oklch(0.72 0.145 83);
+  --accent-foreground: oklch(0.255 0.058 253);
+  --hot: oklch(0.615 0.245 27);
+  --destructive: oklch(0.615 0.245 27);
   --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.88 0.018 72);
-  --input: oklch(0.91 0.018 72);
-  --ring: oklch(0.635 0.205 39);
+  --border: oklch(0.91 0.012 250);
+  --input: oklch(0.93 0.01 250);
+  --ring: oklch(0.615 0.245 27);
 
   --gradient-brand: linear-gradient(
     135deg,
-    oklch(0.635 0.205 39),
-    oklch(0.79 0.154 77)
+    oklch(0.615 0.245 27),
+    oklch(0.72 0.145 83)
   );
   --gradient-briefing: linear-gradient(
     140deg,
-    oklch(0.965 0.052 73),
-    oklch(0.92 0.098 57) 55%,
-    oklch(0.79 0.154 77)
+    oklch(0.985 0.01 27),
+    oklch(0.965 0.035 27) 55%,
+    oklch(0.95 0.04 83)
   );
 }
 

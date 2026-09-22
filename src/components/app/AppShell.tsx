@@ -15,7 +15,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
-    <div className="mx-auto min-h-screen w-full max-w-[440px] bg-background pb-28 text-foreground">
+    <div className="mx-auto min-h-screen w-full max-w-[480px] bg-background pb-24 text-foreground shadow-[0_0_50px_-28px_color-mix(in_oklab,var(--ink)_35%,transparent)]">
       <SplashScreen />
       <div className="relative overflow-hidden">
         <div key={pathname} className="page-enter relative">
@@ -23,7 +23,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       </div>
 
-      <nav className="safe-bottom fixed inset-x-4 bottom-3 z-30 mx-auto flex w-[calc(100%-2rem)] max-w-[408px] items-center justify-around rounded-[28px] border border-foreground/10 bg-ink/95 px-2 pt-2 shadow-2xl backdrop-blur-xl">
+      <nav className="safe-bottom fixed inset-x-0 bottom-0 z-30 mx-auto flex w-full max-w-[480px] items-center justify-around border-t border-border bg-background/95 px-3 pt-2 shadow-[0_-12px_30px_-24px_color-mix(in_oklab,var(--ink)_40%,transparent)] backdrop-blur-xl">
         {nav.map(({ to, label, icon: Icon }) => {
           const active = to === "/" ? pathname === "/" : pathname.startsWith(to);
           return (
@@ -32,14 +32,14 @@ export function AppShell({ children }: { children: ReactNode }) {
               to={to}
               aria-label={label}
               aria-current={active ? "page" : undefined}
-              className={`btn-press relative flex flex-1 flex-col items-center gap-1 rounded-2xl py-2 ${
+              className={`btn-press relative flex min-h-14 flex-1 flex-col items-center justify-center gap-1 py-1.5 ${
                 active
-                  ? "text-accent"
-                  : "text-background/55 hover:text-background"
+                  ? "text-primary"
+                  : "text-muted-foreground hover:text-foreground"
               }`}
             >
               {active && (
-                <span className="pointer-events-none absolute inset-x-3 inset-y-0 -z-10 rounded-2xl bg-primary/20 ring-1 ring-primary/35" />
+                <span className="pointer-events-none absolute inset-x-4 bottom-0 h-0.5 bg-primary" />
               )}
               <Icon
                 className={`size-[18px] transition-transform duration-200 ${
@@ -47,7 +47,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 }`}
                 strokeWidth={2.2}
               />
-              <span className="text-[10px] font-medium">{label}</span>
+              <span className="text-[9px] font-semibold uppercase">{label}</span>
             </Link>
           );
         })}

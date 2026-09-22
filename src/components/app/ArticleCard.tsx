@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight, Clock } from "lucide-react";
+import { Bookmark, Clock } from "lucide-react";
 import type { FeedArticle as Article } from "@/lib/content.functions";
 
 const chipStyles = [
@@ -22,29 +22,29 @@ export function ArticleCard({
       to="/article/$articleId"
       params={{ articleId: article.id }}
       style={{ animationDelay: `${Math.min(index, 6) * 70}ms` }}
-      className="card-surface group block rounded-3xl p-5 ring-1 ring-border rise-in"
+      className={`group block rise-in ${withImage ? "overflow-hidden rounded-2xl bg-card shadow-[0_14px_34px_-24px_color-mix(in_oklab,var(--ink)_50%,transparent)] ring-1 ring-border" : "border-b border-border py-4"}`}
     >
       {withImage && (
-        <div className="relative overflow-hidden rounded-2xl">
+        <div className="relative overflow-hidden">
           <img
             src={article.image}
             alt={article.headline}
             loading="lazy"
             decoding="async"
-            className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+            className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]"
           />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent" />
           <span className="absolute bottom-2.5 left-2.5 flex items-center gap-1 rounded-full bg-background/70 px-2.5 py-1 text-[10px] text-foreground/80 backdrop-blur-sm">
             <Clock className="size-3 text-primary" />
             {article.readingTime}
           </span>
         </div>
       )}
-      <div className="mt-3 flex flex-wrap gap-1.5">
+      <div className={`${withImage ? "px-4 pt-4" : ""} flex flex-wrap gap-1.5`}>
         {article.sources.map((s, i) => (
           <span
             key={s}
-            className={`rounded-full px-2.5 py-1 text-[10px] font-medium ring-1 ${
+            className={`px-0 py-0 text-[10px] font-semibold uppercase ${
               chipStyles[i % chipStyles.length]
             }`}
           >
@@ -52,11 +52,11 @@ export function ArticleCard({
           </span>
         ))}
       </div>
-      <h3 className="mt-3 flex items-start gap-2 text-lg font-semibold leading-snug tracking-tight text-balance">
+      <h3 className={`${withImage ? "px-4" : ""} mt-2 flex items-start gap-2 text-base font-bold leading-snug text-balance`}>
         <span>{article.headline}</span>
-        <ArrowUpRight className="mt-1 size-4 shrink-0 text-muted-foreground transition-all duration-200 group-hover:-translate-y-0.5 group-hover:text-primary" />
+        <Bookmark className="mt-1 size-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" />
       </h3>
-      <ul className="mt-3 space-y-1.5 text-sm text-muted-foreground">
+      <ul className={`${withImage ? "px-4" : ""} mt-2 space-y-1 text-sm text-muted-foreground`}>
         {article.bullets.slice(0, 2).map((b) => (
           <li key={b} className="flex gap-2">
             <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary" />
@@ -64,7 +64,7 @@ export function ArticleCard({
           </li>
         ))}
       </ul>
-      <div className="mt-4 flex items-center gap-3 border-t border-border pt-3 text-[11px] text-muted-foreground">
+      <div className={`${withImage ? "mx-4 mb-4" : ""} mt-3 flex items-center gap-3 border-t border-border pt-3 text-[10px] text-muted-foreground`}>
         <span>{article.publishedAt}</span>
         <span className="size-1 rounded-full bg-muted-foreground/50" />
         <span>{article.readingTime} read</span>
