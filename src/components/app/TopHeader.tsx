@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Bell, MapPin, Search } from "lucide-react";
+import { Bell, Menu, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import logoAsset from "@/assets/7-awake-news-logo.png.asset.json";
 
@@ -15,33 +15,33 @@ export function TopHeader({ subtitle = "Briefing" }: { subtitle?: string }) {
 
   return (
     <header
-      className={`sticky top-0 z-20 flex items-center justify-between px-5 transition-all duration-300 ${
+      className={`sticky top-0 z-20 grid grid-cols-[40px_1fr_88px] items-center px-5 transition-all duration-300 ${
         stuck
           ? "glass-bar border-b border-border py-3"
           : "border-b border-transparent pt-6 pb-3"
       }`}
     >
-      <Link to="/" className="flex items-center gap-2">
+      <span className="grid size-10 place-items-center text-foreground" aria-hidden="true">
+        <Menu className="size-5" />
+      </span>
+      <Link to="/" className="flex items-center justify-center gap-2">
         <img
           src={logoAsset.url}
           alt="7 Awake News Network Digital logo"
-          width={44}
-          height={44}
-          className="size-11 object-contain"
+          width={38}
+          height={38}
+          className="size-9 object-contain"
         />
         <div className="leading-none">
-          <p className="font-display text-lg tracking-tight text-ink">
+          <p className="font-display text-sm uppercase text-ink">
             7 Awake <span className="text-primary">News</span>
           </p>
-          <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+          <p className="text-center text-[8px] font-semibold uppercase text-primary">
             {subtitle}
           </p>
         </div>
       </Link>
-      <div className="flex items-center gap-2">
-        <button className="btn-press flex items-center gap-1 rounded-full bg-secondary px-3 py-1.5 text-xs text-muted-foreground ring-1 ring-border hover:text-foreground">
-          <MapPin className="size-3 text-primary" /> SF
-        </button>
+      <div className="flex items-center justify-end gap-2">
         <Link
           to="/search"
           aria-label="Search"

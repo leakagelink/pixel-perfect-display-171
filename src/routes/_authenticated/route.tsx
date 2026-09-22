@@ -3,6 +3,16 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated")({
+  head: () => ({
+    meta: [
+      { title: "Secure workspace — 7 Awake News" },
+      { name: "description", content: "Secure 7 Awake News management workspace." },
+      { property: "og:title", content: "Secure workspace — 7 Awake News" },
+      { property: "og:description", content: "Secure 7 Awake News management workspace." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: AuthenticatedLayout,
 });
 
