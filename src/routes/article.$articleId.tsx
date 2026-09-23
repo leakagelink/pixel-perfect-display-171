@@ -12,6 +12,7 @@ import { AppShell } from "@/components/app/AppShell";
 import { ArticleCard } from "@/components/app/ArticleCard";
 import { SectionHeader } from "@/components/app/SectionHeader";
 import { getArticleBySlug } from "@/lib/content.functions";
+import { localizeArticle, useLanguage } from "@/lib/language";
 
 export const Route = createFileRoute("/article/$articleId")({
   loader: async ({ params }) => {
@@ -40,21 +41,16 @@ export const Route = createFileRoute("/article/$articleId")({
   component: ArticlePage,
 });
 
-const explainModes = [
-  "Explain simply",
-  "Explain like I'm 10",
-  "Detailed analysis",
-];
-const languages = ["English", "Hindi", "Hinglish"];
-
 function ArticlePage() {
   const data = Route.useLoaderData();
-  const article = data.article;
-  if (!article) return null;
+  const sourceArticle = data.article;
+  const { language, t } = useLanguage();
+  if (!sourceArticle) return null;
+  const article = localizeArticle(sourceArticle, language);
   const related = data.related;
+  const explainModes = [t("explainSimply"), t("explainChild"), t("detailedAnalysis")];
   const [summaryMode, setSummaryMode] = useState<"short" | "detailed">("short");
   const [explain, setExplain] = useState<string | null>(null);
-  const [language, setLanguage] = useState("English");
   const [saved, setSaved] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [speed, setSpeed] = useState("1x");
@@ -99,7 +95,7 @@ function ArticlePage() {
           <span>·</span>
           <span>{article.publishedAt}</span>
           <span>·</span>
-          <span>{article.readingTime} read</span>
+           <span>{article.readingTime} {t("reading")}</span>
         </div>
         <div className="mt-4 flex gap-2">
           <button
@@ -110,10 +106,10 @@ function ArticlePage() {
                 : "bg-secondary text-muted-foreground ring-border"
             }`}
           >
-            <Bookmark className="size-3.5" /> {saved ? "Saved" : "Save"}
+            <Bookmark className="size-3.5" /> {saved ? t("saved") : t("save")}
           </button>
           <button className="btn-press flex items-center gap-2 rounded-full bg-secondary px-4 py-2 text-xs font-medium text-muted-foreground ring-1 ring-border">
-            <Share2 className="size-3.5" /> Share
+            <Share2 className="size-3.5" /> {t("share")}
           </button>
         </div>
       </div>
@@ -124,13 +120,13 @@ function ArticlePage() {
           <button
             onClick={() => setPlaying((v) => !v)}
              className="btn-press grid size-11 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground"
-            aria-label={playing ? "Pause article audio" : "Listen to article"}
+            aria-label={playing ? t("pause") : t("listen")}
           >
             {playing ? <Pause className="size-4" /> : <Play className="size-4" />}
           </button>
           <div className="min-w-0 flex-1">
             <p className="flex items-center gap-1.5 text-xs font-medium">
-               <Headphones className="size-3.5 text-primary" /> Listen to article
+               <Headphones className="size-3.5 text-primary" /> {t("listen")}
             </p>
             <div className="mt-2 h-1 rounded-full bg-secondary">
               <div
@@ -163,7 +159,7 @@ function ArticlePage() {
          <div className="border-l-4 border-primary bg-primary/5 p-5">
           <div className="flex items-center justify-between">
              <p className="text-[11px] font-semibold uppercase text-primary">
-              ⚡ Read in 30 seconds
+               {t("thirtySeconds")}
             </p>
             <div className="flex gap-1">
               {(["short", "detailed"] as const).map((m) => (
@@ -176,7 +172,7 @@ function ArticlePage() {
                       : "bg-transparent text-foreground/60 ring-border"
                   }`}
                 >
-                  {m}
+                   {m === "short" ? t("short") : t("detailed")}
                 </button>
               ))}
             </div>
@@ -195,7 +191,7 @@ function ArticlePage() {
       {/* Explain */}
       <div className="mt-4 px-5">
          <div className="border-y border-border py-5">
-          <p className="text-sm font-semibold">🧠 Explain this news</p>
+           <p className="text-sm font-semibold">{t("explain")}</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {explainModes.map((m) => (
               <button
@@ -211,39 +207,24 @@ function ArticlePage() {
               </button>
             ))}
           </div>
-          <div className="mt-3 flex gap-2">
-            {languages.map((l) => (
-              <button
-                key={l}
-                onClick={() => setLanguage(l)}
-                className={`rounded-full px-3 py-1 text-[11px] ring-1 ${
-                  language === l
-                     ? "bg-ink text-primary-foreground ring-ink"
-                    : "bg-secondary text-muted-foreground ring-border"
-                }`}
-              >
-                {l}
-              </button>
-            ))}
-          </div>
           {explain && (
             <p className="mt-3 rounded-2xl bg-secondary p-4 text-xs leading-relaxed text-muted-foreground">
-              "{explain}" in {language} needs the AI service switched on. Once
-              it's connected, the explanation appears here with the sources it
-              was built from.
+              {language === "bn"
+                ? `“${explain}” উত্তরটি এখনো লাইভ সংবাদসেবার সঙ্গে যুক্ত নয়। সংযোগ হলে সূত্রসহ ব্যাখ্যা এখানে দেখা যাবে।`
+                : `“${explain}” needs the AI service switched on. Once connected, the sourced explanation will appear here.`}
             </p>
           )}
         </div>
       </div>
 
-      <SectionHeader title="Why this matters" />
+      <SectionHeader title={t("whyMatters")} />
       <div className="px-5 pt-4">
          <p className="border-l-2 border-primary py-2 pl-4 text-sm leading-relaxed text-muted-foreground">
           {article.whyItMatters}
         </p>
       </div>
 
-      <SectionHeader title="📅 Story timeline" />
+      <SectionHeader title={t("timeline")} />
       <div className="px-5 pt-4">
         <ol className="space-y-4 border-l border-border pl-5">
           {article.timeline.map((t) => (
@@ -258,7 +239,7 @@ function ArticlePage() {
         </ol>
       </div>
 
-      <SectionHeader title="📰 Coverage from multiple sources" />
+      <SectionHeader title={t("coverage")} />
       <div className="space-y-2 px-5 pt-4">
         {article.coverage.map((c) => (
            <div key={c.source} className="border-b border-border py-4">
@@ -276,7 +257,7 @@ function ArticlePage() {
         ))}
       </div>
 
-      <SectionHeader title="Related stories" />
+      <SectionHeader title={t("related")} />
        <div className="stagger-in px-5 pt-2">
         {related.map((a) => (
           <ArticleCard key={a.id} article={a} />

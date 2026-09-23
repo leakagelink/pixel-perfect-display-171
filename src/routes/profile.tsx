@@ -3,6 +3,7 @@ import { AppShell } from "@/components/app/AppShell";
 import { TopHeader } from "@/components/app/TopHeader";
 import { SectionHeader } from "@/components/app/SectionHeader";
 import { articles, followables } from "@/lib/news-data";
+import { useLanguage } from "@/lib/language";
 
 const interests = [
   "AI",
@@ -45,9 +46,10 @@ export const Route = createFileRoute("/profile")({
 });
 
 function Profile() {
+  const { language, t } = useLanguage();
   return (
     <AppShell>
-      <TopHeader subtitle="Profile" />
+      <TopHeader subtitle={t("profile")} />
 
       <div className="mt-6 px-5">
         <div className="flex items-center gap-4 border-b border-border pb-6">
@@ -57,7 +59,7 @@ function Profile() {
           <div>
             <p className="text-lg font-semibold tracking-tight">Theo Marchand</p>
             <p className="text-xs text-muted-foreground">
-              Member since 2025 · 214 sources
+               {language === "bn" ? "২০২৫ থেকে সদস্য · ২১৪টি সূত্র" : "Member since 2025 · 214 sources"}
             </p>
           </div>
         </div>
@@ -69,16 +71,16 @@ function Profile() {
           className="btn-press flex items-center justify-between border-l-2 border-primary bg-secondary/60 p-4"
         >
           <div>
-            <p className="text-sm font-medium">Admin panel</p>
+             <p className="text-sm font-medium">{language === "bn" ? "অ্যাডমিন প্যানেল" : "Admin panel"}</p>
             <p className="text-[11px] text-muted-foreground">
-              Manage news, shorts, video and users
+               {language === "bn" ? "খবর, শর্টস, ভিডিও ও ব্যবহারকারী পরিচালনা করুন" : "Manage news, shorts, video and users"}
             </p>
           </div>
           <span className="text-muted-foreground">›</span>
         </Link>
       </div>
 
-      <SectionHeader title="My interests" />
+      <SectionHeader title={language === "bn" ? "আমার আগ্রহ" : "My interests"} />
       <div className="mt-3 flex flex-wrap gap-2 px-5">
         {interests.map((i) => (
           <span
@@ -90,7 +92,7 @@ function Profile() {
         ))}
       </div>
 
-      <SectionHeader title="Following" meta={`${followables.length}`} />
+      <SectionHeader title={t("following")} meta={`${followables.length}`} />
       <div className="mt-3 flex gap-2 overflow-x-auto px-5 pb-1 no-scrollbar">
         {followables.map((f) => (
           <div
@@ -107,7 +109,7 @@ function Profile() {
         ))}
       </div>
 
-      <SectionHeader title="Saved news" meta="🔖" />
+      <SectionHeader title={language === "bn" ? "সংরক্ষিত খবর" : "Saved news"} meta="🔖" />
       <div className="divide-y divide-border px-5 pt-2">
         {articles.slice(0, 2).map((a) => (
           <Link
@@ -128,7 +130,7 @@ function Profile() {
         ))}
       </div>
 
-      <SectionHeader title="Settings" />
+      <SectionHeader title={language === "bn" ? "সেটিংস" : "Settings"} />
       <div className="divide-y divide-border px-5 pt-2">
         {settings.map(([label, value]) => (
           <div

@@ -6,6 +6,7 @@ import { TopHeader } from "@/components/app/TopHeader";
 import { SectionHeader } from "@/components/app/SectionHeader";
 import { ArticleCard } from "@/components/app/ArticleCard";
 import { articles, followables, trendingSearches } from "@/lib/news-data";
+import { useLanguage } from "@/lib/language";
 
 export const Route = createFileRoute("/search")({
   head: () => ({
@@ -29,6 +30,7 @@ export const Route = createFileRoute("/search")({
 });
 
 function SearchPage() {
+  const { language, t } = useLanguage();
   const [q, setQ] = useState("");
   const [following, setFollowing] = useState<string[]>(["Bitcoin"]);
 
@@ -45,7 +47,7 @@ function SearchPage() {
 
   return (
     <AppShell>
-      <TopHeader subtitle="Search" />
+      <TopHeader subtitle={t("search")} />
 
       <div className="px-5 pt-5">
         <div className="flex items-center gap-3 border-b-2 border-foreground bg-secondary/60 px-4 py-3 focus-within:border-primary">
@@ -53,7 +55,7 @@ function SearchPage() {
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Articles, topics, companies, people"
+            placeholder={language === "bn" ? "খবর, বিষয়, প্রতিষ্ঠান বা ব্যক্তি" : "Articles, topics, companies, people"}
             className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
           />
         </div>
@@ -61,20 +63,20 @@ function SearchPage() {
 
       {q.trim() ? (
         <>
-          <SectionHeader title="Results" meta={`${results.length}`} />
+          <SectionHeader title={t("results")} meta={`${results.length}`} />
           <div className="stagger-in px-5 pt-2">
             {results.length ? (
               results.map((a) => <ArticleCard key={a.id} article={a} />)
             ) : (
               <p className="border-y border-border py-6 text-sm text-muted-foreground">
-                Nothing matched "{q}" in today's stories.
+                {language === "bn" ? `আজকের খবরে “${q}” পাওয়া যায়নি।` : `Nothing matched "${q}" in today's stories.`}
               </p>
             )}
           </div>
         </>
       ) : (
         <>
-          <SectionHeader title="Trending searches" />
+          <SectionHeader title={t("trendingSearches")} />
           <div className="mt-3 flex flex-wrap gap-2 px-5">
             {trendingSearches.map((t) => (
               <button
@@ -87,7 +89,7 @@ function SearchPage() {
             ))}
           </div>
 
-          <SectionHeader title="Follow" meta="topics · people · places" />
+          <SectionHeader title={t("follow")} meta={language === "bn" ? "বিষয় · ব্যক্তি · স্থান" : "topics · people · places"} />
           <div className="divide-y divide-border px-5 pt-2">
             {followables.map((f) => {
               const on = following.includes(f.name);
@@ -117,7 +119,7 @@ function SearchPage() {
                         : "bg-primary text-primary-foreground ring-primary/50"
                     }`}
                   >
-                    {on ? "✓ Following" : "+ Follow"}
+                    {on ? `✓ ${t("following")}` : `+ ${t("followAction")}`}
                   </button>
                 </div>
               );

@@ -2,7 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { ArrowLeft, Send } from "lucide-react";
 import { AppShell } from "@/components/app/AppShell";
-import { suggestedQuestions } from "@/lib/news-data";
+import { suggestedQuestions, suggestedQuestionsBn } from "@/lib/news-data";
+import { useLanguage } from "@/lib/language";
 
 export const Route = createFileRoute("/ask")({
   head: () => ({
@@ -26,6 +27,7 @@ export const Route = createFileRoute("/ask")({
 });
 
 function Ask() {
+  const { language, t } = useLanguage();
   const [asked, setAsked] = useState<string | null>(null);
   const [draft, setDraft] = useState("");
 
@@ -39,9 +41,9 @@ function Ask() {
           <ArrowLeft className="size-4" />
         </Link>
         <div>
-          <h1 className="text-xl tracking-tight">Ask 7AWAKE NEWS NETWORK DIGITAL</h1>
+           <h1 className="text-xl tracking-tight">{language === "bn" ? "7AWAKE NEWS-কে জিজ্ঞাসা করুন" : "Ask 7AWAKE NEWS NETWORK DIGITAL"}</h1>
         <p className="text-[11px] font-semibold uppercase text-primary">
-            News assistant
+             {language === "bn" ? "সংবাদ সহকারী" : "News assistant"}
           </p>
         </div>
       </div>
@@ -53,25 +55,21 @@ function Ask() {
               {asked}
             </div>
             <div className="w-fit max-w-[90%] border-l-2 border-primary bg-secondary/60 px-4 py-3 text-sm text-muted-foreground">
-              The assistant isn't connected to a live news source yet, so it
-              can't answer this for real. Once the backend is switched on, this
-              answer will be written from today's indexed reporting with the
-              sources listed underneath.
+               {language === "bn" ? "সহকারীটি এখনো লাইভ সংবাদসূত্রের সঙ্গে যুক্ত নয়, তাই বাস্তব উত্তর তৈরি করছে না। সংযোগ হলে আজকের যাচাই করা প্রতিবেদন থেকে সূত্রসহ উত্তর এখানে দেখা যাবে।" : "The assistant isn't connected to a live news source yet, so it can't answer this for real. Once connected, the answer will use today's indexed reporting with sources listed underneath."}
             </div>
           </div>
         ) : (
            <div className="border-y border-border py-5">
-            <p className="text-sm font-semibold">Ask about today's news</p>
+             <p className="text-sm font-semibold">{t("askNews")}</p>
             <p className="mt-1 text-xs text-muted-foreground">
-              Answers are drawn from the stories in your feed, with sources
-              attached.
+               {language === "bn" ? "আপনার ফিডের খবর থেকে সূত্রসহ উত্তর দেওয়া হবে।" : "Answers are drawn from the stories in your feed, with sources attached."}
             </p>
           </div>
         )}
 
         {!asked && (
           <div className="mt-5 space-y-2">
-            {suggestedQuestions.map((q) => (
+             {(language === "bn" ? suggestedQuestionsBn : suggestedQuestions).map((q) => (
               <button
                 key={q}
                 onClick={() => setAsked(q)}
@@ -97,13 +95,13 @@ function Ask() {
           <input
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
-            placeholder="Ask anything about the news"
+             placeholder={language === "bn" ? "খবর সম্পর্কে প্রশ্ন করুন" : "Ask anything about the news"}
             className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
           />
           <button
             type="submit"
             className="btn-press grid size-9 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground"
-            aria-label="Send question"
+             aria-label={language === "bn" ? "প্রশ্ন পাঠান" : "Send question"}
           >
             <Send className="size-4" />
           </button>
