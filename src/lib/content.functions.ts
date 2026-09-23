@@ -23,6 +23,16 @@ export function timeAgo(iso: string): string {
   return `${Math.round(h / 24)}d ago`;
 }
 
+export function timeAgoBn(iso: string): string {
+  const diff = Date.now() - new Date(iso).getTime();
+  const m = Math.round(diff / 60000);
+  if (m < 1) return "এইমাত্র";
+  if (m < 60) return `${m} মিনিট আগে`;
+  const h = Math.round(m / 60);
+  if (h < 24) return `${h} ঘণ্টা আগে`;
+  return `${Math.round(h / 24)} দিন আগে`;
+}
+
 function publicClient() {
   const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;
   return createClient<Database>(process.env["SUPABASE_URL"]!, key, {
@@ -48,11 +58,13 @@ export type FeedArticle = {
   image: string;
   sources: string[];
   publishedAt: string;
+  publishedAtBn: string;
   readingTime: string;
   bullets: string[];
   whyItMatters: string;
   timeline: { time: string; event: string }[];
   coverage: { source: string; label: string; angle: string }[];
+  bn?: Partial<Omit<FeedArticle, "bn" | "publishedAtBn" | "image" | "sources">>;
 };
 
 type ArticleRow = Database["public"]["Tables"]["articles"]["Row"];
@@ -66,11 +78,21 @@ function mapArticle(row: ArticleRow, i: number): FeedArticle {
     image: pickImage(row.image_url, i),
     sources: row.sources?.length ? row.sources : ["7AWAKE NEWS NETWORK DIGITAL"],
     publishedAt: timeAgo(row.published_at),
+    publishedAtBn: timeAgoBn(row.published_at),
     readingTime: row.reading_time,
     bullets: row.bullets ?? [],
     whyItMatters: row.why_it_matters,
     timeline: (row.timeline as FeedArticle["timeline"]) ?? [],
     coverage: (row.coverage as FeedArticle["coverage"]) ?? [],
+    bn: {
+      category: row.category_bn ?? undefined,
+      headline: row.headline_bn ?? undefined,
+      dek: row.dek_bn ?? undefined,
+      bullets: row.bullets_bn ?? undefined,
+      whyItMatters: row.why_it_matters_bn ?? undefined,
+      timeline: (row.timeline_bn as FeedArticle["timeline"]) ?? undefined,
+      coverage: (row.coverage_bn as FeedArticle["coverage"]) ?? undefined,
+    },
   };
 }
 
@@ -85,21 +107,22 @@ export const getHomeFeed = createServerFn({ method: "GET" }).handler(async () =>
       .limit(30),
     sb
       .from("breaking_news")
-      .select("text")
+      .select("text,text_bn")
       .eq("is_active", true)
       .order("sort_order"),
     sb
       .from("trending_topics")
-      .select("tag,count_label")
+      .select("tag,tag_bn,count_label")
       .eq("is_active", true)
       .order("sort_order"),
   ]);
 
   return {
     articles: (articlesRes.data ?? []).map(mapArticle),
-    breaking: (breakingRes.data ?? []).map((b) => b.text),
+    breaking: (breakingRes.data ?? []).map((b) => ({ en: b.text, bn: b.text_bn ?? b.text })),
     trending: (trendingRes.data ?? []).map((t) => ({
       tag: t.tag,
+      tagBn: t.tag_bn ?? t.tag,
       count: t.count_label,
     })),
   };
@@ -141,11 +164,15 @@ export const getShortsFeed = createServerFn({ method: "GET" }).handler(async () 
   return (data ?? []).map((s, i) => ({
     id: s.id,
     headline: s.headline,
+    headlineBn: s.headline_bn ?? s.headline,
     summary: s.summary,
+    summaryBn: s.summary_bn ?? s.summary,
     category: s.category,
+    categoryBn: s.category_bn ?? s.category,
     source: s.source ?? "7AWAKE NEWS NETWORK DIGITAL",
     image: pickImage(s.image_url, i + 1),
     publishedAt: timeAgo(s.published_at),
+    publishedAtBn: timeAgoBn(s.published_at),
   }));
 });
 
@@ -159,13 +186,16 @@ export const getVideosFeed = createServerFn({ method: "GET" }).handler(async () 
   return (data ?? []).map((v, i) => ({
     id: v.id,
     title: v.title,
+    titleBn: v.title_bn ?? v.title,
     category: v.category,
+    categoryBn: v.category_bn ?? v.category,
     duration: v.duration,
     source: v.source ?? "7AWAKE NEWS NETWORK DIGITAL",
     views: v.views,
     image: pickImage(v.image_url, i),
     aiBrief: v.ai_brief,
     status: v.status,
+    statusBn: v.status_bn ?? v.status,
   }));
 });
 
@@ -180,9 +210,13 @@ export const getNotificationsFeed = createServerFn({ method: "GET" }).handler(
     return (data ?? []).map((n) => ({
       id: n.id,
       title: n.title,
+      titleBn: n.title_bn ?? n.title,
       body: n.body,
+      bodyBn: n.body_bn ?? n.body,
       kind: n.kind,
+      kindBn: n.kind_bn ?? n.kind,
       createdAt: timeAgo(n.created_at),
+      createdAtBn: timeAgoBn(n.created_at),
     }));
   },
 );

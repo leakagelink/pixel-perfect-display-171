@@ -2,17 +2,19 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Home, Layers, Play, Search, User } from "lucide-react";
 import { SplashScreen } from "@/components/app/SplashScreen";
+import { useLanguage } from "@/lib/language";
 
 const nav = [
-  { to: "/", label: "Home", icon: Home },
-  { to: "/shorts", label: "Shorts", icon: Layers },
-  { to: "/video", label: "Video", icon: Play },
-  { to: "/search", label: "Search", icon: Search },
-  { to: "/profile", label: "Profile", icon: User },
+  { to: "/", key: "home", icon: Home },
+  { to: "/shorts", key: "shorts", icon: Layers },
+  { to: "/video", key: "video", icon: Play },
+  { to: "/search", key: "search", icon: Search },
+  { to: "/profile", key: "profile", icon: User },
 ] as const;
 
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { t } = useLanguage();
 
   return (
     <div className="mx-auto min-h-screen w-full max-w-[480px] bg-background pb-24 text-foreground shadow-[0_0_50px_-28px_color-mix(in_oklab,var(--ink)_35%,transparent)]">
@@ -24,7 +26,8 @@ export function AppShell({ children }: { children: ReactNode }) {
       </div>
 
       <nav className="safe-bottom fixed inset-x-0 bottom-0 z-30 mx-auto flex w-full max-w-[480px] items-center justify-around border-t border-border bg-background/95 px-3 pt-2 shadow-[0_-12px_30px_-24px_color-mix(in_oklab,var(--ink)_40%,transparent)] backdrop-blur-xl">
-        {nav.map(({ to, label, icon: Icon }) => {
+        {nav.map(({ to, key, icon: Icon }) => {
+          const label = t(key);
           const active = to === "/" ? pathname === "/" : pathname.startsWith(to);
           return (
             <Link
