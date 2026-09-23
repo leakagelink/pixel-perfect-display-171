@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import logoAsset from "@/assets/7-awake-news-logo.png.asset.json";
+import { useLanguage } from "@/lib/language";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -24,6 +25,7 @@ export const Route = createFileRoute("/auth")({
 });
 
 function AuthPage() {
+  const { language } = useLanguage();
   const navigate = useNavigate();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
@@ -70,10 +72,10 @@ function AuthPage() {
           </p>
         </div>
         <h1 className="mt-5 text-2xl tracking-tight">
-          {mode === "signin" ? "Sign in" : "Create account"}
+           {mode === "signin" ? (language === "bn" ? "সাইন ইন" : "Sign in") : (language === "bn" ? "অ্যাকাউন্ট তৈরি করুন" : "Create account")}
         </h1>
         <p className="mt-1 text-xs text-muted-foreground">
-          Admin access to manage the app.
+           {language === "bn" ? "অ্যাপ পরিচালনার জন্য অ্যাডমিন প্রবেশাধিকার।" : "Admin access to manage the app."}
         </p>
 
         <form onSubmit={submit} className="mt-6 space-y-3">
@@ -82,7 +84,7 @@ function AuthPage() {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
+             placeholder={language === "bn" ? "ইমেইল" : "Email"}
             autoComplete="email"
             className="w-full border-b-2 border-border bg-secondary/60 px-4 py-3 text-sm outline-none focus:border-primary"
           />
@@ -92,7 +94,7 @@ function AuthPage() {
             minLength={6}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
+             placeholder={language === "bn" ? "পাসওয়ার্ড" : "Password"}
             autoComplete={mode === "signin" ? "current-password" : "new-password"}
             className="w-full border-b-2 border-border bg-secondary/60 px-4 py-3 text-sm outline-none focus:border-primary"
           />
@@ -102,7 +104,7 @@ function AuthPage() {
             disabled={busy}
             className="btn-press w-full rounded-full bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground disabled:opacity-60"
           >
-            {busy ? "Please wait…" : mode === "signin" ? "Sign in" : "Sign up"}
+             {busy ? (language === "bn" ? "অপেক্ষা করুন…" : "Please wait…") : mode === "signin" ? (language === "bn" ? "সাইন ইন" : "Sign in") : (language === "bn" ? "সাইন আপ" : "Sign up")}
           </button>
         </form>
 
@@ -114,15 +116,15 @@ function AuthPage() {
           className="mt-4 w-full text-center text-xs text-muted-foreground hover:text-foreground"
         >
           {mode === "signin"
-            ? "First time? Create the account"
-            : "Already have an account? Sign in"}
+             ? (language === "bn" ? "প্রথমবার? অ্যাকাউন্ট তৈরি করুন" : "First time? Create the account")
+             : (language === "bn" ? "আগেই অ্যাকাউন্ট আছে? সাইন ইন করুন" : "Already have an account? Sign in")}
         </button>
 
         <Link
           to="/"
           className="mt-6 block text-center text-xs text-muted-foreground hover:text-foreground"
         >
-          ← Back to app
+           ← {language === "bn" ? "অ্যাপে ফিরুন" : "Back to app"}
         </Link>
       </div>
     </div>
