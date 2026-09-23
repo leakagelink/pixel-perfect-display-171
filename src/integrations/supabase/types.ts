@@ -17,11 +17,16 @@ export type Database = {
       articles: {
         Row: {
           bullets: string[]
+          bullets_bn: string[] | null
           category: string
+          category_bn: string | null
           coverage: Json
+          coverage_bn: Json | null
           created_at: string
           dek: string
+          dek_bn: string | null
           headline: string
+          headline_bn: string | null
           id: string
           image_url: string | null
           is_featured: boolean
@@ -31,16 +36,23 @@ export type Database = {
           slug: string
           sources: string[]
           timeline: Json
+          timeline_bn: Json | null
           updated_at: string
           why_it_matters: string
+          why_it_matters_bn: string | null
         }
         Insert: {
           bullets?: string[]
+          bullets_bn?: string[] | null
           category?: string
+          category_bn?: string | null
           coverage?: Json
+          coverage_bn?: Json | null
           created_at?: string
           dek?: string
+          dek_bn?: string | null
           headline: string
+          headline_bn?: string | null
           id?: string
           image_url?: string | null
           is_featured?: boolean
@@ -50,16 +62,23 @@ export type Database = {
           slug: string
           sources?: string[]
           timeline?: Json
+          timeline_bn?: Json | null
           updated_at?: string
           why_it_matters?: string
+          why_it_matters_bn?: string | null
         }
         Update: {
           bullets?: string[]
+          bullets_bn?: string[] | null
           category?: string
+          category_bn?: string | null
           coverage?: Json
+          coverage_bn?: Json | null
           created_at?: string
           dek?: string
+          dek_bn?: string | null
           headline?: string
+          headline_bn?: string | null
           id?: string
           image_url?: string | null
           is_featured?: boolean
@@ -69,8 +88,10 @@ export type Database = {
           slug?: string
           sources?: string[]
           timeline?: Json
+          timeline_bn?: Json | null
           updated_at?: string
           why_it_matters?: string
+          why_it_matters_bn?: string | null
         }
         Relationships: []
       }
@@ -81,6 +102,7 @@ export type Database = {
           is_active: boolean
           sort_order: number
           text: string
+          text_bn: string | null
         }
         Insert: {
           created_at?: string
@@ -88,6 +110,7 @@ export type Database = {
           is_active?: boolean
           sort_order?: number
           text: string
+          text_bn?: string | null
         }
         Update: {
           created_at?: string
@@ -95,30 +118,40 @@ export type Database = {
           is_active?: boolean
           sort_order?: number
           text?: string
+          text_bn?: string | null
         }
         Relationships: []
       }
       notifications: {
         Row: {
           body: string
+          body_bn: string | null
           created_at: string
           id: string
           kind: string
+          kind_bn: string | null
           title: string
+          title_bn: string | null
         }
         Insert: {
           body?: string
+          body_bn?: string | null
           created_at?: string
           id?: string
           kind?: string
+          kind_bn?: string | null
           title: string
+          title_bn?: string | null
         }
         Update: {
           body?: string
+          body_bn?: string | null
           created_at?: string
           id?: string
           kind?: string
+          kind_bn?: string | null
           title?: string
+          title_bn?: string | null
         }
         Relationships: []
       }
@@ -146,8 +179,10 @@ export type Database = {
       shorts: {
         Row: {
           category: string
+          category_bn: string | null
           created_at: string
           headline: string
+          headline_bn: string | null
           id: string
           image_url: string | null
           is_published: boolean
@@ -155,12 +190,15 @@ export type Database = {
           sort_order: number
           source: string | null
           summary: string
+          summary_bn: string | null
           updated_at: string
         }
         Insert: {
           category?: string
+          category_bn?: string | null
           created_at?: string
           headline: string
+          headline_bn?: string | null
           id?: string
           image_url?: string | null
           is_published?: boolean
@@ -168,12 +206,15 @@ export type Database = {
           sort_order?: number
           source?: string | null
           summary?: string
+          summary_bn?: string | null
           updated_at?: string
         }
         Update: {
           category?: string
+          category_bn?: string | null
           created_at?: string
           headline?: string
+          headline_bn?: string | null
           id?: string
           image_url?: string | null
           is_published?: boolean
@@ -181,6 +222,7 @@ export type Database = {
           sort_order?: number
           source?: string | null
           summary?: string
+          summary_bn?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -193,6 +235,7 @@ export type Database = {
           is_active: boolean
           sort_order: number
           tag: string
+          tag_bn: string | null
         }
         Insert: {
           count_label?: string
@@ -201,6 +244,7 @@ export type Database = {
           is_active?: boolean
           sort_order?: number
           tag: string
+          tag_bn?: string | null
         }
         Update: {
           count_label?: string
@@ -209,6 +253,7 @@ export type Database = {
           is_active?: boolean
           sort_order?: number
           tag?: string
+          tag_bn?: string | null
         }
         Relationships: []
       }
@@ -237,6 +282,7 @@ export type Database = {
         Row: {
           ai_brief: boolean
           category: string
+          category_bn: string | null
           created_at: string
           duration: string
           id: string
@@ -245,7 +291,9 @@ export type Database = {
           sort_order: number
           source: string | null
           status: string
+          status_bn: string | null
           title: string
+          title_bn: string | null
           updated_at: string
           video_url: string | null
           views: string
@@ -253,6 +301,7 @@ export type Database = {
         Insert: {
           ai_brief?: boolean
           category?: string
+          category_bn?: string | null
           created_at?: string
           duration?: string
           id?: string
@@ -261,7 +310,9 @@ export type Database = {
           sort_order?: number
           source?: string | null
           status?: string
+          status_bn?: string | null
           title: string
+          title_bn?: string | null
           updated_at?: string
           video_url?: string | null
           views?: string
@@ -269,6 +320,7 @@ export type Database = {
         Update: {
           ai_brief?: boolean
           category?: string
+          category_bn?: string | null
           created_at?: string
           duration?: string
           id?: string
@@ -277,7 +329,9 @@ export type Database = {
           sort_order?: number
           source?: string | null
           status?: string
+          status_bn?: string | null
           title?: string
+          title_bn?: string | null
           updated_at?: string
           video_url?: string | null
           views?: string
