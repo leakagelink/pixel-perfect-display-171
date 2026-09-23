@@ -17,13 +17,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "A personalized AI news feed: breaking headlines, 30-second summaries, multi-source coverage, shorts, and video briefings.",
+          "ব্যক্তিগত সংবাদ ফিড: জরুরি খবর, ৩০ সেকেন্ডের সারাংশ, একাধিক সূত্র, শর্টস ও ভিডিও ব্রিফিং।",
       },
-      { property: "og:title", content: "7AWAKE NEWS NETWORK DIGITAL — News that matters to you" },
+      { property: "og:title", content: "7AWAKE NEWS NETWORK DIGITAL — আপনার প্রয়োজনের খবর" },
       {
         property: "og:description",
         content:
-          "Personalized feed, AI summaries, multi-source story clusters, shorts and video news.",
+          "ব্যক্তিগত ফিড, এআই সারাংশ, একাধিক সূত্রের খবর, শর্টস ও ভিডিও সংবাদ।",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -156,7 +156,7 @@ function Index() {
         ))}
       </div>
 
-      <SectionHeader title="Ask 7AWAKE NEWS NETWORK DIGITAL" />
+      <SectionHeader title={language === "bn" ? "7AWAKE NEWS-কে জিজ্ঞাসা করুন" : "Ask 7AWAKE NEWS NETWORK DIGITAL"} />
       <div className="px-5 pt-3">
         <Link
           to="/ask"

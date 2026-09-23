@@ -7,15 +7,15 @@ import { useLanguage } from "@/lib/language";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Sign in — 7AWAKE NEWS NETWORK DIGITAL" },
+      { title: "সাইন ইন — 7AWAKE NEWS NETWORK DIGITAL" },
       {
         name: "description",
-        content: "Sign in to 7AWAKE NEWS NETWORK DIGITAL to manage content and your personalized feed.",
+        content: "খবর ও ব্যক্তিগত ফিড পরিচালনা করতে সাইন ইন করুন।",
       },
-      { property: "og:title", content: "Sign in — 7AWAKE NEWS NETWORK DIGITAL" },
+      { property: "og:title", content: "সাইন ইন — 7AWAKE NEWS NETWORK DIGITAL" },
       {
         property: "og:description",
-        content: "Sign in to 7AWAKE NEWS NETWORK DIGITAL to manage content and your personalized feed.",
+        content: "খবর ও ব্যক্তিগত ফিড পরিচালনা করতে সাইন ইন করুন।",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

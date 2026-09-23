@@ -2,8 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/app/AppShell";
 import { TopHeader } from "@/components/app/TopHeader";
 import { SectionHeader } from "@/components/app/SectionHeader";
-import { articles, followables } from "@/lib/news-data";
+import { followables } from "@/lib/news-data";
 import { useLanguage } from "@/lib/language";
+import { getHomeFeed } from "@/lib/content.functions";
 
 const interests = [
   "AI",
@@ -27,26 +28,33 @@ const settings = [
 export const Route = createFileRoute("/profile")({
   head: () => ({
     meta: [
-      { title: "Profile — 7AWAKE NEWS NETWORK DIGITAL" },
+      { title: "প্রোফাইল — 7AWAKE NEWS NETWORK DIGITAL" },
       {
         name: "description",
         content:
-          "Your interests, follows, saved stories, reading history and app preferences.",
+          "আপনার আগ্রহ, অনুসরণ, সংরক্ষিত খবর, পড়ার ইতিহাস এবং অ্যাপের পছন্দ।",
       },
-      { property: "og:title", content: "Profile — 7AWAKE NEWS NETWORK DIGITAL" },
+      { property: "og:title", content: "প্রোফাইল — 7AWAKE NEWS NETWORK DIGITAL" },
       {
         property: "og:description",
-        content: "Tune your interests, follows and reading preferences.",
+        content: "আগ্রহ, অনুসরণ এবং পড়ার পছন্দ ঠিক করুন।",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  loader: () => getHomeFeed(),
   component: Profile,
 });
 
 function Profile() {
   const { language, t } = useLanguage();
+  const { articles } = Route.useLoaderData();
+  const shownSettings = language === "bn" ? [
+    ["সংরক্ষিত খবর", "৩টি ফোল্ডার · ১২টি খবর"], ["পড়ার ইতিহাস", "এই সপ্তাহে ৪৮টি খবর"],
+    ["বিজ্ঞপ্তির পছন্দ", "জরুরি খবর, বাজার"], ["ভাষা", "বাংলা"], ["অবস্থান", "ভারত · পশ্চিমবঙ্গ"],
+    ["গোপনীয়তা", "ব্যক্তিগতকরণ চালু"], ["অ্যাকাউন্ট সেটিংস", "theo@newsai.app"],
+  ] : settings;
   return (
     <AppShell>
       <TopHeader subtitle={t("profile")} />
@@ -132,7 +140,7 @@ function Profile() {
 
       <SectionHeader title={language === "bn" ? "সেটিংস" : "Settings"} />
       <div className="divide-y divide-border px-5 pt-2">
-        {settings.map(([label, value]) => (
+        {shownSettings.map(([label, value]) => (
           <div
             key={label}
             className="flex items-center justify-between py-4"

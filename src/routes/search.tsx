@@ -5,32 +5,35 @@ import { AppShell } from "@/components/app/AppShell";
 import { TopHeader } from "@/components/app/TopHeader";
 import { SectionHeader } from "@/components/app/SectionHeader";
 import { ArticleCard } from "@/components/app/ArticleCard";
-import { articles, followables, trendingSearches } from "@/lib/news-data";
+import { followables, trendingSearches } from "@/lib/news-data";
+import { getHomeFeed } from "@/lib/content.functions";
 import { useLanguage } from "@/lib/language";
 
 export const Route = createFileRoute("/search")({
   head: () => ({
     meta: [
-      { title: "Search — 7AWAKE NEWS NETWORK DIGITAL" },
+      { title: "খুঁজুন — 7AWAKE NEWS NETWORK DIGITAL" },
       {
         name: "description",
         content:
-          "Search articles, topics, companies, people and locations, and follow what you care about.",
+          "খবর, বিষয়, প্রতিষ্ঠান, ব্যক্তি ও স্থান খুঁজুন এবং পছন্দের বিষয় অনুসরণ করুন।",
       },
-      { property: "og:title", content: "Search — 7AWAKE NEWS NETWORK DIGITAL" },
+      { property: "og:title", content: "খুঁজুন — 7AWAKE NEWS NETWORK DIGITAL" },
       {
         property: "og:description",
-        content: "Find stories and follow topics, companies, people and places.",
+        content: "খবর খুঁজুন এবং বিষয়, প্রতিষ্ঠান, ব্যক্তি ও স্থান অনুসরণ করুন।",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  loader: () => getHomeFeed(),
   component: SearchPage,
 });
 
 function SearchPage() {
   const { language, t } = useLanguage();
+  const { articles } = Route.useLoaderData();
   const [q, setQ] = useState("");
   const [following, setFollowing] = useState<string[]>(["Bitcoin"]);
 
@@ -39,11 +42,11 @@ function SearchPage() {
     const t = q.toLowerCase();
     return articles.filter(
       (a) =>
-        a.headline.toLowerCase().includes(t) ||
-        a.category.toLowerCase().includes(t) ||
-        a.dek.toLowerCase().includes(t),
+         a.headline.toLowerCase().includes(t) || a.bn?.headline?.toLowerCase().includes(t) ||
+         a.category.toLowerCase().includes(t) || a.bn?.category?.toLowerCase().includes(t) ||
+         a.dek.toLowerCase().includes(t) || a.bn?.dek?.toLowerCase().includes(t),
     );
-  }, [q]);
+  }, [q, articles]);
 
   return (
     <AppShell>
