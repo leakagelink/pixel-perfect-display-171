@@ -10,16 +10,16 @@ import { useLanguage } from "@/lib/language";
 export const Route = createFileRoute("/video")({
   head: () => ({
     meta: [
-      { title: "Video News — 7AWAKE NEWS NETWORK DIGITAL" },
+      { title: "ভিডিও নিউজ — 7AWAKE NEWS NETWORK DIGITAL" },
       {
         name: "description",
         content:
-          "Featured, trending and vertical video news briefings with clear source attribution.",
+          "সূত্রসহ নির্বাচিত, আলোচিত ও ভার্টিক্যাল ভিডিও নিউজ ব্রিফিং।",
       },
-      { property: "og:title", content: "Video News — 7AWAKE NEWS NETWORK DIGITAL" },
+      { property: "og:title", content: "ভিডিও নিউজ — 7AWAKE NEWS NETWORK DIGITAL" },
       {
         property: "og:description",
-        content: "Watch the day's stories as short video briefings.",
+        content: "সংক্ষিপ্ত ভিডিও ব্রিফিংয়ে দিনের খবর দেখুন।",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

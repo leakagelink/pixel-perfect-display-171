@@ -17,16 +17,16 @@ const categories = [
 export const Route = createFileRoute("/notifications")({
   head: () => ({
     meta: [
-      { title: "Notifications — 7AWAKE NEWS NETWORK DIGITAL" },
+      { title: "বিজ্ঞপ্তি — 7AWAKE NEWS NETWORK DIGITAL" },
       {
         name: "description",
         content:
-          "Your alert centre: breaking news, markets, crypto and local updates with per-topic controls.",
+          "জরুরি খবর, বাজার, ক্রিপ্টো ও স্থানীয় আপডেটের বিজ্ঞপ্তি কেন্দ্র।",
       },
-      { property: "og:title", content: "Notifications — 7AWAKE NEWS NETWORK DIGITAL" },
+      { property: "og:title", content: "বিজ্ঞপ্তি — 7AWAKE NEWS NETWORK DIGITAL" },
       {
         property: "og:description",
-        content: "Manage which stories are allowed to interrupt you.",
+        content: "কোন খবরের বিজ্ঞপ্তি পাবেন তা নিয়ন্ত্রণ করুন।",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

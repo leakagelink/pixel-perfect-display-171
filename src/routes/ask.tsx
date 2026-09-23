@@ -8,16 +8,16 @@ import { useLanguage } from "@/lib/language";
 export const Route = createFileRoute("/ask")({
   head: () => ({
     meta: [
-       { title: "Ask 7AWAKE NEWS NETWORK DIGITAL — AI Assistant" },
+       { title: "7AWAKE NEWS-কে জিজ্ঞাসা করুন — সংবাদ সহকারী" },
       {
         name: "description",
         content:
-          "Ask questions about today's news and get grounded answers from the stories in your feed.",
+          "আজকের খবর সম্পর্কে প্রশ্ন করুন এবং আপনার ফিডের সংবাদ থেকে উত্তর পান।",
       },
-      { property: "og:title", content: "Ask 7AWAKE NEWS NETWORK DIGITAL" },
+      { property: "og:title", content: "7AWAKE NEWS-কে জিজ্ঞাসা করুন" },
       {
         property: "og:description",
-        content: "A news assistant that answers from today's reporting.",
+        content: "আজকের প্রতিবেদন থেকে উত্তর দেওয়া সংবাদ সহকারী।",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

@@ -19,7 +19,7 @@ export const Route = createFileRoute("/")({
         content:
           "A personalized AI news feed: breaking headlines, 30-second summaries, multi-source coverage, shorts, and video briefings.",
       },
-      { property: "og:title", content: "7AWAKE NEWS NETWORK DIGITAL — News that matters to you" },
+      { property: "og:title", content: "7AWAKE NEWS NETWORK DIGITAL — আপনার প্রয়োজনের খবর" },
       {
         property: "og:description",
         content:

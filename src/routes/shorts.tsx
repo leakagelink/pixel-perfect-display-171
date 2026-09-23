@@ -8,16 +8,16 @@ import { useLanguage } from "@/lib/language";
 export const Route = createFileRoute("/shorts")({
   head: () => ({
     meta: [
-      { title: "News Shorts — 7AWAKE NEWS NETWORK DIGITAL" },
+      { title: "নিউজ শর্টস — 7AWAKE NEWS NETWORK DIGITAL" },
       {
         name: "description",
         content:
-          "One story per screen: a 60-word AI summary, the source, and a link to the full report.",
+          "প্রতি স্ক্রিনে একটি খবর: ৬০ শব্দের সারাংশ, সূত্র ও পূর্ণ প্রতিবেদনের লিংক।",
       },
-      { property: "og:title", content: "News Shorts — 7AWAKE NEWS NETWORK DIGITAL" },
+      { property: "og:title", content: "নিউজ শর্টস — 7AWAKE NEWS NETWORK DIGITAL" },
       {
         property: "og:description",
-        content: "Swipe through the day's stories, 60 words at a time.",
+        content: "৬০ শব্দে দিনের খবর দেখুন।",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

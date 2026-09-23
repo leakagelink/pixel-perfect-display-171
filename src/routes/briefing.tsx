@@ -3,32 +3,34 @@ import { ArrowLeft } from "lucide-react";
 import { AppShell } from "@/components/app/AppShell";
 import { ArticleCard } from "@/components/app/ArticleCard";
 import { SectionHeader } from "@/components/app/SectionHeader";
-import { articles } from "@/lib/news-data";
 import { useLanguage } from "@/lib/language";
+import { getHomeFeed } from "@/lib/content.functions";
 
 export const Route = createFileRoute("/briefing")({
   head: () => ({
     meta: [
-      { title: "Daily Briefing — 7AWAKE NEWS NETWORK DIGITAL" },
+      { title: "দৈনিক ব্রিফিং — 7AWAKE NEWS NETWORK DIGITAL" },
       {
         name: "description",
         content:
-          "Your personalized morning and evening briefing: the top stories, markets, AI, and what you missed.",
+          "সকাল ও সন্ধ্যার ব্যক্তিগত ব্রিফিং: প্রধান খবর, বাজার, এআই এবং চোখ এড়িয়ে যাওয়া সংবাদ।",
       },
-      { property: "og:title", content: "Daily Briefing — 7AWAKE NEWS NETWORK DIGITAL" },
+      { property: "og:title", content: "দৈনিক ব্রিফিং — 7AWAKE NEWS NETWORK DIGITAL" },
       {
         property: "og:description",
-        content: "Top stories, markets, AI and what you missed, in five minutes.",
+        content: "প্রধান খবর, বাজার ও এআই—পাঁচ মিনিটে।",
       },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  loader: () => getHomeFeed(),
   component: Briefing,
 });
 
 function Briefing() {
   const { language } = useLanguage();
+  const { articles } = Route.useLoaderData();
   return (
     <AppShell>
       <div className="flex items-center gap-3 px-5 pt-6">
