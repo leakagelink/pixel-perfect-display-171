@@ -22,18 +22,18 @@ export const Route = createFileRoute("/article/$articleId")({
   },
   head: ({ loaderData }) => ({
     meta: [
-      { title: `${loaderData?.article?.headline ?? "Story"} — 7AWAKE NEWS NETWORK DIGITAL` },
+      { title: `${loaderData?.article?.bn?.headline ?? loaderData?.article?.headline ?? "খবর"} — 7AWAKE NEWS NETWORK DIGITAL` },
       {
         name: "description",
         content:
-          loaderData?.article?.dek ??
-          "Read the full story with an AI summary, timeline and multi-source coverage.",
+          loaderData?.article?.bn?.dek ?? loaderData?.article?.dek ??
+          "এআই সারাংশ, সময়রেখা ও একাধিক সূত্রসহ পূর্ণ খবর পড়ুন।",
       },
       {
         property: "og:title",
-        content: `${loaderData?.article?.headline ?? "Story"} — 7AWAKE NEWS NETWORK DIGITAL`,
+        content: `${loaderData?.article?.bn?.headline ?? loaderData?.article?.headline ?? "খবর"} — 7AWAKE NEWS NETWORK DIGITAL`,
       },
-      { property: "og:description", content: loaderData?.article?.dek ?? "" },
+      { property: "og:description", content: loaderData?.article?.bn?.dek ?? loaderData?.article?.dek ?? "" },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

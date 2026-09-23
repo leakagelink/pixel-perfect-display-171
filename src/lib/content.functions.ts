@@ -64,7 +64,15 @@ export type FeedArticle = {
   whyItMatters: string;
   timeline: { time: string; event: string }[];
   coverage: { source: string; label: string; angle: string }[];
-  bn?: Partial<Omit<FeedArticle, "bn" | "publishedAtBn" | "image" | "sources">>;
+  bn?: {
+    category?: string | undefined;
+    headline?: string | undefined;
+    dek?: string | undefined;
+    bullets?: string[] | undefined;
+    whyItMatters?: string | undefined;
+    timeline?: { time: string; event: string }[] | undefined;
+    coverage?: { source: string; label: string; angle: string }[] | undefined;
+  };
 };
 
 type ArticleRow = Database["public"]["Tables"]["articles"]["Row"];

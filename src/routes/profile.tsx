@@ -50,6 +50,11 @@ export const Route = createFileRoute("/profile")({
 function Profile() {
   const { language, t } = useLanguage();
   const { articles } = Route.useLoaderData();
+  const shownSettings = language === "bn" ? [
+    ["সংরক্ষিত খবর", "৩টি ফোল্ডার · ১২টি খবর"], ["পড়ার ইতিহাস", "এই সপ্তাহে ৪৮টি খবর"],
+    ["বিজ্ঞপ্তির পছন্দ", "জরুরি খবর, বাজার"], ["ভাষা", "বাংলা"], ["অবস্থান", "ভারত · পশ্চিমবঙ্গ"],
+    ["গোপনীয়তা", "ব্যক্তিগতকরণ চালু"], ["অ্যাকাউন্ট সেটিংস", "theo@newsai.app"],
+  ] : settings;
   return (
     <AppShell>
       <TopHeader subtitle={t("profile")} />
@@ -135,7 +140,7 @@ function Profile() {
 
       <SectionHeader title={language === "bn" ? "সেটিংস" : "Settings"} />
       <div className="divide-y divide-border px-5 pt-2">
-        {settings.map(([label, value]) => (
+        {shownSettings.map(([label, value]) => (
           <div
             key={label}
             className="flex items-center justify-between py-4"
