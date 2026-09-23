@@ -6,15 +6,15 @@ import logoAsset from "@/assets/7-awake-news-logo.png.asset.json";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Sign in — 7 Awake News" },
+      { title: "Sign in — 7AWAKE NEWS NETWORK DIGITAL" },
       {
         name: "description",
-        content: "Sign in to 7 Awake News to manage content and your personalized feed.",
+        content: "Sign in to 7AWAKE NEWS NETWORK DIGITAL to manage content and your personalized feed.",
       },
-      { property: "og:title", content: "Sign in — 7 Awake News" },
+      { property: "og:title", content: "Sign in — 7AWAKE NEWS NETWORK DIGITAL" },
       {
         property: "og:description",
-        content: "Sign in to 7 Awake News to manage content and your personalized feed.",
+        content: "Sign in to 7AWAKE NEWS NETWORK DIGITAL to manage content and your personalized feed.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -60,13 +60,13 @@ function AuthPage() {
         <div className="flex items-center gap-2">
           <img
             src={logoAsset.url}
-            alt="7 Awake News Network Digital logo"
+            alt="7AWAKE NEWS NETWORK DIGITAL logo"
             width={48}
             height={48}
             className="size-12 object-contain"
           />
-          <p className="font-display text-lg tracking-tight">
-            7 Awake <span className="text-primary">News</span>
+          <p className="font-display text-sm leading-tight">
+            7AWAKE <span className="text-primary">NEWS</span><br />NETWORK DIGITAL
           </p>
         </div>
         <h1 className="mt-5 text-2xl tracking-tight">

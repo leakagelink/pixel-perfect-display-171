@@ -7,13 +7,13 @@ import { getShortsFeed } from "@/lib/content.functions";
 export const Route = createFileRoute("/shorts")({
   head: () => ({
     meta: [
-      { title: "News Shorts — 7 Awake News" },
+      { title: "News Shorts — 7AWAKE NEWS NETWORK DIGITAL" },
       {
         name: "description",
         content:
           "One story per screen: a 60-word AI summary, the source, and a link to the full report.",
       },
-      { property: "og:title", content: "News Shorts — 7 Awake News" },
+      { property: "og:title", content: "News Shorts — 7AWAKE NEWS NETWORK DIGITAL" },
       {
         property: "og:description",
         content: "Swipe through the day's stories, 60 words at a time.",

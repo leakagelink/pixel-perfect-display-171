@@ -8,13 +8,13 @@ import { articles } from "@/lib/news-data";
 export const Route = createFileRoute("/briefing")({
   head: () => ({
     meta: [
-      { title: "Daily Briefing — 7 Awake News" },
+      { title: "Daily Briefing — 7AWAKE NEWS NETWORK DIGITAL" },
       {
         name: "description",
         content:
           "Your personalized morning and evening briefing: the top stories, markets, AI, and what you missed.",
       },
-      { property: "og:title", content: "Daily Briefing — 7 Awake News" },
+      { property: "og:title", content: "Daily Briefing — 7AWAKE NEWS NETWORK DIGITAL" },
       {
         property: "og:description",
         content: "Top stories, markets, AI and what you missed, in five minutes.",

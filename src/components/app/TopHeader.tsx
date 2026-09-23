@@ -27,14 +27,14 @@ export function TopHeader({ subtitle = "Briefing" }: { subtitle?: string }) {
       <Link to="/" className="flex items-center justify-center gap-2">
         <img
           src={logoAsset.url}
-          alt="7 Awake News Network Digital logo"
+          alt="7AWAKE NEWS NETWORK DIGITAL logo"
           width={38}
           height={38}
           className="size-9 object-contain"
         />
         <div className="leading-none">
-          <p className="font-display text-sm uppercase text-ink">
-            7 Awake <span className="text-primary">News</span>
+          <p className="whitespace-nowrap font-display text-[10px] uppercase text-ink">
+            7AWAKE <span className="text-primary">NEWS</span> NETWORK DIGITAL
           </p>
           <p className="text-center text-[8px] font-semibold uppercase text-primary">
             {subtitle}

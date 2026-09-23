@@ -24,15 +24,15 @@ import {
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
     meta: [
-      { title: "Admin — 7 Awake News" },
+      { title: "Admin — 7AWAKE NEWS NETWORK DIGITAL" },
       {
         name: "description",
-        content: "Manage 7 Awake News articles, shorts, videos, breaking news and users.",
+        content: "Manage 7AWAKE NEWS NETWORK DIGITAL articles, shorts, videos, breaking news and users.",
       },
-      { property: "og:title", content: "Admin — 7 Awake News" },
+      { property: "og:title", content: "Admin — 7AWAKE NEWS NETWORK DIGITAL" },
       {
         property: "og:description",
-        content: "Manage 7 Awake News articles, shorts, videos, breaking news and users.",
+        content: "Manage 7AWAKE NEWS NETWORK DIGITAL articles, shorts, videos, breaking news and users.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -622,7 +622,7 @@ function Brand() {
     <div className="flex min-w-0 items-center gap-2">
       <img
         src={logoAsset.url}
-        alt="7 Awake News Network Digital logo"
+        alt="7AWAKE NEWS NETWORK DIGITAL logo"
         width={40}
         height={40}
         className="size-10 shrink-0 object-contain"
@@ -630,7 +630,7 @@ function Brand() {
       <div className="min-w-0 leading-none">
         <p className="truncate font-display text-base tracking-tight">Admin</p>
         <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-          7 Awake News control
+          7AWAKE NETWORK CONTROL
         </p>
       </div>
     </div>
