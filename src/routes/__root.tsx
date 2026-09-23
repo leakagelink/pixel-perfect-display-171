@@ -77,13 +77,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "7 Awake News — News that matters to you" },
+      { title: "7AWAKE NEWS NETWORK DIGITAL — News that matters to you" },
       {
         name: "description",
         content:
           "AI-powered personalized news: breaking headlines, 30-second summaries, shorts and video briefings.",
       },
-      { property: "og:title", content: "7 Awake News — News that matters to you" },
+      { property: "og:title", content: "7AWAKE NEWS NETWORK DIGITAL — News that matters to you" },
       {
         property: "og:description",
         content:

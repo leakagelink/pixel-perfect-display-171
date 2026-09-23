@@ -5,10 +5,10 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/_authenticated")({
   head: () => ({
     meta: [
-      { title: "Secure workspace — 7 Awake News" },
-      { name: "description", content: "Secure 7 Awake News management workspace." },
-      { property: "og:title", content: "Secure workspace — 7 Awake News" },
-      { property: "og:description", content: "Secure 7 Awake News management workspace." },
+      { title: "Secure workspace — 7AWAKE NEWS NETWORK DIGITAL" },
+      { name: "description", content: "Secure 7AWAKE NEWS NETWORK DIGITAL management workspace." },
+      { property: "og:title", content: "Secure workspace — 7AWAKE NEWS NETWORK DIGITAL" },
+      { property: "og:description", content: "Secure 7AWAKE NEWS NETWORK DIGITAL management workspace." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],

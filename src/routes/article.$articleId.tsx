@@ -21,7 +21,7 @@ export const Route = createFileRoute("/article/$articleId")({
   },
   head: ({ loaderData }) => ({
     meta: [
-      { title: `${loaderData?.article?.headline ?? "Story"} — 7 Awake News` },
+      { title: `${loaderData?.article?.headline ?? "Story"} — 7AWAKE NEWS NETWORK DIGITAL` },
       {
         name: "description",
         content:
@@ -30,7 +30,7 @@ export const Route = createFileRoute("/article/$articleId")({
       },
       {
         property: "og:title",
-        content: `${loaderData?.article?.headline ?? "Story"} — 7 Awake News`,
+        content: `${loaderData?.article?.headline ?? "Story"} — 7AWAKE NEWS NETWORK DIGITAL`,
       },
       { property: "og:description", content: loaderData?.article?.dek ?? "" },
       { property: "og:type", content: "article" },

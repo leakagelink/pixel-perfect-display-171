@@ -65,7 +65,7 @@ export function SplashScreen() {
           />
         </div>
 
-        <h1 className="splash-title mt-7 font-display text-3xl tracking-tight">7 Awake News</h1>
+        <h1 className="splash-title mt-7 max-w-xs font-display text-xl leading-tight">7AWAKE NEWS NETWORK DIGITAL</h1>
         <p className="splash-tagline mt-2 text-sm text-muted-foreground">
           News that matters to you.
         </p>
