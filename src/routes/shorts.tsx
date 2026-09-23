@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Bookmark, ChevronLeft, ChevronRight, Share2 } from "lucide-react";
 import { AppShell } from "@/components/app/AppShell";
 import { getShortsFeed } from "@/lib/content.functions";
+import { useLanguage } from "@/lib/language";
 
 export const Route = createFileRoute("/shorts")({
   head: () => ({
@@ -27,6 +28,7 @@ export const Route = createFileRoute("/shorts")({
 });
 
 function Shorts() {
+  const { language, t } = useLanguage();
   const shorts = Route.useLoaderData();
   const [i, setI] = useState(0);
   const [saved, setSaved] = useState<string[]>([]);
@@ -37,7 +39,7 @@ function Shorts() {
     return (
       <AppShell>
         <p className="px-5 pt-20 text-sm text-muted-foreground">
-          No shorts published yet.
+          {t("noShorts")}
         </p>
       </AppShell>
     );
@@ -48,7 +50,7 @@ function Shorts() {
       <div className="relative h-[calc(100svh-6rem)] overflow-hidden">
         <img
           src={s.image}
-          alt={s.headline}
+          alt={language === "bn" ? s.headlineBn : s.headline}
           className="absolute inset-0 size-full object-cover"
           decoding="async"
           fetchPriority="high"
@@ -61,19 +63,19 @@ function Shorts() {
               ⚡ Shorts · {i + 1}/{shorts.length}
             </span>
             <span className="text-[11px] text-primary-foreground/70">
-              {s.publishedAt}
+              {language === "bn" ? s.publishedAtBn : s.publishedAt}
             </span>
           </div>
 
           <div className="rise-in">
             <p className="text-[11px] font-semibold uppercase text-primary">
-              {s.category}
+              {language === "bn" ? s.categoryBn : s.category}
             </p>
             <h1 className="mt-2 text-3xl leading-[1.02] text-primary-foreground text-balance">
-              {s.headline}
+              {language === "bn" ? s.headlineBn : s.headline}
             </h1>
             <p className="mt-3 text-sm leading-relaxed text-primary-foreground/80 text-pretty">
-              {s.summary}
+              {language === "bn" ? s.summaryBn : s.summary}
             </p>
             <p className="mt-3 text-[11px] text-primary-foreground/55">{s.source}</p>
 
@@ -82,7 +84,7 @@ function Shorts() {
                 onClick={() => setI((v) => Math.max(0, v - 1))}
                 className="btn-press grid size-11 place-items-center rounded-full bg-secondary ring-1 ring-border disabled:opacity-40"
                 disabled={i === 0}
-                aria-label="Previous short"
+                aria-label={t("previous")}
               >
                 <ChevronLeft className="size-4" />
               </button>
@@ -90,7 +92,7 @@ function Shorts() {
                 onClick={() => setI((v) => Math.min(shorts.length - 1, v + 1))}
                 className="btn-press grid size-11 place-items-center rounded-full bg-secondary ring-1 ring-border disabled:opacity-40"
                 disabled={i === shorts.length - 1}
-                aria-label="Next short"
+                aria-label={t("next")}
               >
                 <ChevronRight className="size-4" />
               </button>
@@ -105,13 +107,13 @@ function Shorts() {
                     ? "bg-primary text-primary-foreground ring-primary"
                     : "bg-background/15 text-primary-foreground ring-background/30 backdrop-blur"
                 }`}
-                aria-label="Save short"
+                aria-label={t("save")}
               >
                 <Bookmark className="size-4" />
               </button>
               <button
                  className="btn-press grid size-11 place-items-center rounded-full bg-background/15 text-primary-foreground ring-1 ring-background/30 backdrop-blur"
-                aria-label="Share short"
+                aria-label={t("share")}
               >
                 <Share2 className="size-4" />
               </button>
@@ -119,7 +121,7 @@ function Shorts() {
                 to="/"
                  className="btn-press ml-auto rounded-full bg-primary px-4 py-3 text-xs font-semibold text-primary-foreground"
               >
-                Full feed
+                {t("fullFeed")}
               </Link>
             </div>
           </div>

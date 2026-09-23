@@ -6,13 +6,14 @@ import { TopHeader } from "@/components/app/TopHeader";
 import { BreakingTicker } from "@/components/app/BreakingTicker";
 import { ArticleCard } from "@/components/app/ArticleCard";
 import { SectionHeader } from "@/components/app/SectionHeader";
-import { categories } from "@/lib/news-data";
+import { categories, categoriesBn } from "@/lib/news-data";
 import { getHomeFeed } from "@/lib/content.functions";
+import { localizeArticle, useLanguage } from "@/lib/language";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "7AWAKE NEWS NETWORK DIGITAL — News that matters to you" },
+      { title: "7AWAKE NEWS NETWORK DIGITAL — আপনার প্রয়োজনের খবর" },
       {
         name: "description",
         content:
@@ -34,6 +35,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const { articles: allArticles, breaking, trending } = Route.useLoaderData();
+  const { language, t } = useLanguage();
   const [active, setActive] = useState("For You");
   const articles =
     active === "For You" || active === "Latest"
@@ -58,11 +60,11 @@ function Index() {
                 : "bg-secondary text-muted-foreground ring-border hover:text-foreground"
             }`}
           >
-            {c}
+            {language === "bn" ? categoriesBn[c] : c}
           </button>
         ))}
       </div>
-      <BreakingTicker headlines={breaking} />
+      <BreakingTicker headlines={breaking.map((item) => item[language])} />
 
       {articles[0] && (
         <Link
@@ -72,23 +74,23 @@ function Index() {
         >
           <img
             src={articles[0].image}
-            alt={articles[0].headline}
+            alt={localizeArticle(articles[0], language).headline}
             fetchPriority="high"
             decoding="async"
             className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.025]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
           <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 bg-primary px-2.5 py-1 text-[9px] font-bold uppercase text-primary-foreground">
-            <span className="size-1.5 animate-pulse rounded-full bg-primary-foreground" /> Live update
+            <span className="size-1.5 animate-pulse rounded-full bg-primary-foreground" /> {language === "bn" ? "লাইভ আপডেট" : "Live update"}
           </span>
           <span className="absolute right-4 top-4 grid size-9 place-items-center rounded-full bg-background/20 text-primary-foreground backdrop-blur-md ring-1 ring-background/40">
             <Play className="size-4 fill-current" />
           </span>
           <div className="absolute inset-x-4 bottom-4">
-            <p className="text-[10px] font-semibold uppercase text-primary-foreground/70">{articles[0].category}</p>
-            <h1 className="mt-1 text-xl leading-tight text-primary-foreground text-balance">{articles[0].headline}</h1>
+            <p className="text-[10px] font-semibold uppercase text-primary-foreground/70">{localizeArticle(articles[0], language).category}</p>
+            <h1 className="mt-1 text-xl leading-tight text-primary-foreground text-balance">{localizeArticle(articles[0], language).headline}</h1>
             <p className="mt-2 flex items-center gap-1.5 text-[10px] text-primary-foreground/65">
-              <Clock className="size-3" /> {articles[0].publishedAt} · {articles[0].readingTime} read
+              <Clock className="size-3" /> {localizeArticle(articles[0], language).publishedAt} · {localizeArticle(articles[0], language).readingTime} {t("reading")}
             </p>
           </div>
         </Link>
@@ -100,13 +102,13 @@ function Index() {
         <span className="size-1 rounded-full bg-border" />
       </div>
 
-      <SectionHeader title="Featured" meta="View all" />
+      <SectionHeader title={t("featured")} meta={t("viewAll")} />
       <div className="stagger-in mt-4 flex gap-3 overflow-x-auto px-5 pb-2 no-scrollbar">
         {articles.slice(1, 4).map((article) => (
           <Link key={article.id} to="/article/$articleId" params={{ articleId: article.id }} className="group w-40 shrink-0">
-            <img src={article.image} alt={article.headline} loading="lazy" decoding="async" className="aspect-[4/3] w-full rounded-xl object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
-            <p className="mt-2 text-[9px] font-semibold uppercase text-primary">{article.category}</p>
-            <h2 className="mt-1 line-clamp-2 text-sm font-bold leading-snug">{article.headline}</h2>
+            <img src={article.image} alt={localizeArticle(article, language).headline} loading="lazy" decoding="async" className="aspect-[4/3] w-full rounded-xl object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
+            <p className="mt-2 text-[9px] font-semibold uppercase text-primary">{localizeArticle(article, language).category}</p>
+            <h2 className="mt-1 line-clamp-2 text-sm font-bold leading-snug">{localizeArticle(article, language).headline}</h2>
           </Link>
         ))}
       </div>
@@ -114,18 +116,18 @@ function Index() {
       <div className="mt-6 border-y border-border bg-secondary/50 px-5 py-4">
         <Link to="/briefing" className="btn-press flex items-center justify-between">
           <div>
-            <p className="text-[10px] font-semibold uppercase text-primary">Daily briefing · 6 min</p>
-            <h2 className="mt-0.5 text-base">The essential stories, distilled</h2>
+            <p className="text-[10px] font-semibold uppercase text-primary">{t("dailyBriefing")}</p>
+            <h2 className="mt-0.5 text-base">{t("essentialStories")}</h2>
           </div>
           <span className="grid size-9 place-items-center rounded-full bg-primary text-primary-foreground">→</span>
         </Link>
       </div>
 
-      <SectionHeader title="Latest stories" meta={`${articles.length}`} />
+      <SectionHeader title={t("latestStories")} meta={`${articles.length}`} />
       <div className="stagger-in px-5 pt-1">
         {articles.length === 0 && (
           <p className="text-sm text-muted-foreground">
-            No stories in this category yet.
+            {t("noStories")}
           </p>
         )}
         {articles.slice(4).map((a, i) => (
@@ -134,7 +136,7 @@ function Index() {
       </div>
 
 
-      <SectionHeader title="Trending now" meta="Live" />
+      <SectionHeader title={t("trendingNow")} meta={t("live")} />
       <div className="stagger-in mt-3 flex gap-3 overflow-x-auto px-5 pb-1 no-scrollbar">
         {trending.map((t, i) => (
           <Link
@@ -147,7 +149,7 @@ function Index() {
             }`}
           >
             <p className="text-[11px] uppercase tracking-wide text-foreground/70">
-              {t.tag}
+              {language === "bn" ? t.tagBn : t.tag}
             </p>
             <p className="mt-0.5 text-xs text-muted-foreground">{t.count}</p>
           </Link>
@@ -161,9 +163,9 @@ function Index() {
           className="group flex items-center justify-between border-y border-border py-5"
         >
           <div>
-            <p className="text-sm font-semibold">Ask about today's news</p>
+            <p className="text-sm font-semibold">{t("askNews")}</p>
             <p className="mt-1 text-xs text-muted-foreground">
-              "Why is the grid under strain?"
+              “{t("askExample")}”
             </p>
           </div>
           <span className="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-sm text-primary-foreground transition-transform duration-200 group-hover:translate-x-0.5">

@@ -36,6 +36,12 @@ export const categories = [
   "Science",
 ];
 
+export const categoriesBn: Record<string, string> = {
+  "For You": "আপনার জন্য", Latest: "সর্বশেষ", India: "ভারত", World: "বিশ্ব", Business: "ব্যবসা",
+  Markets: "বাজার", Technology: "প্রযুক্তি", AI: "এআই", Crypto: "ক্রিপ্টো", Sports: "খেলা",
+  Entertainment: "বিনোদন", Health: "স্বাস্থ্য", Science: "বিজ্ঞান",
+};
+
 export const breaking = [
   "Valerion hits $142 in late-session rally",
   "Mira OS ships 3.1 to all devices",
@@ -239,4 +245,11 @@ export const suggestedQuestions = [
   "Why are inference costs falling?",
   "Summarize today's AI updates",
   "What should I watch tomorrow?",
+];
+
+export const suggestedQuestionsBn = [
+  "আজ বাজারে কী ঘটেছে?",
+  "ইনফারেন্স খরচ কেন কমছে?",
+  "আজকের এআই খবর সংক্ষেপে বলুন",
+  "আগামীকাল কোন বিষয়ে নজর রাখব?",
 ];

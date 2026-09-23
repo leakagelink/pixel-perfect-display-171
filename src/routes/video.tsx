@@ -5,6 +5,7 @@ import { AppShell } from "@/components/app/AppShell";
 import { TopHeader } from "@/components/app/TopHeader";
 import { SectionHeader } from "@/components/app/SectionHeader";
 import { getVideosFeed } from "@/lib/content.functions";
+import { useLanguage } from "@/lib/language";
 
 export const Route = createFileRoute("/video")({
   head: () => ({
@@ -29,6 +30,7 @@ export const Route = createFileRoute("/video")({
 });
 
 function VideoPage() {
+  const { language, t } = useLanguage();
   const videos = Route.useLoaderData();
   const [mode, setMode] = useState<"feed" | "vertical">("feed");
   const featured = videos[0];
@@ -36,9 +38,9 @@ function VideoPage() {
   if (!featured) {
     return (
       <AppShell>
-        <TopHeader subtitle="Video" />
+        <TopHeader subtitle={t("video")} />
         <p className="px-5 pt-10 text-sm text-muted-foreground">
-          No videos published yet.
+          {t("noVideos")}
         </p>
       </AppShell>
     );
@@ -46,7 +48,7 @@ function VideoPage() {
 
   return (
     <AppShell>
-      <TopHeader subtitle="Video" />
+      <TopHeader subtitle={t("video")} />
 
       <div className="mt-5 flex gap-2 px-5">
         {(["feed", "vertical"] as const).map((m) => (
@@ -59,7 +61,7 @@ function VideoPage() {
                 : "bg-secondary text-muted-foreground ring-border"
             }`}
           >
-            {m === "feed" ? "Video feed" : "Vertical"}
+            {m === "feed" ? t("videoFeed") : t("vertical")}
           </button>
         ))}
       </div>
@@ -71,7 +73,7 @@ function VideoPage() {
               <div className="relative">
                 <img
                   src={featured.image}
-                  alt={featured.title}
+                  alt={language === "bn" ? featured.titleBn : featured.title}
                   loading="lazy"
             decoding="async"
                   className="aspect-video w-full object-cover"
@@ -80,24 +82,24 @@ function VideoPage() {
                   {featured.duration}
                 </span>
                 <span className="absolute left-3 top-3 bg-primary px-2.5 py-1 text-[10px] font-semibold uppercase text-primary-foreground">
-                  Featured
+                  {t("featuredLabel")}
                 </span>
               </div>
               <div className="p-5">
                 <p className="text-[11px] font-semibold uppercase text-primary">
-                  {featured.category}
+                  {language === "bn" ? featured.categoryBn : featured.category}
                 </p>
                 <h1 className="mt-1 text-xl leading-snug tracking-tight text-balance">
-                  {featured.title}
+                  {language === "bn" ? featured.titleBn : featured.title}
                 </h1>
                 <p className="mt-2 text-[11px] text-muted-foreground">
-                  {featured.source} · {featured.views} views
+                  {featured.source} · {featured.views} {t("views")}
                 </p>
               </div>
             </div>
           </div>
 
-          <SectionHeader title="Latest video" meta={`${videos.length - 1}`} />
+          <SectionHeader title={t("latestVideo")} meta={`${videos.length - 1}`} />
            <div className="grid grid-cols-2 gap-x-3 gap-y-5 px-5 pt-4">
             {videos.slice(1).map((v) => (
               <div
@@ -107,7 +109,7 @@ function VideoPage() {
                 <div className="relative">
                   <img
                     src={v.image}
-                    alt={v.title}
+                    alt={language === "bn" ? v.titleBn : v.title}
                     loading="lazy"
             decoding="async"
                     className="aspect-[4/3] w-full object-cover"
@@ -119,11 +121,11 @@ function VideoPage() {
                 <div className="p-3">
                   {v.aiBrief && (
                     <span className="bg-primary/10 px-2 py-0.5 text-[9px] font-semibold uppercase text-primary">
-                      🤖 AI Brief · {v.status}
+                      🤖 {t("aiBrief")} · {language === "bn" ? v.statusBn : v.status}
                     </span>
                   )}
                   <p className="mt-1.5 text-xs font-medium leading-snug">
-                    {v.title}
+                    {language === "bn" ? v.titleBn : v.title}
                   </p>
                   <p className="mt-1 text-[10px] text-muted-foreground">
                     {v.source} · {v.views}
@@ -142,7 +144,7 @@ function VideoPage() {
             >
               <img
                 src={v.image}
-                alt={v.title}
+                alt={language === "bn" ? v.titleBn : v.title}
                 loading="lazy"
             decoding="async"
                 className="absolute inset-0 size-full object-cover"
@@ -154,10 +156,10 @@ function VideoPage() {
                     <Play className="size-5" />
                   </span>
                    <p className="mt-4 text-[11px] font-semibold uppercase text-primary">
-                    {v.category}
+                     {language === "bn" ? v.categoryBn : v.category}
                   </p>
                    <h2 className="mt-1 text-2xl leading-tight text-primary-foreground text-balance">
-                    {v.title}
+                     {language === "bn" ? v.titleBn : v.title}
                   </h2>
                    <p className="mt-2 text-xs text-primary-foreground/60">
                     {v.source} · {v.duration}
