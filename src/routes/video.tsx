@@ -5,6 +5,7 @@ import { AppShell } from "@/components/app/AppShell";
 import { TopHeader } from "@/components/app/TopHeader";
 import { SectionHeader } from "@/components/app/SectionHeader";
 import { getVideosFeed } from "@/lib/content.functions";
+import { getEmbedUrl } from "@/lib/video-embed";
 import { useLanguage } from "@/lib/language";
 
 export const Route = createFileRoute("/video")({
@@ -33,7 +34,9 @@ function VideoPage() {
   const { language, t } = useLanguage();
   const videos = Route.useLoaderData();
   const [mode, setMode] = useState<"feed" | "vertical">("feed");
-  const featured = videos[0];
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const featured = videos.find((v) => v.id === selectedId) ?? videos[0];
+  const featuredEmbed = getEmbedUrl(featured?.videoUrl);
 
   if (!featured) {
     return (
