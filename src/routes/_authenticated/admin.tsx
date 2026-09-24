@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { normalizeImageUrl } from "@/lib/content.functions";
 import logoAsset from "@/assets/7-awake-news-logo.png.asset.json";
 import {
   LogOut,

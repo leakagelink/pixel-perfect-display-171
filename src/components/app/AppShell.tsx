@@ -1,8 +1,10 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+import { useEffect } from "react";
 import { Home, Layers, Play, Search, User } from "lucide-react";
 import { SplashScreen } from "@/components/app/SplashScreen";
 import { useLanguage } from "@/lib/language";
+import fallbackImage from "@/assets/news-datacenter.jpg";
 
 const nav = [
   { to: "/", key: "home", icon: Home },
@@ -15,6 +17,34 @@ const nav = [
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { t } = useLanguage();
+
+  // If any image fails to load (e.g. a non-public Google Drive link),
+  // swap in a default news image instead of showing a broken tile.
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const img = e.target as HTMLImageElement;
+      if (img.tagName === "IMG" && !img.dataset["fallbackApplied"]) {
+        img.dataset["fallbackApplied"] = "1";
+        img.src = fallbackImage;
+      }
+    };
+    document.addEventListener("error", handler, true);
+    // Catch images that already failed before hydration.
+    const swapBroken = () => {
+      document.querySelectorAll("img").forEach((img) => {
+        if (img.complete && img.naturalWidth === 0 && !img.dataset["fallbackApplied"]) {
+          img.dataset["fallbackApplied"] = "1";
+          img.src = fallbackImage;
+        }
+      });
+    };
+    swapBroken();
+    const timer = window.setTimeout(swapBroken, 1500);
+    return () => {
+      document.removeEventListener("error", handler, true);
+      window.clearTimeout(timer);
+    };
+  }, []);
 
   return (
     <div className="mx-auto min-h-screen w-full max-w-[480px] bg-background pb-24 text-foreground shadow-[0_0_50px_-28px_color-mix(in_oklab,var(--ink)_35%,transparent)]">
