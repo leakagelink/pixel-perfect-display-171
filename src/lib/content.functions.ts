@@ -106,7 +106,7 @@ function mapArticle(row: ArticleRow, i: number): FeedArticle {
 
 export const getHomeFeed = createServerFn({ method: "GET" }).handler(async () => {
   const sb = publicClient();
-  const [articlesRes, breakingRes, trendingRes] = await Promise.all([
+  const [articlesRes, breakingRes, trendingRes, videosRes] = await Promise.all([
     sb
       .from("articles")
       .select("*")
@@ -123,7 +123,15 @@ export const getHomeFeed = createServerFn({ method: "GET" }).handler(async () =>
       .select("tag,tag_bn,count_label")
       .eq("is_active", true)
       .order("sort_order"),
+    sb
+      .from("videos")
+      .select("*")
+      .eq("is_published", true)
+      .order("sort_order"),
   ]);
+
+  const videoRows = videosRes.data ?? [];
+  const liveRow = videoRows.find((v) => v.video_url) ?? videoRows[0];
 
   return {
     articles: (articlesRes.data ?? []).map(mapArticle),
