@@ -8,6 +8,13 @@
       "when": 1790137230884,
       "tag": "0000_add_bengali_content_fields",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790231087367,
+      "tag": "0001_news_media_policies",
+      "breakpoints": true
     }
   ]
 }
