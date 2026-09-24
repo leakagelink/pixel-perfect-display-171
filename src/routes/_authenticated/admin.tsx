@@ -926,6 +926,8 @@ function RecordForm({
         payload[f.name] = (Array.isArray(v) ? (v as ObjRow[]) : []).filter((r) =>
           Object.values(r).some((x) => String(x).trim()),
         );
+      else if (f.name === "image_url")
+        payload[f.name] = normalizeImageUrl(String(v ?? "").trim());
       else payload[f.name] = String(v ?? "").trim();
       const nullable =
         f.name.endsWith("_bn") || ["image_url", "video_url", "source"].includes(f.name);

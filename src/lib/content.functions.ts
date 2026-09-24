@@ -8,8 +8,19 @@ import grid from "@/assets/news-grid.jpg";
 
 const fallbacks = [datacenter, grid, chips, markets];
 
+/** Convert Google Drive share links to direct image URLs so <img> can render them. */
+export function normalizeImageUrl(url: string): string {
+  const driveFile = url.match(/drive\.google\.com\/file\/d\/([\w-]+)/);
+  if (driveFile) return `https://drive.google.com/thumbnail?id=${driveFile[1]}&sz=w1200`;
+  const driveId = url.match(/[?&]id=([\w-]+)/);
+  if (driveId && url.includes("drive.google.com")) {
+    return `https://drive.google.com/thumbnail?id=${driveId[1]}&sz=w1200`;
+  }
+  return url;
+}
+
 export function pickImage(url: string | null | undefined, index = 0): string {
-  if (url && url.trim().length > 0) return url;
+  if (url && url.trim().length > 0) return normalizeImageUrl(url.trim());
   return fallbacks[index % fallbacks.length]!;
 }
 
