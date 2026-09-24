@@ -5,6 +5,7 @@ import { AppShell } from "@/components/app/AppShell";
 import { TopHeader } from "@/components/app/TopHeader";
 import { SectionHeader } from "@/components/app/SectionHeader";
 import { getVideosFeed } from "@/lib/content.functions";
+import { getEmbedUrl } from "@/lib/video-embed";
 import { useLanguage } from "@/lib/language";
 
 export const Route = createFileRoute("/video")({
@@ -33,7 +34,9 @@ function VideoPage() {
   const { language, t } = useLanguage();
   const videos = Route.useLoaderData();
   const [mode, setMode] = useState<"feed" | "vertical">("feed");
-  const featured = videos[0];
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const featured = videos.find((v) => v.id === selectedId) ?? videos[0];
+  const featuredEmbed = getEmbedUrl(featured?.videoUrl);
 
   if (!featured) {
     return (
@@ -71,13 +74,23 @@ function VideoPage() {
           <div className="px-5 pt-5">
             <div className="overflow-hidden rounded-2xl bg-card shadow-[0_18px_40px_-26px_color-mix(in_oklab,var(--ink)_60%,transparent)] ring-1 ring-border">
               <div className="relative">
-                <img
-                  src={featured.image}
-                  alt={language === "bn" ? featured.titleBn : featured.title}
-                  loading="lazy"
+                {featuredEmbed ? (
+                  <iframe
+                    src={featuredEmbed}
+                    title={language === "bn" ? featured.titleBn : featured.title}
+                    className="aspect-video w-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                ) : (
+                  <img
+                    src={featured.image}
+                    alt={language === "bn" ? featured.titleBn : featured.title}
+                    loading="lazy"
             decoding="async"
-                  className="aspect-video w-full object-cover"
-                />
+                    className="aspect-video w-full object-cover"
+                  />
+                )}
                 <span className="absolute bottom-3 right-3 rounded-full bg-background/80 px-2 py-1 text-[10px]">
                   {featured.duration}
                 </span>
@@ -102,9 +115,15 @@ function VideoPage() {
           <SectionHeader title={t("latestVideo")} meta={`${videos.length - 1}`} />
            <div className="grid grid-cols-2 gap-x-3 gap-y-5 px-5 pt-4">
             {videos.slice(1).map((v) => (
-              <div
+              <button
                 key={v.id}
-                 className="btn-press overflow-hidden border-b border-border pb-3"
+                type="button"
+                onClick={() => {
+                  setSelectedId(v.id);
+                  setMode("feed");
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                 className="btn-press overflow-hidden border-b border-border pb-3 text-left"
               >
                 <div className="relative">
                   <img
@@ -131,7 +150,7 @@ function VideoPage() {
                     {v.source} · {v.views}
                   </p>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </>

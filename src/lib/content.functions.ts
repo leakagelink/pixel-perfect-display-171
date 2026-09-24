@@ -201,6 +201,7 @@ export const getVideosFeed = createServerFn({ method: "GET" }).handler(async () 
     source: v.source ?? "7AWAKE NEWS NETWORK DIGITAL",
     views: v.views,
     image: pickImage(v.image_url, i),
+    videoUrl: v.video_url ?? null,
     aiBrief: v.ai_brief,
     status: v.status,
     statusBn: v.status_bn ?? v.status,
