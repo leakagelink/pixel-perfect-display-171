@@ -41,7 +41,7 @@ export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminPage,
 });
 
-type FieldType = "text" | "textarea" | "number" | "bool" | "list";
+type FieldType = "text" | "textarea" | "number" | "bool" | "list" | "image";
 type Field = {
   name: string;
   label: string;
@@ -77,7 +77,7 @@ const collections: Collection[] = [
       { name: "category_bn", label: "Category (Bengali)", type: "text" },
       { name: "dek", label: "Short intro", type: "textarea", wide: true },
       { name: "dek_bn", label: "Short intro (Bengali)", type: "textarea", wide: true },
-      { name: "image_url", label: "Image URL", type: "text", wide: true },
+      { name: "image_url", label: "Image", type: "image", wide: true },
       { name: "sources", label: "Sources (one per line)", type: "list" },
       { name: "bullets", label: "Key points (one per line)", type: "list" },
       { name: "bullets_bn", label: "Key points (Bengali, one per line)", type: "list" },
@@ -104,7 +104,7 @@ const collections: Collection[] = [
       { name: "category", label: "Category", type: "text" },
       { name: "category_bn", label: "Category (Bengali)", type: "text" },
       { name: "source", label: "Source", type: "text" },
-      { name: "image_url", label: "Image URL", type: "text", wide: true },
+      { name: "image_url", label: "Image", type: "image", wide: true },
       { name: "sort_order", label: "Order", type: "number" },
       { name: "is_published", label: "Published", type: "bool" },
     ],
@@ -125,7 +125,7 @@ const collections: Collection[] = [
       { name: "duration", label: "Duration", type: "text" },
       { name: "source", label: "Source", type: "text" },
       { name: "views", label: "Views label", type: "text" },
-      { name: "image_url", label: "Thumbnail URL", type: "text", wide: true },
+      { name: "image_url", label: "Thumbnail image", type: "image", wide: true },
       { name: "video_url", label: "Video URL", type: "text", wide: true },
       { name: "status", label: "Status", type: "text" },
       { name: "status_bn", label: "Status (Bengali)", type: "text" },
@@ -289,6 +289,13 @@ function AdminPage() {
 
   async function save(values: Row, id?: string) {
     setError(null);
+    if (!id && collection.table === "articles" && values["slug"]) {
+      values["slug"] = String(values["slug"])
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9\u0980-\u09ff]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    }
     const table = collection.table as "articles";
     const res = id
       ? await supabase.from(table).update(values as never).eq("id", id)
@@ -696,16 +703,47 @@ function RecordForm({
 }: {
   collection: Collection;
   initial: Row | null;
-  onSave: (values: Row) => void;
+  onSave: (values: Row) => void | Promise<void>;
   onCancel: () => void;
 }) {
   const [values, setValues] = useState<Record<string, string | boolean>>({});
+  const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState<string | null>(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
+  async function uploadImage(field: string, file: File) {
+    setUploadError(null);
+    if (!file.type.startsWith("image/")) return setUploadError("Please choose an image file.");
+    if (file.size > 10 * 1024 * 1024) return setUploadError("Image must be under 10 MB.");
+    setUploading(field);
+    try {
+      const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+      const path = `${collection.table}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+      const up = await supabase.storage.from("news-media").upload(path, file, {
+        contentType: file.type,
+        upsert: false,
+      });
+      if (up.error) throw up.error;
+      const signed = await supabase.storage
+        .from("news-media")
+        .createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
+      if (signed.error || !signed.data) throw signed.error ?? new Error("Upload failed");
+      setValues((v) => ({ ...v, [field]: signed.data.signedUrl }));
+    } catch (err) {
+      setUploadError(err instanceof Error ? err.message : "Upload failed");
+    } finally {
+      setUploading(null);
+    }
+  }
 
   useEffect(() => {
     const next: Record<string, string | boolean> = {};
     for (const f of collection.fields) {
       const raw = initial?.[f.name];
-      if (f.type === "bool") next[f.name] = Boolean(raw ?? true);
+      if (f.type === "bool")
+        next[f.name] = Boolean(
+          raw ?? !(f.name === "is_featured" || f.name === "ai_brief"),
+        );
       else if (f.type === "list")
         next[f.name] = Array.isArray(raw) ? (raw as string[]).join("\n") : "";
       else next[f.name] = raw === null || raw === undefined ? "" : String(raw);
@@ -733,9 +771,15 @@ function RecordForm({
           .split("\n")
           .map((s) => s.trim())
           .filter(Boolean);
-      else payload[f.name] = String(v ?? "");
+      else payload[f.name] = String(v ?? "").trim();
+      const nullable =
+        f.name.endsWith("_bn") || ["image_url", "video_url", "source"].includes(f.name);
+      const val = payload[f.name];
+      if (nullable && (val === "" || (Array.isArray(val) && val.length === 0)))
+        payload[f.name] = null;
     }
-    onSave(payload);
+    setSaving(true);
+    Promise.resolve(onSave(payload)).finally(() => setSaving(false));
   }
 
   return (
@@ -792,6 +836,45 @@ function RecordForm({
                     }`}
                   />
                 </button>
+              ) : f.type === "image" ? (
+                <div className="mt-1 space-y-2">
+                  {values[f.name] ? (
+                    <div className="relative overflow-hidden rounded-2xl ring-1 ring-border">
+                      <img
+                        src={String(values[f.name])}
+                        alt="Selected"
+                        className="h-44 w-full object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setValues((v) => ({ ...v, [f.name]: "" }))}
+                        aria-label="Remove image"
+                        className="btn-press absolute right-2 top-2 grid size-8 place-items-center rounded-full bg-background/90 ring-1 ring-border"
+                      >
+                        <X className="size-4" />
+                      </button>
+                    </div>
+                  ) : null}
+                  <span className="flex cursor-pointer items-center justify-center rounded-2xl border border-dashed border-border bg-secondary px-4 py-4 text-sm font-medium">
+                    {uploading === f.name
+                      ? "Uploading…"
+                      : values[f.name]
+                        ? "Change image"
+                        : "Upload image"}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="sr-only"
+                      disabled={uploading !== null}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) void uploadImage(f.name, file);
+                        e.target.value = "";
+                      }}
+                    />
+                  </span>
+                  {uploadError && <p className="text-xs text-destructive">{uploadError}</p>}
+                </div>
               ) : f.type === "textarea" || f.type === "list" ? (
                 <textarea
                   rows={f.type === "list" ? 4 : 3}
@@ -822,9 +905,10 @@ function RecordForm({
           </button>
           <button
             type="submit"
-            className="btn-press flex-1 rounded-2xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground"
+            disabled={saving || uploading !== null}
+            className="btn-press flex-1 rounded-2xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground disabled:opacity-60"
           >
-            Save changes
+            {saving ? "Saving…" : "Save changes"}
           </button>
         </div>
       </form>
