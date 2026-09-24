@@ -23,8 +23,8 @@ export function AppShell({ children }: { children: ReactNode }) {
   useEffect(() => {
     const handler = (e: Event) => {
       const img = e.target as HTMLImageElement;
-      if (img.tagName === "IMG" && !img.dataset.fallbackApplied) {
-        img.dataset.fallbackApplied = "1";
+      if (img.tagName === "IMG" && !img.dataset["fallbackApplied"]) {
+        img.dataset["fallbackApplied"] = "1";
         img.src = fallbackImage;
       }
     };
