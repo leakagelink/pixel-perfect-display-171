@@ -42,13 +42,14 @@ export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminPage,
 });
 
-type FieldType = "text" | "textarea" | "number" | "bool" | "list" | "image";
+type FieldType = "text" | "textarea" | "number" | "bool" | "list" | "image" | "objects";
 type Field = {
   name: string;
   label: string;
   type: FieldType;
   required?: boolean;
   wide?: boolean;
+  keys?: { name: string; label: string }[];
 };
 type Collection = {
   key: string;
@@ -84,6 +85,48 @@ const collections: Collection[] = [
       { name: "bullets_bn", label: "Key points (Bengali, one per line)", type: "list" },
       { name: "why_it_matters", label: "Why it matters", type: "textarea", wide: true },
       { name: "why_it_matters_bn", label: "Why it matters (Bengali)", type: "textarea", wide: true },
+      {
+        name: "timeline",
+        label: "Timeline",
+        type: "objects",
+        wide: true,
+        keys: [
+          { name: "date", label: "Date" },
+          { name: "event", label: "Event" },
+        ],
+      },
+      {
+        name: "timeline_bn",
+        label: "Timeline (Bengali)",
+        type: "objects",
+        wide: true,
+        keys: [
+          { name: "date", label: "Date" },
+          { name: "event", label: "Event" },
+        ],
+      },
+      {
+        name: "coverage",
+        label: "Coverage",
+        type: "objects",
+        wide: true,
+        keys: [
+          { name: "source", label: "Source" },
+          { name: "label", label: "Label" },
+          { name: "angle", label: "Angle" },
+        ],
+      },
+      {
+        name: "coverage_bn",
+        label: "Coverage (Bengali)",
+        type: "objects",
+        wide: true,
+        keys: [
+          { name: "source", label: "Source" },
+          { name: "label", label: "Label" },
+          { name: "angle", label: "Angle" },
+        ],
+      },
       { name: "reading_time", label: "Reading time", type: "text" },
       { name: "is_featured", label: "Featured", type: "bool" },
       { name: "is_published", label: "Published", type: "bool" },
@@ -205,6 +248,9 @@ const tabs = [
 ];
 
 type Row = Record<string, unknown>;
+type ObjRow = Record<string, string>;
+
+const PAGE_SIZE = 50;
 
 function AdminPage() {
   const navigate = useNavigate();
@@ -215,21 +261,24 @@ function AdminPage() {
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [pendingDelete, setPendingDelete] = useState<string | null>(null);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   const roleQuery = useQuery({
     queryKey: ["is-admin"],
     queryFn: async () => {
       const { data: userData } = await supabase.auth.getUser();
-      if (!userData.user) return false;
+      if (!userData.user) return { isAdmin: false, userId: null as string | null };
       const { data } = await supabase
         .from("user_roles")
         .select("role")
         .eq("user_id", userData.user.id)
         .eq("role", "admin")
         .maybeSingle();
-      return Boolean(data);
+      return { isAdmin: Boolean(data), userId: userData.user.id as string | null };
     },
   });
+  const isAdmin = roleQuery.data?.isAdmin === true;
+  const selfId = roleQuery.data?.userId ?? null;
 
   const collection = useMemo(
     () => collections.find((c) => c.key === tab) ?? collections[0]!,
@@ -237,23 +286,25 @@ function AdminPage() {
   );
 
   const listQuery = useQuery({
-    queryKey: ["admin", collection.table],
-    enabled: tab !== "users" && roleQuery.data === true,
+    queryKey: ["admin", collection.table, visibleCount],
+    enabled: tab !== "users" && isAdmin,
     queryFn: async () => {
       const { data, error: err } = await supabase
         .from(collection.table as "articles")
         .select("*")
         .order(collection.orderBy.column as "created_at", {
           ascending: collection.orderBy.ascending,
-        });
+        })
+        .range(0, visibleCount - 1);
       if (err) throw err;
       return (data ?? []) as unknown as Row[];
     },
   });
+  const hasMore = (listQuery.data?.length ?? 0) >= visibleCount;
 
   const usersQuery = useQuery({
     queryKey: ["admin", "users"],
-    enabled: tab === "users" && roleQuery.data === true,
+    enabled: tab === "users" && isAdmin,
     queryFn: async () => {
       const [{ data: profiles }, { data: roles }] = await Promise.all([
         supabase.from("profiles").select("*").order("created_at", { ascending: false }),
@@ -317,7 +368,11 @@ function AdminPage() {
       ? await supabase.from(table).update(values as never).eq("id", id)
       : await supabase.from(table).insert(values as never);
     if (res.error) {
-      setError(res.error.message);
+      setError(
+        res.error.message.toLowerCase().includes("duplicate")
+          ? "Ye slug ya naam pehle se use ho raha hai — kuch alag likhein."
+          : res.error.message,
+      );
       return;
     }
     setEditing(null);
@@ -339,17 +394,47 @@ function AdminPage() {
     queryClient.invalidateQueries({ queryKey: ["admin", collection.table] });
   }
 
+  async function quickToggle(row: Row) {
+    setError(null);
+    const field = "is_published" in row ? "is_published" : "is_active";
+    const { error: err } = await supabase
+      .from(collection.table as "articles")
+      .update({ [field]: !row[field] } as never)
+      .eq("id", String(row["id"]));
+    if (err) {
+      setError(err.message);
+      return;
+    }
+    queryClient.invalidateQueries({ queryKey: ["admin", collection.table] });
+  }
+
+  async function changeRole(userId: string, role: "admin" | "user") {
+    setError(null);
+    const del = await supabase.from("user_roles").delete().eq("user_id", userId);
+    if (del.error) {
+      setError(del.error.message);
+      return;
+    }
+    const ins = await supabase.from("user_roles").insert({ user_id: userId, role });
+    if (ins.error) {
+      setError(ins.error.message);
+      return;
+    }
+    queryClient.invalidateQueries({ queryKey: ["admin", "users"] });
+  }
+
   function selectTab(key: string) {
     setTab(key);
     setEditing(null);
     setCreating(false);
     setQuery("");
     setPendingDelete(null);
+    setVisibleCount(PAGE_SIZE);
   }
 
   if (roleQuery.isLoading) return <Centered>Checking access…</Centered>;
 
-  if (roleQuery.data !== true) {
+  if (!isAdmin) {
     return (
       <Centered>
         <p className="text-sm">This account does not have admin access.</p>
@@ -520,15 +605,24 @@ function AdminPage() {
                         <p className="truncate text-[11px] text-muted-foreground">{u.email}</p>
                       </div>
                     </div>
-                    <span
-                      className={`shrink-0 rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide ring-1 ${
+                    <select
+                      value={String(u.role)}
+                      disabled={u.id === selfId && u.role === "admin"}
+                      title={
+                        u.id === selfId && u.role === "admin"
+                          ? "Aap apna khud ka admin role nahi hata sakte"
+                          : "Change role"
+                      }
+                      onChange={(e) => void changeRole(String(u.id), e.target.value as "admin" | "user")}
+                      className={`shrink-0 cursor-pointer rounded-full px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-wide ring-1 outline-none disabled:cursor-not-allowed disabled:opacity-60 ${
                         u.role === "admin"
                           ? "bg-primary/15 text-primary ring-primary/30"
                           : "bg-secondary text-muted-foreground ring-border"
                       }`}
                     >
-                      {u.role}
-                    </span>
+                      <option value="user">User</option>
+                      <option value="admin">Admin</option>
+                    </select>
                   </div>
                 ))}
               </>
@@ -594,10 +688,25 @@ function AdminPage() {
                               Cancel
                             </button>
                           </>
-                        ) : (
-                          <>
-                            <button
-                              aria-label="Edit"
+                         ) : (
+                           <>
+                             {hasState && (
+                               <button
+                                 aria-label={live ? "Unpublish" : "Publish"}
+                                 title={live ? "Unpublish" : "Publish"}
+                                 onClick={() => void quickToggle(row)}
+                                 className={`btn-press flex h-10 flex-1 items-center justify-center gap-1.5 rounded-full text-xs ring-1 xs:size-10 xs:flex-none ${
+                                   live
+                                     ? "bg-accent/15 text-accent ring-accent/30"
+                                     : "bg-secondary text-muted-foreground ring-border"
+                                 }`}
+                               >
+                                 <Radio className="size-4" />
+                                 <span className="xs:hidden">{live ? "Live" : "Draft"}</span>
+                               </button>
+                             )}
+                             <button
+                               aria-label="Edit"
                               onClick={() => {
                                 setEditing(row);
                                 setCreating(false);
@@ -620,11 +729,20 @@ function AdminPage() {
                       </div>
                     </div>
                   );
-                })}
-              </>
-            )}
-          </div>
-        </main>
+                 })}
+                 {hasMore && !query && (
+                   <button
+                     onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+                     disabled={listQuery.isFetching}
+                     className="btn-press w-full rounded-2xl bg-secondary py-3 text-xs font-semibold ring-1 ring-border disabled:opacity-60"
+                   >
+                     {listQuery.isFetching ? "Loading…" : "Load more"}
+                   </button>
+                 )}
+               </>
+             )}
+           </div>
+         </main>
 
         {!isUsers && !creating && !editing && (
           <button
@@ -722,10 +840,11 @@ function RecordForm({
   onSave: (values: Row) => void | Promise<void>;
   onCancel: () => void;
 }) {
-  const [values, setValues] = useState<Record<string, string | boolean>>({});
+  const [values, setValues] = useState<Record<string, string | boolean | ObjRow[]>>({});
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState<string | null>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
 
   async function uploadImage(field: string, file: File) {
     setUploadError(null);
@@ -753,7 +872,7 @@ function RecordForm({
   }
 
   useEffect(() => {
-    const next: Record<string, string | boolean> = {};
+    const next: Record<string, string | boolean | ObjRow[]> = {};
     for (const f of collection.fields) {
       const raw = initial?.[f.name];
       if (f.type === "bool")
@@ -762,9 +881,18 @@ function RecordForm({
         );
       else if (f.type === "list")
         next[f.name] = Array.isArray(raw) ? (raw as string[]).join("\n") : "";
+      else if (f.type === "objects")
+        next[f.name] = Array.isArray(raw)
+          ? (raw as Record<string, unknown>[]).map((r) =>
+              Object.fromEntries(
+                (f.keys ?? []).map((k) => [k.name, String(r[k.name] ?? "")]),
+              ),
+            )
+          : [];
       else next[f.name] = raw === null || raw === undefined ? "" : String(raw);
     }
     setValues(next);
+    setFormError(null);
   }, [collection, initial]);
 
   useEffect(() => {
@@ -777,6 +905,13 @@ function RecordForm({
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
+    setFormError(null);
+    for (const f of collection.fields) {
+      if (f.required && !String(values[f.name] ?? "").trim()) {
+        setFormError(`"${f.label}" required hai — khaali nahi chhod sakte.`);
+        return;
+      }
+    }
     const payload: Row = {};
     for (const f of collection.fields) {
       const v = values[f.name];
@@ -787,6 +922,10 @@ function RecordForm({
           .split("\n")
           .map((s) => s.trim())
           .filter(Boolean);
+      else if (f.type === "objects")
+        payload[f.name] = (Array.isArray(v) ? (v as ObjRow[]) : []).filter((r) =>
+          Object.values(r).some((x) => String(x).trim()),
+        );
       else payload[f.name] = String(v ?? "").trim();
       const nullable =
         f.name.endsWith("_bn") || ["image_url", "video_url", "source"].includes(f.name);
@@ -891,6 +1030,65 @@ function RecordForm({
                   </span>
                   {uploadError && <p className="text-xs text-destructive">{uploadError}</p>}
                 </div>
+              ) : f.type === "objects" ? (
+                <div className="mt-2 space-y-2">
+                  {(Array.isArray(values[f.name]) ? (values[f.name] as ObjRow[]) : []).map(
+                    (row, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-start gap-2 rounded-2xl bg-secondary p-2.5 ring-1 ring-border"
+                      >
+                        <div className="grid min-w-0 flex-1 grid-cols-1 gap-2 sm:grid-cols-3">
+                          {(f.keys ?? []).map((k) => (
+                            <input
+                              key={k.name}
+                              placeholder={k.label}
+                              value={row[k.name] ?? ""}
+                              onChange={(e) =>
+                                setValues((v) => {
+                                  const arr = [...((v[f.name] as ObjRow[]) ?? [])];
+                                  arr[idx] = { ...arr[idx], [k.name]: e.target.value };
+                                  return { ...v, [f.name]: arr };
+                                })
+                              }
+                              className="w-full rounded-xl bg-background px-3 py-2 text-xs ring-1 ring-border outline-none focus:ring-primary/50"
+                            />
+                          ))}
+                        </div>
+                        <button
+                          type="button"
+                          aria-label="Remove row"
+                          onClick={() =>
+                            setValues((v) => ({
+                              ...v,
+                              [f.name]: ((v[f.name] as ObjRow[]) ?? []).filter(
+                                (_, i) => i !== idx,
+                              ),
+                            }))
+                          }
+                          className="btn-press grid size-8 shrink-0 place-items-center rounded-full bg-destructive/15 text-destructive ring-1 ring-destructive/30"
+                        >
+                          <X className="size-3.5" />
+                        </button>
+                      </div>
+                    ),
+                  )}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setValues((v) => ({
+                        ...v,
+                        [f.name]: [
+                          ...((v[f.name] as ObjRow[]) ?? []),
+                          Object.fromEntries((f.keys ?? []).map((k) => [k.name, ""])),
+                        ],
+                      }))
+                    }
+                    className="btn-press flex items-center gap-1.5 rounded-full bg-secondary px-3.5 py-2 text-xs font-medium ring-1 ring-border hover:text-primary"
+                  >
+                    <Plus className="size-3.5" /> Add row
+                  </button>
+                </div>
               ) : f.type === "textarea" || f.type === "list" ? (
                 <textarea
                   rows={f.type === "list" ? 4 : 3}
@@ -911,6 +1109,11 @@ function RecordForm({
           ))}
         </div>
 
+        {formError && (
+          <p className="mx-5 mb-2 rounded-2xl bg-destructive/15 px-4 py-2.5 text-xs text-destructive ring-1 ring-destructive/30">
+            {formError}
+          </p>
+        )}
         <div className="safe-bottom flex gap-2 border-t border-border px-5 py-4">
           <button
             type="button"

@@ -29,6 +29,13 @@
       "when": 1790232688476,
       "tag": "0003_create_categories",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1790233242140,
+      "tag": "0004_user_roles_admin_write",
+      "breakpoints": true
     }
   ]
 }
