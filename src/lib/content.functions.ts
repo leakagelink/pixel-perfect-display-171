@@ -119,7 +119,7 @@ function mapArticle(row: ArticleRow, i: number): FeedArticle {
 
 export const getHomeFeed = createServerFn({ method: "GET" }).handler(async () => {
   const sb = publicClient();
-  const [articlesRes, breakingRes, trendingRes, videosRes, categoriesRes] = await Promise.all([
+  const [articlesRes, breakingRes, trendingRes, videosRes, categoriesRes, settingsRes] = await Promise.all([
     sb
       .from("articles")
       .select("*")
@@ -145,19 +145,27 @@ export const getHomeFeed = createServerFn({ method: "GET" }).handler(async () =>
       .from("categories")
       .select("name,name_bn")
       .eq("is_active", true)
+      .eq("show_in_header", true)
       .order("sort_order"),
+    sb.from("app_settings").select("value").eq("key", "ticker_mode").maybeSingle(),
   ]);
 
   const videoRows = videosRes.data ?? [];
   const liveRow = videoRows.find((v) => v.video_url) ?? videoRows[0];
+  const tickerMode = settingsRes.data?.value === "manual" ? "manual" : "auto";
+  const articleRows = articlesRes.data ?? [];
+  const manualBreaking = (breakingRes.data ?? []).map((b) => ({ en: b.text, bn: b.text_bn ?? b.text }));
+  const autoBreaking = articleRows
+    .slice(0, 8)
+    .map((a) => ({ en: a.headline, bn: a.headline_bn ?? a.headline }));
 
   return {
-    articles: (articlesRes.data ?? []).map(mapArticle),
+    articles: articleRows.map(mapArticle),
     categories: (categoriesRes.data ?? []).map((c) => ({
       name: c.name,
       nameBn: c.name_bn ?? c.name,
     })),
-    breaking: (breakingRes.data ?? []).map((b) => ({ en: b.text, bn: b.text_bn ?? b.text })),
+    breaking: tickerMode === "manual" ? manualBreaking : autoBreaking.length ? autoBreaking : manualBreaking,
     trending: (trendingRes.data ?? []).map((t) => ({
       tag: t.tag,
       tagBn: t.tag_bn ?? t.tag,
