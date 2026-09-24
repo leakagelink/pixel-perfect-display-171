@@ -249,6 +249,8 @@ const tabs = [
 
 type Row = Record<string, unknown>;
 
+const PAGE_SIZE = 50;
+
 function AdminPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -283,23 +285,25 @@ function AdminPage() {
   );
 
   const listQuery = useQuery({
-    queryKey: ["admin", collection.table],
-    enabled: tab !== "users" && roleQuery.data === true,
+    queryKey: ["admin", collection.table, visibleCount],
+    enabled: tab !== "users" && isAdmin,
     queryFn: async () => {
       const { data, error: err } = await supabase
         .from(collection.table as "articles")
         .select("*")
         .order(collection.orderBy.column as "created_at", {
           ascending: collection.orderBy.ascending,
-        });
+        })
+        .range(0, visibleCount - 1);
       if (err) throw err;
       return (data ?? []) as unknown as Row[];
     },
   });
+  const hasMore = (listQuery.data?.length ?? 0) >= visibleCount;
 
   const usersQuery = useQuery({
     queryKey: ["admin", "users"],
-    enabled: tab === "users" && roleQuery.data === true,
+    enabled: tab === "users" && isAdmin,
     queryFn: async () => {
       const [{ data: profiles }, { data: roles }] = await Promise.all([
         supabase.from("profiles").select("*").order("created_at", { ascending: false }),
