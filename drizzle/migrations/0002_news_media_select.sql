@@ -1,0 +1,1 @@
+CREATE POLICY "news media admin select" ON storage.objects FOR SELECT TO authenticated USING (bucket_id = 'news-media' AND public.has_role(auth.uid(), 'admin'::public.app_role));

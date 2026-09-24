@@ -15,6 +15,13 @@
       "when": 1790231087367,
       "tag": "0001_news_media_policies",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790231108891,
+      "tag": "0002_news_media_select",
+      "breakpoints": true
     }
   ]
 }
