@@ -141,6 +141,19 @@ export const getHomeFeed = createServerFn({ method: "GET" }).handler(async () =>
       tagBn: t.tag_bn ?? t.tag,
       count: t.count_label,
     })),
+    liveVideo: liveRow
+      ? {
+          id: liveRow.id,
+          title: liveRow.title,
+          titleBn: liveRow.title_bn ?? liveRow.title,
+          category: liveRow.category,
+          categoryBn: liveRow.category_bn ?? liveRow.category,
+          duration: liveRow.duration,
+          views: liveRow.views,
+          image: pickImage(liveRow.image_url, 0),
+          videoUrl: liveRow.video_url ?? null,
+        }
+      : null,
   };
 });
 
