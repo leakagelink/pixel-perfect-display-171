@@ -839,10 +839,11 @@ function RecordForm({
   onSave: (values: Row) => void | Promise<void>;
   onCancel: () => void;
 }) {
-  const [values, setValues] = useState<Record<string, string | boolean>>({});
+  const [values, setValues] = useState<Record<string, string | boolean | ObjRow[]>>({});
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState<string | null>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
 
   async function uploadImage(field: string, file: File) {
     setUploadError(null);
@@ -870,7 +871,7 @@ function RecordForm({
   }
 
   useEffect(() => {
-    const next: Record<string, string | boolean> = {};
+    const next: Record<string, string | boolean | ObjRow[]> = {};
     for (const f of collection.fields) {
       const raw = initial?.[f.name];
       if (f.type === "bool")
@@ -879,9 +880,18 @@ function RecordForm({
         );
       else if (f.type === "list")
         next[f.name] = Array.isArray(raw) ? (raw as string[]).join("\n") : "";
+      else if (f.type === "objects")
+        next[f.name] = Array.isArray(raw)
+          ? (raw as Record<string, unknown>[]).map((r) =>
+              Object.fromEntries(
+                (f.keys ?? []).map((k) => [k.name, String(r[k.name] ?? "")]),
+              ),
+            )
+          : [];
       else next[f.name] = raw === null || raw === undefined ? "" : String(raw);
     }
     setValues(next);
+    setFormError(null);
   }, [collection, initial]);
 
   useEffect(() => {
@@ -894,6 +904,13 @@ function RecordForm({
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
+    setFormError(null);
+    for (const f of collection.fields) {
+      if (f.required && !String(values[f.name] ?? "").trim()) {
+        setFormError(`"${f.label}" required hai — khaali nahi chhod sakte.`);
+        return;
+      }
+    }
     const payload: Row = {};
     for (const f of collection.fields) {
       const v = values[f.name];
@@ -904,6 +921,10 @@ function RecordForm({
           .split("\n")
           .map((s) => s.trim())
           .filter(Boolean);
+      else if (f.type === "objects")
+        payload[f.name] = (Array.isArray(v) ? (v as ObjRow[]) : []).filter((r) =>
+          Object.values(r).some((x) => String(x).trim()),
+        );
       else payload[f.name] = String(v ?? "").trim();
       const nullable =
         f.name.endsWith("_bn") || ["image_url", "video_url", "source"].includes(f.name);
