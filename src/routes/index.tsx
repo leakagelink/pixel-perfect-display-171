@@ -34,7 +34,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const { articles: allArticles, breaking, trending } = Route.useLoaderData();
+  const { articles: allArticles, breaking, trending, liveVideo } = Route.useLoaderData();
   const { language, t } = useLanguage();
   const [active, setActive] = useState("For You");
   const articles =
@@ -66,15 +66,14 @@ function Index() {
       </div>
       <BreakingTicker headlines={breaking.map((item) => item[language])} />
 
-      {articles[0] && (
+      {liveVideo && (
         <Link
-          to="/article/$articleId"
-          params={{ articleId: articles[0].id }}
+          to="/video"
           className="group fade-up relative mx-5 mt-5 block aspect-[16/10] overflow-hidden rounded-2xl bg-ink shadow-[0_18px_45px_-24px_color-mix(in_oklab,var(--ink)_70%,transparent)]"
         >
           <img
-            src={articles[0].image}
-            alt={localizeArticle(articles[0], language).headline}
+            src={liveVideo.image}
+            alt={language === "bn" ? liveVideo.titleBn : liveVideo.title}
             fetchPriority="high"
             decoding="async"
             className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.025]"
@@ -87,10 +86,10 @@ function Index() {
             <Play className="size-4 fill-current" />
           </span>
           <div className="absolute inset-x-4 bottom-4">
-            <p className="text-[10px] font-semibold uppercase text-primary-foreground/70">{localizeArticle(articles[0], language).category}</p>
-            <h1 className="mt-1 text-xl leading-tight text-primary-foreground text-balance">{localizeArticle(articles[0], language).headline}</h1>
+            <p className="text-[10px] font-semibold uppercase text-primary-foreground/70">{language === "bn" ? liveVideo.categoryBn : liveVideo.category}</p>
+            <h1 className="mt-1 text-xl leading-tight text-primary-foreground text-balance">{language === "bn" ? liveVideo.titleBn : liveVideo.title}</h1>
             <p className="mt-2 flex items-center gap-1.5 text-[10px] text-primary-foreground/65">
-              <Clock className="size-3" /> {localizeArticle(articles[0], language).publishedAt} · {localizeArticle(articles[0], language).readingTime} {t("reading")}
+              <Clock className="size-3" /> {liveVideo.duration} · {liveVideo.views} {language === "bn" ? "ভিউ" : "views"}
             </p>
           </div>
         </Link>
