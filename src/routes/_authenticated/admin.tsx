@@ -248,6 +248,7 @@ const tabs = [
 ];
 
 type Row = Record<string, unknown>;
+type ObjRow = Record<string, string>;
 
 const PAGE_SIZE = 50;
 
@@ -1029,6 +1030,65 @@ function RecordForm({
                   </span>
                   {uploadError && <p className="text-xs text-destructive">{uploadError}</p>}
                 </div>
+              ) : f.type === "objects" ? (
+                <div className="mt-2 space-y-2">
+                  {(Array.isArray(values[f.name]) ? (values[f.name] as ObjRow[]) : []).map(
+                    (row, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-start gap-2 rounded-2xl bg-secondary p-2.5 ring-1 ring-border"
+                      >
+                        <div className="grid min-w-0 flex-1 grid-cols-1 gap-2 sm:grid-cols-3">
+                          {(f.keys ?? []).map((k) => (
+                            <input
+                              key={k.name}
+                              placeholder={k.label}
+                              value={row[k.name] ?? ""}
+                              onChange={(e) =>
+                                setValues((v) => {
+                                  const arr = [...((v[f.name] as ObjRow[]) ?? [])];
+                                  arr[idx] = { ...arr[idx], [k.name]: e.target.value };
+                                  return { ...v, [f.name]: arr };
+                                })
+                              }
+                              className="w-full rounded-xl bg-background px-3 py-2 text-xs ring-1 ring-border outline-none focus:ring-primary/50"
+                            />
+                          ))}
+                        </div>
+                        <button
+                          type="button"
+                          aria-label="Remove row"
+                          onClick={() =>
+                            setValues((v) => ({
+                              ...v,
+                              [f.name]: ((v[f.name] as ObjRow[]) ?? []).filter(
+                                (_, i) => i !== idx,
+                              ),
+                            }))
+                          }
+                          className="btn-press grid size-8 shrink-0 place-items-center rounded-full bg-destructive/15 text-destructive ring-1 ring-destructive/30"
+                        >
+                          <X className="size-3.5" />
+                        </button>
+                      </div>
+                    ),
+                  )}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setValues((v) => ({
+                        ...v,
+                        [f.name]: [
+                          ...((v[f.name] as ObjRow[]) ?? []),
+                          Object.fromEntries((f.keys ?? []).map((k) => [k.name, ""])),
+                        ],
+                      }))
+                    }
+                    className="btn-press flex items-center gap-1.5 rounded-full bg-secondary px-3.5 py-2 text-xs font-medium ring-1 ring-border hover:text-primary"
+                  >
+                    <Plus className="size-3.5" /> Add row
+                  </button>
+                </div>
               ) : f.type === "textarea" || f.type === "list" ? (
                 <textarea
                   rows={f.type === "list" ? 4 : 3}
@@ -1049,6 +1109,11 @@ function RecordForm({
           ))}
         </div>
 
+        {formError && (
+          <p className="mx-5 mb-2 rounded-2xl bg-destructive/15 px-4 py-2.5 text-xs text-destructive ring-1 ring-destructive/30">
+            {formError}
+          </p>
+        )}
         <div className="safe-bottom flex gap-2 border-t border-border px-5 py-4">
           <button
             type="button"
