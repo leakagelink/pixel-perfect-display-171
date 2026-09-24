@@ -36,6 +36,13 @@
       "when": 1790233242140,
       "tag": "0004_user_roles_admin_write",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1790235329450,
+      "tag": "0005_header_and_ticker_settings",
+      "breakpoints": true
     }
   ]
 }

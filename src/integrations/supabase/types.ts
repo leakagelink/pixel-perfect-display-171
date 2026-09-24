@@ -14,6 +14,24 @@ export type Database = {
   }
   public: {
     Tables: {
+      app_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value: string
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
       articles: {
         Row: {
           bullets: string[]
@@ -129,6 +147,7 @@ export type Database = {
           is_active: boolean
           name: string
           name_bn: string | null
+          show_in_header: boolean
           sort_order: number
         }
         Insert: {
@@ -137,6 +156,7 @@ export type Database = {
           is_active?: boolean
           name: string
           name_bn?: string | null
+          show_in_header?: boolean
           sort_order?: number
         }
         Update: {
@@ -145,6 +165,7 @@ export type Database = {
           is_active?: boolean
           name?: string
           name_bn?: string | null
+          show_in_header?: boolean
           sort_order?: number
         }
         Relationships: []

@@ -20,6 +20,8 @@ import {
   Users,
   Tag,
   ExternalLink,
+  Eye,
+  EyeOff,
   type LucideIcon,
 } from "lucide-react";
 
@@ -192,6 +194,7 @@ const collections: Collection[] = [
       { name: "name_bn", label: "Category name (Bengali)", type: "text" },
       { name: "sort_order", label: "Order", type: "number" },
       { name: "is_active", label: "Active", type: "bool" },
+      { name: "show_in_header", label: "Show in header bar", type: "bool" },
     ],
   },
   {
@@ -303,6 +306,19 @@ function AdminPage() {
   });
   const hasMore = (listQuery.data?.length ?? 0) >= visibleCount;
 
+  const tickerModeQuery = useQuery({
+    queryKey: ["admin", "ticker_mode"],
+    enabled: tab === "breaking" && isAdmin,
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("app_settings")
+        .select("value")
+        .eq("key", "ticker_mode")
+        .maybeSingle();
+      return data?.value === "manual" ? "manual" : "auto";
+    },
+  });
+
   const usersQuery = useQuery({
     queryKey: ["admin", "users"],
     enabled: tab === "users" && isAdmin,
@@ -393,6 +409,31 @@ function AdminPage() {
       return;
     }
     queryClient.invalidateQueries({ queryKey: ["admin", collection.table] });
+  }
+
+  async function toggleField(row: Row, field: string) {
+    setError(null);
+    const { error: err } = await supabase
+      .from(collection.table as "articles")
+      .update({ [field]: !row[field] } as never)
+      .eq("id", String(row["id"]));
+    if (err) {
+      setError(err.message);
+      return;
+    }
+    queryClient.invalidateQueries({ queryKey: ["admin", collection.table] });
+  }
+
+  async function setTickerMode(mode: "auto" | "manual") {
+    setError(null);
+    const { error: err } = await supabase
+      .from("app_settings")
+      .upsert({ key: "ticker_mode", value: mode, updated_at: new Date().toISOString() });
+    if (err) {
+      setError(err.message);
+      return;
+    }
+    queryClient.invalidateQueries({ queryKey: ["admin", "ticker_mode"] });
   }
 
   async function quickToggle(row: Row) {
@@ -629,6 +670,30 @@ function AdminPage() {
               </>
             ) : (
               <>
+                {tab === "breaking" && (
+                  <div className="card-surface rounded-2xl p-4 ring-1 ring-border">
+                    <p className="text-sm font-semibold">Highlight ticker mode</p>
+                    <p className="mt-1 text-[11px] text-muted-foreground">
+                      Automatic: latest published news headlines apne aap chalengi. Manual: sirf niche di gayi
+                      "Live" breaking headlines chalengi.
+                    </p>
+                    <div className="mt-3 grid grid-cols-2 gap-2">
+                      {(["auto", "manual"] as const).map((m) => (
+                        <button
+                          key={m}
+                          onClick={() => void setTickerMode(m)}
+                          className={`btn-press rounded-full px-3 py-2.5 text-xs font-semibold ring-1 ${
+                            tickerModeQuery.data === m
+                              ? "bg-primary text-primary-foreground ring-primary"
+                              : "bg-secondary text-muted-foreground ring-border"
+                          }`}
+                        >
+                          {m === "auto" ? "Automatic" : "Manual"}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 {listQuery.isLoading && <SkeletonRows />}
                 {!listQuery.isLoading && rows.length === 0 && (
                   <EmptyState
@@ -691,6 +756,21 @@ function AdminPage() {
                           </>
                          ) : (
                            <>
+                             {"show_in_header" in row && (
+                               <button
+                                 aria-label={row["show_in_header"] ? "Hide from header" : "Show in header"}
+                                 title={row["show_in_header"] ? "Header mein dikh rahi hai — chhupane ke liye tap karein" : "Header mein chhupi hai — dikhane ke liye tap karein"}
+                                 onClick={() => void toggleField(row, "show_in_header")}
+                                 className={`btn-press flex h-10 flex-1 items-center justify-center gap-1.5 rounded-full text-xs ring-1 xs:size-10 xs:flex-none ${
+                                   row["show_in_header"]
+                                     ? "bg-primary/15 text-primary ring-primary/30"
+                                     : "bg-secondary text-muted-foreground ring-border"
+                                 }`}
+                               >
+                                 {row["show_in_header"] ? <Eye className="size-4" /> : <EyeOff className="size-4" />}
+                                 <span className="xs:hidden">{row["show_in_header"] ? "Shown" : "Hidden"}</span>
+                               </button>
+                             )}
                              {hasState && (
                                <button
                                  aria-label={live ? "Unpublish" : "Publish"}
