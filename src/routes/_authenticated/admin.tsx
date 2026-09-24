@@ -604,15 +604,24 @@ function AdminPage() {
                         <p className="truncate text-[11px] text-muted-foreground">{u.email}</p>
                       </div>
                     </div>
-                    <span
-                      className={`shrink-0 rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide ring-1 ${
+                    <select
+                      value={String(u.role)}
+                      disabled={u.id === selfId && u.role === "admin"}
+                      title={
+                        u.id === selfId && u.role === "admin"
+                          ? "Aap apna khud ka admin role nahi hata sakte"
+                          : "Change role"
+                      }
+                      onChange={(e) => void changeRole(String(u.id), e.target.value as "admin" | "user")}
+                      className={`shrink-0 cursor-pointer rounded-full px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-wide ring-1 outline-none disabled:cursor-not-allowed disabled:opacity-60 ${
                         u.role === "admin"
                           ? "bg-primary/15 text-primary ring-primary/30"
                           : "bg-secondary text-muted-foreground ring-border"
                       }`}
                     >
-                      {u.role}
-                    </span>
+                      <option value="user">User</option>
+                      <option value="admin">Admin</option>
+                    </select>
                   </div>
                 ))}
               </>
@@ -678,10 +687,25 @@ function AdminPage() {
                               Cancel
                             </button>
                           </>
-                        ) : (
-                          <>
-                            <button
-                              aria-label="Edit"
+                         ) : (
+                           <>
+                             {hasState && (
+                               <button
+                                 aria-label={live ? "Unpublish" : "Publish"}
+                                 title={live ? "Unpublish" : "Publish"}
+                                 onClick={() => void quickToggle(row)}
+                                 className={`btn-press flex h-10 flex-1 items-center justify-center gap-1.5 rounded-full text-xs ring-1 xs:size-10 xs:flex-none ${
+                                   live
+                                     ? "bg-accent/15 text-accent ring-accent/30"
+                                     : "bg-secondary text-muted-foreground ring-border"
+                                 }`}
+                               >
+                                 <Radio className="size-4" />
+                                 <span className="xs:hidden">{live ? "Live" : "Draft"}</span>
+                               </button>
+                             )}
+                             <button
+                               aria-label="Edit"
                               onClick={() => {
                                 setEditing(row);
                                 setCreating(false);
@@ -704,11 +728,20 @@ function AdminPage() {
                       </div>
                     </div>
                   );
-                })}
-              </>
-            )}
-          </div>
-        </main>
+                 })}
+                 {hasMore && !query && (
+                   <button
+                     onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+                     disabled={listQuery.isFetching}
+                     className="btn-press w-full rounded-2xl bg-secondary py-3 text-xs font-semibold ring-1 ring-border disabled:opacity-60"
+                   >
+                     {listQuery.isFetching ? "Loading…" : "Load more"}
+                   </button>
+                 )}
+               </>
+             )}
+           </div>
+         </main>
 
         {!isUsers && !creating && !editing && (
           <button
