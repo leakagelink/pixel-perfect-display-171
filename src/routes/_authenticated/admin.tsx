@@ -367,7 +367,11 @@ function AdminPage() {
       ? await supabase.from(table).update(values as never).eq("id", id)
       : await supabase.from(table).insert(values as never);
     if (res.error) {
-      setError(res.error.message);
+      setError(
+        res.error.message.toLowerCase().includes("duplicate")
+          ? "Ye slug ya naam pehle se use ho raha hai — kuch alag likhein."
+          : res.error.message,
+      );
       return;
     }
     setEditing(null);
@@ -389,17 +393,47 @@ function AdminPage() {
     queryClient.invalidateQueries({ queryKey: ["admin", collection.table] });
   }
 
+  async function quickToggle(row: Row) {
+    setError(null);
+    const field = "is_published" in row ? "is_published" : "is_active";
+    const { error: err } = await supabase
+      .from(collection.table as "articles")
+      .update({ [field]: !row[field] } as never)
+      .eq("id", String(row["id"]));
+    if (err) {
+      setError(err.message);
+      return;
+    }
+    queryClient.invalidateQueries({ queryKey: ["admin", collection.table] });
+  }
+
+  async function changeRole(userId: string, role: "admin" | "user") {
+    setError(null);
+    const del = await supabase.from("user_roles").delete().eq("user_id", userId);
+    if (del.error) {
+      setError(del.error.message);
+      return;
+    }
+    const ins = await supabase.from("user_roles").insert({ user_id: userId, role });
+    if (ins.error) {
+      setError(ins.error.message);
+      return;
+    }
+    queryClient.invalidateQueries({ queryKey: ["admin", "users"] });
+  }
+
   function selectTab(key: string) {
     setTab(key);
     setEditing(null);
     setCreating(false);
     setQuery("");
     setPendingDelete(null);
+    setVisibleCount(PAGE_SIZE);
   }
 
   if (roleQuery.isLoading) return <Centered>Checking access…</Centered>;
 
-  if (roleQuery.data !== true) {
+  if (!isAdmin) {
     return (
       <Centered>
         <p className="text-sm">This account does not have admin access.</p>
