@@ -101,16 +101,24 @@ function Index() {
         <span className="size-1 rounded-full bg-border" />
       </div>
 
-      <SectionHeader title={t("featured")} meta={t("viewAll")} />
-      <div className="stagger-in mt-4 flex gap-3 overflow-x-auto px-5 pb-2 no-scrollbar">
-        {articles.slice(1, 4).map((article) => (
-          <Link key={article.id} to="/article/$articleId" params={{ articleId: article.id }} className="group w-40 shrink-0">
-            <img src={article.image} alt={localizeArticle(article, language).headline} loading="lazy" decoding="async" className="aspect-[4/3] w-full rounded-xl object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
-            <p className="mt-2 text-[9px] font-semibold uppercase text-primary">{localizeArticle(article, language).category}</p>
-            <h2 className="mt-1 line-clamp-2 text-sm font-bold leading-snug">{localizeArticle(article, language).headline}</h2>
-          </Link>
-        ))}
-      </div>
+      {(() => {
+        const featured = articles.filter((a) => a.isFeatured);
+        if (featured.length === 0) return null;
+        return (
+          <>
+            <SectionHeader title={t("featured")} meta={t("viewAll")} />
+            <div className="stagger-in mt-4 flex gap-3 overflow-x-auto px-5 pb-2 no-scrollbar">
+              {featured.map((article) => (
+                <Link key={article.id} to="/article/$articleId" params={{ articleId: article.id }} className="group w-40 shrink-0">
+                  <img src={article.image} alt={localizeArticle(article, language).headline} loading="lazy" decoding="async" className="aspect-[4/3] w-full rounded-xl object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
+                  <p className="mt-2 text-[9px] font-semibold uppercase text-primary">{localizeArticle(article, language).category}</p>
+                  <h2 className="mt-1 line-clamp-2 text-sm font-bold leading-snug">{localizeArticle(article, language).headline}</h2>
+                </Link>
+              ))}
+            </div>
+          </>
+        );
+      })()}
 
       <div className="mt-6 border-y border-border bg-secondary/50 px-5 py-4">
         <Link to="/briefing" className="btn-press flex items-center justify-between">
