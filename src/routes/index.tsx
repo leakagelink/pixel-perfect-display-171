@@ -6,7 +6,7 @@ import { TopHeader } from "@/components/app/TopHeader";
 import { BreakingTicker } from "@/components/app/BreakingTicker";
 import { ArticleCard } from "@/components/app/ArticleCard";
 import { SectionHeader } from "@/components/app/SectionHeader";
-import { categories, categoriesBn } from "@/lib/news-data";
+import { categories as fallbackCategories, categoriesBn } from "@/lib/news-data";
 import { getHomeFeed } from "@/lib/content.functions";
 import { localizeArticle, useLanguage } from "@/lib/language";
 
@@ -34,9 +34,18 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const { articles: allArticles, breaking, trending, liveVideo } = Route.useLoaderData();
+  const { articles: allArticles, breaking, trending, liveVideo, categories: dbCategories } = Route.useLoaderData();
   const { language, t } = useLanguage();
   const [active, setActive] = useState("For You");
+  const categories =
+    dbCategories.length > 0
+      ? ["For You", "Latest", ...dbCategories.map((c) => c.name)]
+      : fallbackCategories;
+  const categoryLabel = (c: string) => {
+    if (language !== "bn") return c;
+    const db = dbCategories.find((d) => d.name === c);
+    return db?.nameBn ?? categoriesBn[c] ?? c;
+  };
   const articles =
     active === "For You" || active === "Latest"
       ? allArticles
@@ -60,7 +69,7 @@ function Index() {
                 : "bg-secondary text-muted-foreground ring-border hover:text-foreground"
             }`}
           >
-            {language === "bn" ? categoriesBn[c] : c}
+            {categoryLabel(c)}
           </button>
         ))}
       </div>
