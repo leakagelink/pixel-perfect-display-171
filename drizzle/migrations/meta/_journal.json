@@ -22,6 +22,13 @@
       "when": 1790231108891,
       "tag": "0002_news_media_select",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1790232688476,
+      "tag": "0003_create_categories",
+      "breakpoints": true
     }
   ]
 }
