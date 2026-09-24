@@ -60,6 +60,7 @@ export type FeedArticle = {
   publishedAt: string;
   publishedAtBn: string;
   readingTime: string;
+  isFeatured: boolean;
   bullets: string[];
   whyItMatters: string;
   timeline: { time: string; event: string }[];
@@ -88,6 +89,7 @@ function mapArticle(row: ArticleRow, i: number): FeedArticle {
     publishedAt: timeAgo(row.published_at),
     publishedAtBn: timeAgoBn(row.published_at),
     readingTime: row.reading_time,
+    isFeatured: row.is_featured,
     bullets: row.bullets ?? [],
     whyItMatters: row.why_it_matters,
     timeline: (row.timeline as FeedArticle["timeline"]) ?? [],
