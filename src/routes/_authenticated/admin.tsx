@@ -17,6 +17,7 @@ import {
   TrendingUp,
   Bell,
   Users,
+  Tag,
   ExternalLink,
   type LucideIcon,
 } from "lucide-react";
@@ -132,6 +133,21 @@ const collections: Collection[] = [
       { name: "ai_brief", label: "AI brief", type: "bool" },
       { name: "sort_order", label: "Order", type: "number" },
       { name: "is_published", label: "Published", type: "bool" },
+    ],
+  },
+  {
+    key: "categories",
+    table: "categories",
+    label: "Categories",
+    icon: Tag,
+    titleField: "name",
+    subField: "name_bn",
+    orderBy: { column: "sort_order", ascending: true },
+    fields: [
+      { name: "name", label: "Category name (English)", type: "text", required: true },
+      { name: "name_bn", label: "Category name (Bengali)", type: "text" },
+      { name: "sort_order", label: "Order", type: "number" },
+      { name: "is_active", label: "Active", type: "bool" },
     ],
   },
   {

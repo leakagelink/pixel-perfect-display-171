@@ -108,7 +108,7 @@ function mapArticle(row: ArticleRow, i: number): FeedArticle {
 
 export const getHomeFeed = createServerFn({ method: "GET" }).handler(async () => {
   const sb = publicClient();
-  const [articlesRes, breakingRes, trendingRes, videosRes] = await Promise.all([
+  const [articlesRes, breakingRes, trendingRes, videosRes, categoriesRes] = await Promise.all([
     sb
       .from("articles")
       .select("*")
@@ -130,6 +130,11 @@ export const getHomeFeed = createServerFn({ method: "GET" }).handler(async () =>
       .select("*")
       .eq("is_published", true)
       .order("sort_order"),
+    sb
+      .from("categories")
+      .select("name,name_bn")
+      .eq("is_active", true)
+      .order("sort_order"),
   ]);
 
   const videoRows = videosRes.data ?? [];
@@ -137,6 +142,10 @@ export const getHomeFeed = createServerFn({ method: "GET" }).handler(async () =>
 
   return {
     articles: (articlesRes.data ?? []).map(mapArticle),
+    categories: (categoriesRes.data ?? []).map((c) => ({
+      name: c.name,
+      nameBn: c.name_bn ?? c.name,
+    })),
     breaking: (breakingRes.data ?? []).map((b) => ({ en: b.text, bn: b.text_bn ?? b.text })),
     trending: (trendingRes.data ?? []).map((t) => ({
       tag: t.tag,
