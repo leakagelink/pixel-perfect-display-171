@@ -74,13 +74,23 @@ function VideoPage() {
           <div className="px-5 pt-5">
             <div className="overflow-hidden rounded-2xl bg-card shadow-[0_18px_40px_-26px_color-mix(in_oklab,var(--ink)_60%,transparent)] ring-1 ring-border">
               <div className="relative">
-                <img
-                  src={featured.image}
-                  alt={language === "bn" ? featured.titleBn : featured.title}
-                  loading="lazy"
+                {featuredEmbed ? (
+                  <iframe
+                    src={featuredEmbed}
+                    title={language === "bn" ? featured.titleBn : featured.title}
+                    className="aspect-video w-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                ) : (
+                  <img
+                    src={featured.image}
+                    alt={language === "bn" ? featured.titleBn : featured.title}
+                    loading="lazy"
             decoding="async"
-                  className="aspect-video w-full object-cover"
-                />
+                    className="aspect-video w-full object-cover"
+                  />
+                )}
                 <span className="absolute bottom-3 right-3 rounded-full bg-background/80 px-2 py-1 text-[10px]">
                   {featured.duration}
                 </span>
