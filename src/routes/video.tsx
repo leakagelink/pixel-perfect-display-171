@@ -115,9 +115,15 @@ function VideoPage() {
           <SectionHeader title={t("latestVideo")} meta={`${videos.length - 1}`} />
            <div className="grid grid-cols-2 gap-x-3 gap-y-5 px-5 pt-4">
             {videos.slice(1).map((v) => (
-              <div
+              <button
                 key={v.id}
-                 className="btn-press overflow-hidden border-b border-border pb-3"
+                type="button"
+                onClick={() => {
+                  setSelectedId(v.id);
+                  setMode("feed");
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                 className="btn-press overflow-hidden border-b border-border pb-3 text-left"
               >
                 <div className="relative">
                   <img
