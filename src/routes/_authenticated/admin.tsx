@@ -126,7 +126,7 @@ const collections: Collection[] = [
       { name: "source", label: "Source", type: "text" },
       { name: "views", label: "Views label", type: "text" },
       { name: "image_url", label: "Thumbnail image", type: "image", wide: true },
-      { name: "video_url", label: "Video URL", type: "text", wide: true },
+      { name: "video_url", label: "Video URL (YouTube / Facebook link — app mein embed hoga)", type: "text", wide: true },
       { name: "status", label: "Status", type: "text" },
       { name: "status_bn", label: "Status (Bengali)", type: "text" },
       { name: "ai_brief", label: "AI brief", type: "bool" },
