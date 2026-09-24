@@ -258,21 +258,24 @@ function AdminPage() {
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [pendingDelete, setPendingDelete] = useState<string | null>(null);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   const roleQuery = useQuery({
     queryKey: ["is-admin"],
     queryFn: async () => {
       const { data: userData } = await supabase.auth.getUser();
-      if (!userData.user) return false;
+      if (!userData.user) return { isAdmin: false, userId: null as string | null };
       const { data } = await supabase
         .from("user_roles")
         .select("role")
         .eq("user_id", userData.user.id)
         .eq("role", "admin")
         .maybeSingle();
-      return Boolean(data);
+      return { isAdmin: Boolean(data), userId: userData.user.id as string | null };
     },
   });
+  const isAdmin = roleQuery.data?.isAdmin === true;
+  const selfId = roleQuery.data?.userId ?? null;
 
   const collection = useMemo(
     () => collections.find((c) => c.key === tab) ?? collections[0]!,
