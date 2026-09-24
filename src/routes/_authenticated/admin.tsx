@@ -42,13 +42,14 @@ export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminPage,
 });
 
-type FieldType = "text" | "textarea" | "number" | "bool" | "list" | "image";
+type FieldType = "text" | "textarea" | "number" | "bool" | "list" | "image" | "objects";
 type Field = {
   name: string;
   label: string;
   type: FieldType;
   required?: boolean;
   wide?: boolean;
+  keys?: { name: string; label: string }[];
 };
 type Collection = {
   key: string;
@@ -84,6 +85,48 @@ const collections: Collection[] = [
       { name: "bullets_bn", label: "Key points (Bengali, one per line)", type: "list" },
       { name: "why_it_matters", label: "Why it matters", type: "textarea", wide: true },
       { name: "why_it_matters_bn", label: "Why it matters (Bengali)", type: "textarea", wide: true },
+      {
+        name: "timeline",
+        label: "Timeline",
+        type: "objects",
+        wide: true,
+        keys: [
+          { name: "date", label: "Date" },
+          { name: "event", label: "Event" },
+        ],
+      },
+      {
+        name: "timeline_bn",
+        label: "Timeline (Bengali)",
+        type: "objects",
+        wide: true,
+        keys: [
+          { name: "date", label: "Date" },
+          { name: "event", label: "Event" },
+        ],
+      },
+      {
+        name: "coverage",
+        label: "Coverage",
+        type: "objects",
+        wide: true,
+        keys: [
+          { name: "source", label: "Source" },
+          { name: "label", label: "Label" },
+          { name: "angle", label: "Angle" },
+        ],
+      },
+      {
+        name: "coverage_bn",
+        label: "Coverage (Bengali)",
+        type: "objects",
+        wide: true,
+        keys: [
+          { name: "source", label: "Source" },
+          { name: "label", label: "Label" },
+          { name: "angle", label: "Angle" },
+        ],
+      },
       { name: "reading_time", label: "Reading time", type: "text" },
       { name: "is_featured", label: "Featured", type: "bool" },
       { name: "is_published", label: "Published", type: "bool" },
