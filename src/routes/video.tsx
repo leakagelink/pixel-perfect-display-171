@@ -150,7 +150,7 @@ function VideoPage() {
                     {v.source} · {v.views}
                   </p>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </>
