@@ -29,7 +29,21 @@ export function AppShell({ children }: { children: ReactNode }) {
       }
     };
     document.addEventListener("error", handler, true);
-    return () => document.removeEventListener("error", handler, true);
+    // Catch images that already failed before hydration.
+    const swapBroken = () => {
+      document.querySelectorAll("img").forEach((img) => {
+        if (img.complete && img.naturalWidth === 0 && !img.dataset["fallbackApplied"]) {
+          img.dataset["fallbackApplied"] = "1";
+          img.src = fallbackImage;
+        }
+      });
+    };
+    swapBroken();
+    const timer = window.setTimeout(swapBroken, 1500);
+    return () => {
+      document.removeEventListener("error", handler, true);
+      window.clearTimeout(timer);
+    };
   }, []);
 
   return (
