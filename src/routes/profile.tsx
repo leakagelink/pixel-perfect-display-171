@@ -1,10 +1,14 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import { AppShell } from "@/components/app/AppShell";
 import { TopHeader } from "@/components/app/TopHeader";
 import { SectionHeader } from "@/components/app/SectionHeader";
 import { followables } from "@/lib/news-data";
 import { useLanguage } from "@/lib/language";
 import { getHomeFeed } from "@/lib/content.functions";
+import { deleteMyAccount } from "@/lib/account.functions";
+import { supabase } from "@/integrations/supabase/client";
+import { SITE } from "@/lib/site";
 
 const interests = [
   "AI",
@@ -16,13 +20,10 @@ const interests = [
 ];
 
 const settings = [
-  ["Saved news", "3 folders · 12 stories"],
-  ["Reading history", "48 stories this week"],
-  ["Notification preferences", "Breaking, Markets"],
-  ["Language", "English"],
-  ["Location", "United States · San Francisco"],
-  ["Privacy", "Personalization on"],
-  ["Account settings", "theo@newsai.app"],
+  { label: "About us", value: "7adigital.com", to: "/about" },
+  { label: "Contact", value: "7awakenewsnetworkdigital@gmail.com", to: "/about" },
+  { label: "Privacy Policy", value: "How we handle your data", to: "/privacy" },
+  { label: "Terms of Use", value: "Rules for using the app", to: "/terms" },
 ];
 
 export const Route = createFileRoute("/profile")({
@@ -50,11 +51,34 @@ export const Route = createFileRoute("/profile")({
 function Profile() {
   const { language, t } = useLanguage();
   const { articles } = Route.useLoaderData();
+  const navigate = useNavigate();
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   const shownSettings = language === "bn" ? [
-    ["সংরক্ষিত খবর", "৩টি ফোল্ডার · ১২টি খবর"], ["পড়ার ইতিহাস", "এই সপ্তাহে ৪৮টি খবর"],
-    ["বিজ্ঞপ্তির পছন্দ", "জরুরি খবর, বাজার"], ["ভাষা", "বাংলা"], ["অবস্থান", "ভারত · পশ্চিমবঙ্গ"],
-    ["গোপনীয়তা", "ব্যক্তিগতকরণ চালু"], ["অ্যাকাউন্ট সেটিংস", "theo@newsai.app"],
+    { label: "আমাদের সম্পর্কে", value: "7adigital.com", to: "/about" },
+    { label: "যোগাযোগ", value: "7awakenewsnetworkdigital@gmail.com", to: "/about" },
+    { label: "গোপনীয়তা নীতি", value: "আপনার তথ্য কীভাবে ব্যবহৃত হয়", to: "/privacy" },
+    { label: "ব্যবহারের শর্তাবলী", value: "অ্যাপ ব্যবহারের নিয়ম", to: "/terms" },
   ] : settings;
+
+  const handleDeleteAccount = async () => {
+    const confirmed = window.confirm(
+      language === "bn"
+        ? "আপনি কি নিশ্চিত? আপনার অ্যাকাউন্ট ও সব তথ্য স্থায়ীভাবে মুছে যাবে।"
+        : "Are you sure? Your account and all data will be permanently deleted.",
+    );
+    if (!confirmed) return;
+    setDeleting(true);
+    setDeleteError(null);
+    try {
+      await deleteMyAccount();
+      await supabase.auth.signOut();
+      navigate({ to: "/auth" });
+    } catch (e) {
+      setDeleteError(e instanceof Error ? e.message : "Delete failed");
+      setDeleting(false);
+    }
+  };
   return (
     <AppShell>
       <TopHeader subtitle={t("profile")} />
@@ -140,19 +164,45 @@ function Profile() {
 
       <SectionHeader title={language === "bn" ? "সেটিংস" : "Settings"} />
       <div className="divide-y divide-border px-5 pt-2">
-        {shownSettings.map(([label, value]) => (
-          <div
+        {shownSettings.map(({ label, value, to }) => (
+          <Link
             key={label}
-            className="flex items-center justify-between py-4"
+            to={to}
+            className="btn-press flex items-center justify-between py-4"
           >
             <div>
               <p className="text-sm font-medium">{label}</p>
               <p className="text-[11px] text-muted-foreground">{value}</p>
             </div>
             <span className="text-muted-foreground">›</span>
-          </div>
+          </Link>
         ))}
       </div>
+
+      <div className="mt-6 px-5">
+        <button
+          type="button"
+          onClick={handleDeleteAccount}
+          disabled={deleting}
+          className="btn-press w-full rounded-xl border border-destructive/40 bg-destructive/10 px-4 py-3.5 text-sm font-semibold text-destructive disabled:opacity-60"
+        >
+          {deleting
+            ? language === "bn" ? "মুছে ফেলা হচ্ছে…" : "Deleting…"
+            : language === "bn" ? "অ্যাকাউন্ট মুছে ফেলুন" : "Delete account"}
+        </button>
+        <p className="mt-2 text-center text-[11px] text-muted-foreground">
+          {language === "bn"
+            ? "আপনার অ্যাকাউন্ট ও সব তথ্য স্থায়ীভাবে মুছে যাবে।"
+            : "Your account and all data will be permanently deleted."}
+        </p>
+        {deleteError && (
+          <p className="mt-2 text-center text-xs text-destructive">{deleteError}</p>
+        )}
+      </div>
+
+      <p className="mt-8 px-5 text-center text-[11px] text-muted-foreground">
+        {SITE.name} · {SITE.websiteLabel}
+      </p>
     </AppShell>
   );
 }
