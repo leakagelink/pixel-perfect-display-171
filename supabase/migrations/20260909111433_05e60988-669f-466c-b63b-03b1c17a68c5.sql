@@ -170,33 +170,4 @@ ALTER TABLE public.notifications ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "notifications public read" ON public.notifications FOR SELECT USING (true);
 CREATE POLICY "notifications admin write" ON public.notifications FOR ALL TO authenticated USING (public.has_role(auth.uid(),'admin')) WITH CHECK (public.has_role(auth.uid(),'admin'));
 
-INSERT INTO public.articles (slug, category, headline, dek, sources, reading_time, bullets, why_it_matters, timeline, coverage, is_featured) VALUES
-('valerion-margin','Markets','Valerion posts record margin as inference costs fall','The chipmaker''s cheapest quarter of compute yet turned into its most profitable one.',ARRAY['Valerion Wire','Signal Desk','TechWire'],'4 min',ARRAY['AI inference unit cost down 38% quarter-over-quarter','Guidance raised after enterprise adoption beat by 12%','Operating margin reached an all-time high of 41%','Management flagged supply strain into next quarter'],'Cheaper inference resets the economics of every product built on large models.','[{"time":"10:00","event":"Earnings released ahead of the bell"},{"time":"11:30","event":"Management raises full-year guidance"},{"time":"13:00","event":"Shares climb 7% in heavy volume"}]','[{"source":"Valerion Wire","label":"Official Source","angle":"Company statement on record quarter"},{"source":"Signal Desk","label":"Analysis","angle":"What falling inference cost means for rivals"}]',true),
-('helios-cooling','Energy','Helios cuts datacenter draw to 41 GWh with liquid cooling','A new closed-loop system claims the largest efficiency jump the operator has shipped.',ARRAY['Helios Grid','Northwind Post'],'5 min',ARRAY['New loop claims 61% lower PUE at scale','Rollout begins across three West Coast sites by Q3','Water usage falls by an estimated 30%'],'Efficiency at this scale buys regulators time before new generation comes online.','[{"time":"08:15","event":"Helios publishes efficiency report"},{"time":"12:40","event":"Regulators confirm pilot approval"}]','[{"source":"Helios Grid","label":"Official Source","angle":"Technical report on the cooling loop"}]',false),
-('compute-land-grab','AI','The compute land-grab: three hyperscalers pass 100 GW','Capacity plans now outpace what regional grids expect to deliver this decade.',ARRAY['Signal Desk','Meridian Wire'],'6 min',ARRAY['Combined 2026 capacity plans exceed 100 GW','Cluster demand up 7.2% month-over-month','Two regional grids have paused new interconnect requests'],'Where compute gets built decides which regions capture the jobs and the tax base.','[{"time":"07:00","event":"Capacity filings surface"},{"time":"09:45","event":"Grid operator pauses interconnects"}]','[{"source":"Signal Desk","label":"Analysis","angle":"Reading the capacity filings"}]',false),
-('markets-open','Business','Northwind merger clears review, reshaping regional logistics','Conditions attached to the deal require divestment of two freight hubs.',ARRAY['Meridian Wire','The Ledger'],'3 min',ARRAY['Approval carries two mandatory hub divestments','Combined network covers 41 metro areas','Closing expected before the end of the quarter'],'Consolidation in regional freight tends to show up in shipping rates within two quarters.','[{"time":"09:00","event":"Decision published"},{"time":"10:30","event":"Companies confirm divestments"}]','[{"source":"Meridian Wire","label":"Official Source","angle":"Full text of the decision"}]',false);
-
-INSERT INTO public.shorts (headline, summary, category, source, sort_order) VALUES
-('Valerion posts record margin as inference costs fall','AI inference unit cost down 38% quarter-over-quarter. Guidance raised after enterprise adoption beat by 12%.','Markets','Valerion Wire',1),
-('Helios cuts datacenter draw to 41 GWh','New loop claims 61% lower PUE at scale. Rollout begins across three West Coast sites by Q3.','Energy','Helios Grid',2),
-('The compute land-grab: three hyperscalers pass 100 GW','Combined 2026 capacity plans exceed 100 GW. Cluster demand up 7.2% month-over-month.','AI','Signal Desk',3),
-('Northwind merger clears regulatory review','Approval carries two mandatory hub divestments. Combined network covers 41 metro areas.','Business','Meridian Wire',4);
-
-INSERT INTO public.videos (title, category, duration, source, views, ai_brief, status, sort_order) VALUES
-('Inside the compute land-grab','AI','3:12','Signal Desk','128k',false,'Ready',1),
-('How liquid cooling changed the numbers','Energy','2:04','Helios Grid','64k',true,'Ready',2),
-('Markets in 90 seconds','Markets','1:30','The Ledger','212k',true,'Processing',3),
-('The chip cycle, explained','Technology','4:48','TechWire','89k',false,'Ready',4);
-
-INSERT INTO public.breaking_news (text, sort_order) VALUES
-('Valerion hits $142 in late-session rally',1),
-('Mira OS ships 3.1 to all devices',2),
-('Helios datacenter cut to 41 GWh',3),
-('Northwind merger clears regulatory review',4);
-
-INSERT INTO public.trending_topics (tag, count_label, sort_order) VALUES
-('AI Agents','8.4k',1),('Chips','6.1k',2),('Energy','4.9k',3),('Regulation','3.2k',4),('Bitcoin','2.8k',5);
-
-INSERT INTO public.notifications (title, body, kind) VALUES
-('Markets update','Valerion climbs 7% after record margin report.','Markets'),
-('Breaking','Northwind merger clears regulatory review.','Breaking');
+-- Demo seed content removed: production data is managed from the admin panel.
