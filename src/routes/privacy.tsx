@@ -28,54 +28,62 @@ export const Route = createFileRoute("/privacy")({
 const sectionsBn: { title: string; body: string }[] = [
   {
     title: "১. আমরা কী তথ্য সংগ্রহ করি",
-    body: "অ্যাকাউন্ট তৈরি করলে আপনার ইমেল ঠিকানা ও নাম সংগ্রহ করা হয়। এছাড়া অ্যাপের ভাষা পছন্দ ও পড়ার পছন্দ আপনার ডিভাইসে সংরক্ষিত থাকে। আমরা আপনার অবস্থান, পরিচিতি তালিকা বা অন্য কোনো ব্যক্তিগত তথ্য সংগ্রহ করি না।",
+    body: "অ্যাকাউন্ট তৈরি করলে আপনার ইমেল ঠিকানা, নাম (যদি দেন) ও এনক্রিপ্ট করা পাসওয়ার্ড সংরক্ষিত হয়। লগইনের সময় নিরাপত্তার জন্য আমাদের সার্ভার স্বয়ংক্রিয়ভাবে প্রযুক্তিগত তথ্য (যেমন IP ঠিকানা, ডিভাইস/ব্রাউজারের ধরন, সময়) লগ করতে পারে। ভাষা পছন্দ শুধু আপনার ডিভাইসে থাকে। অ্যাকাউন্ট ছাড়াও খবর পড়া যায়। আমরা অবস্থান, পরিচিতি, ছবি বা মাইক্রোফোন অ্যাক্সেস করি না এবং কোনো বিজ্ঞাপন বা অ্যানালিটিক্স SDK ব্যবহার করি না।",
   },
   {
     title: "২. তথ্যের ব্যবহার",
-    body: "সংগৃহীত তথ্য শুধুমাত্র আপনার অ্যাকাউন্ট পরিচালনা, লগইন এবং অ্যাপের অভিজ্ঞতা উন্নত করতে ব্যবহৃত হয়। আমরা আপনার তথ্য কোনো তৃতীয় পক্ষের কাছে বিক্রি বা ভাগ করি না।",
+    body: "এই তথ্য শুধুমাত্র আপনার অ্যাকাউন্ট পরিচালনা, লগইন, নিরাপত্তা ও অপব্যবহার রোধে ব্যবহৃত হয়। আমরা আপনার তথ্য বিক্রি করি না এবং বিজ্ঞাপনের জন্য ভাগ করি না।",
   },
   {
-    title: "৩. তথ্য সংরক্ষণ ও নিরাপত্তা",
-    body: "আপনার তথ্য সুরক্ষিত সার্ভারে সংরক্ষিত থাকে এবং শিল্প-মান এনক্রিপশন ব্যবহার করা হয়। অননুমোদিত প্রবেশ রোধে আমরা প্রযোজ্য নিরাপত্তা ব্যবস্থা নিয়ে থাকি।",
+    title: "৩. পরিষেবা প্রদানকারী",
+    body: "অ্যাপ চালাতে আমরা কিছু পরিষেবা ব্যবহার করি যারা আমাদের হয়ে তথ্য প্রক্রিয়া করে: হোস্টিং, ডাটাবেস ও লগইন (Lovable Cloud), ফন্ট (Google Fonts)। আপনি কোনো ভিডিও চালালে YouTube বা Facebook তাদের নিজস্ব নীতি অনুযায়ী তথ্য সংগ্রহ করতে পারে।",
   },
   {
-    title: "৪. আপনার অধিকার",
-    body: "আপনি যেকোনো সময় অ্যাপের প্রোফাইল পাতা থেকে আপনার অ্যাকাউন্ট ও সংশ্লিষ্ট সব তথ্য স্থায়ীভাবে মুছে ফেলতে পারেন। মুছে ফেলার পর তথ্য পুনরুদ্ধার সম্ভব নয়।",
+    title: "৪. তথ্য সংরক্ষণ ও নিরাপত্তা",
+    body: "তথ্য এনক্রিপ্ট করা সংযোগ (HTTPS) দিয়ে পাঠানো হয় এবং প্রবেশাধিকার নিয়ন্ত্রিত সার্ভারে রাখা হয়। কোনো ব্যবস্থাই সম্পূর্ণ নিরাপদ নয়, তবে আমরা যুক্তিসঙ্গত সুরক্ষা ব্যবস্থা নিই। অ্যাকাউন্ট থাকা পর্যন্ত তথ্য রাখা হয়; অ্যাকাউন্ট মুছলে তা সরিয়ে ফেলা হয়।",
   },
   {
-    title: "৫. শিশুদের গোপনীয়তা",
-    body: "এই অ্যাপ ১৩ বছরের কম বয়সী শিশুদের জন্য নয় এবং আমরা জানেন শিশুদের কোনো তথ্য সংগ্রহ করি না।",
+    title: "৫. অ্যাকাউন্ট ও তথ্য মুছে ফেলা",
+    body: "প্রোফাইল পাতা থেকে \"অ্যাকাউন্ট মুছুন\" চাপলে আপনার অ্যাকাউন্ট ও সংশ্লিষ্ট তথ্য স্থায়ীভাবে মুছে যায়। অ্যাপ ছাড়াও নিচের ইমেলে অনুরোধ পাঠিয়ে মুছে ফেলতে পারেন। মুছে ফেলার পর তথ্য পুনরুদ্ধার সম্ভব নয়।",
   },
   {
-    title: "৬. নীতি পরিবর্তন",
-    body: "এই নীতি পরিবর্তিত হলে এই পাতায় হালনাগাদ করা হবে। গুরুত্বপূর্ণ পরিবর্তনের ক্ষেত্রে অ্যাপের মাধ্যমে জানিয়ে দেওয়া হবে।",
+    title: "৬. শিশুদের গোপনীয়তা",
+    body: "এই অ্যাপ ১৩ বছরের কম বয়সী শিশুদের জন্য নয় এবং আমরা জেনেশুনে শিশুদের কোনো তথ্য সংগ্রহ করি না।",
+  },
+  {
+    title: "৭. নীতি পরিবর্তন",
+    body: "এই নীতি পরিবর্তিত হলে এই পাতায় হালনাগাদ করা হবে।",
   },
 ];
 
 const sectionsEn: { title: string; body: string }[] = [
   {
     title: "1. Information we collect",
-    body: "When you create an account we collect your email address and name. Your language and reading preferences are stored on your device. We do not collect your location, contacts, or any other personal data.",
+    body: "If you create an account, we store your email address, name (if provided) and an encrypted password. For security, our servers may automatically log technical data during sign-in (such as IP address, device/browser type and time). Your language choice stays on your device. You can read news without an account. We do not access your location, contacts, photos or microphone, and we use no advertising or analytics SDKs.",
   },
   {
     title: "2. How we use information",
-    body: "Collected information is used only to manage your account, sign you in, and improve the app experience. We never sell or share your data with third parties.",
+    body: "This information is used only to run your account, sign you in, keep the service secure and prevent abuse. We do not sell your data or share it for advertising.",
   },
   {
-    title: "3. Storage and security",
-    body: "Your data is stored on secure servers with industry-standard encryption. We apply appropriate safeguards to prevent unauthorized access.",
+    title: "3. Service providers",
+    body: "We use providers that process data on our behalf to run the app: hosting, database and sign-in (Lovable Cloud) and fonts (Google Fonts). If you play a video, YouTube or Facebook may collect data under their own policies.",
   },
   {
-    title: "4. Your rights",
-    body: "You can permanently delete your account and all associated data at any time from the Profile page in the app. Deletion is irreversible.",
+    title: "4. Storage and security",
+    body: "Data is sent over encrypted connections (HTTPS) and stored on access-controlled servers. No system is perfectly secure, but we apply reasonable safeguards. We keep your data while your account exists and remove it when you delete the account.",
   },
   {
-    title: "5. Children's privacy",
+    title: "5. Account and data deletion",
+    body: "Tap \"Delete account\" on the Profile page to permanently delete your account and associated data. You can also request deletion by emailing us at the address below. Deletion cannot be undone.",
+  },
+  {
+    title: "6. Children's privacy",
     body: "This app is not intended for children under 13, and we do not knowingly collect data from children.",
   },
   {
-    title: "6. Changes to this policy",
-    body: "If this policy changes, the update will be posted on this page. Significant changes will be announced in the app.",
+    title: "7. Changes to this policy",
+    body: "If this policy changes, the update will be posted on this page.",
   },
 ];
 
