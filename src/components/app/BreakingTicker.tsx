@@ -1,9 +1,9 @@
-import { breaking as fallbackBreaking } from "@/lib/news-data";
 import { useLanguage } from "@/lib/language";
 
 export function BreakingTicker({ headlines }: { headlines?: string[] }) {
   const { t } = useLanguage();
-  const base = headlines && headlines.length > 0 ? headlines : fallbackBreaking;
+  const base = headlines ?? [];
+  if (base.length === 0) return null;
   const items = [...base, ...base];
   return (
     <div className="ticker-mask overflow-hidden border-y border-primary/15 bg-primary/[0.045]">
