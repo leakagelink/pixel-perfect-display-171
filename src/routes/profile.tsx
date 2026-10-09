@@ -1,23 +1,12 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AppShell } from "@/components/app/AppShell";
 import { TopHeader } from "@/components/app/TopHeader";
 import { SectionHeader } from "@/components/app/SectionHeader";
-import { followables } from "@/lib/news-data";
 import { useLanguage } from "@/lib/language";
-import { getHomeFeed } from "@/lib/content.functions";
 import { deleteMyAccount } from "@/lib/account.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { SITE } from "@/lib/site";
-
-const interests = [
-  "AI",
-  "Technology",
-  "Business",
-  "Crypto",
-  "Stock Market",
-  "Science",
-];
 
 const settings = [
   { label: "About us", value: "7adigital.com", to: "/about" },
@@ -44,13 +33,31 @@ export const Route = createFileRoute("/profile")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  loader: () => getHomeFeed(),
   component: Profile,
 });
 
 function Profile() {
   const { language, t } = useLanguage();
-  const { articles } = Route.useLoaderData();
+  const [user, setUser] = useState<{ email: string; name: string; isAdmin: boolean } | null>(null);
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      const { data } = await supabase.auth.getUser();
+      const u = data.user;
+      if (!u) return;
+      const [{ data: prof }, { data: roles }] = await Promise.all([
+        supabase.from("profiles").select("full_name").eq("id", u.id).maybeSingle(),
+        supabase.from("user_roles").select("role").eq("user_id", u.id),
+      ]);
+      if (!alive) return;
+      setUser({
+        email: u.email ?? "",
+        name: prof?.full_name ?? "",
+        isAdmin: (roles ?? []).some((r) => r.role === "admin"),
+      });
+    })();
+    return () => { alive = false; };
+  }, []);
   const navigate = useNavigate();
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
@@ -84,19 +91,29 @@ function Profile() {
       <TopHeader subtitle={t("profile")} />
 
       <div className="mt-6 px-5">
-        <div className="flex items-center gap-4 border-b border-border pb-6">
-          <div className="grid size-16 shrink-0 place-items-center rounded-full bg-ink font-display text-lg text-primary-foreground ring-4 ring-primary/10">
-            T
+        {user ? (
+          <div className="flex items-center gap-4 border-b border-border pb-6">
+            <div className="grid size-16 shrink-0 place-items-center rounded-full bg-ink font-display text-lg text-primary-foreground ring-4 ring-primary/10">
+              {(user.name || user.email || "?").charAt(0).toUpperCase()}
+            </div>
+            <div className="min-w-0">
+              <p className="truncate text-lg font-semibold tracking-tight">{user.name || user.email}</p>
+              <p className="truncate text-xs text-muted-foreground">{user.email}</p>
+            </div>
           </div>
-          <div>
-            <p className="text-lg font-semibold tracking-tight">Theo Marchand</p>
-            <p className="text-xs text-muted-foreground">
-               {language === "bn" ? "২০২৫ থেকে সদস্য · ২১৪টি সূত্র" : "Member since 2025 · 214 sources"}
+        ) : (
+          <div className="border-b border-border pb-6">
+            <p className="text-sm text-muted-foreground">
+              {language === "bn" ? "খবর পড়তে অ্যাকাউন্ট লাগে না।" : "You don't need an account to read news."}
             </p>
+            <Link to="/auth" className="btn-press mt-3 inline-block rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground">
+              {language === "bn" ? "লগইন / সাইন আপ" : "Sign in / Sign up"}
+            </Link>
           </div>
-        </div>
+        )}
       </div>
 
+      {user?.isAdmin && (
       <div className="mt-3 px-5">
         <Link
           to="/admin"
@@ -111,56 +128,7 @@ function Profile() {
           <span className="text-muted-foreground">›</span>
         </Link>
       </div>
-
-      <SectionHeader title={language === "bn" ? "আমার আগ্রহ" : "My interests"} />
-      <div className="mt-3 flex flex-wrap gap-2 px-5">
-        {interests.map((i) => (
-          <span
-            key={i}
-             className="rounded-full bg-primary/10 px-3.5 py-1.5 text-xs font-semibold text-primary ring-1 ring-primary/20"
-          >
-            {i}
-          </span>
-        ))}
-      </div>
-
-      <SectionHeader title={t("following")} meta={`${followables.length}`} />
-      <div className="mt-3 flex gap-2 overflow-x-auto px-5 pb-1 no-scrollbar">
-        {followables.map((f) => (
-          <div
-            key={f.name}
-             className="shrink-0 border-b-2 border-primary bg-secondary px-4 py-3"
-          >
-            <p className="text-xs font-medium">
-              {f.emoji} {f.name}
-            </p>
-            <p className="mt-0.5 text-[10px] uppercase tracking-wide text-muted-foreground">
-              {f.kind}
-            </p>
-          </div>
-        ))}
-      </div>
-
-      <SectionHeader title={language === "bn" ? "সংরক্ষিত খবর" : "Saved news"} meta="🔖" />
-      <div className="divide-y divide-border px-5 pt-2">
-        {articles.slice(0, 2).map((a) => (
-          <Link
-            key={a.id}
-            to="/article/$articleId"
-            params={{ articleId: a.id }}
-            className="btn-press flex items-center gap-3 py-4"
-          >
-            <img
-              src={a.image}
-              alt={a.headline}
-              loading="lazy"
-            decoding="async"
-              className="size-12 shrink-0 rounded-xl object-cover"
-            />
-            <p className="text-sm font-medium leading-snug">{a.headline}</p>
-          </Link>
-        ))}
-      </div>
+      )}
 
       <SectionHeader title={language === "bn" ? "সেটিংস" : "Settings"} />
       <div className="divide-y divide-border px-5 pt-2">
@@ -179,6 +147,7 @@ function Profile() {
         ))}
       </div>
 
+      {user && (
       <div className="mt-6 px-5">
         <button
           type="button"
@@ -199,6 +168,7 @@ function Profile() {
           <p className="mt-2 text-center text-xs text-destructive">{deleteError}</p>
         )}
       </div>
+      )}
 
       <p className="mt-8 px-5 text-center text-[11px] text-muted-foreground">
         {SITE.name} · {SITE.websiteLabel}
