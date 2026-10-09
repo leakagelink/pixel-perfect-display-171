@@ -15,6 +15,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AskRouteImport } from './routes/ask'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BriefingRouteImport } from './routes/briefing'
+import { Route as DeleteAccountRouteImport } from './routes/delete-account'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProfileRouteImport } from './routes/profile'
@@ -52,6 +53,11 @@ const AuthRoute = AuthRouteImport.update({
 const BriefingRoute = BriefingRouteImport.update({
   id: '/briefing',
   path: '/briefing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DeleteAccountRoute = DeleteAccountRouteImport.update({
+  id: '/delete-account',
+  path: '/delete-account',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NotificationsRoute = NotificationsRouteImport.update({
@@ -106,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/ask': typeof AskRoute
   '/auth': typeof AuthRoute
   '/briefing': typeof BriefingRoute
+  '/delete-account': typeof DeleteAccountRoute
   '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
@@ -122,6 +129,7 @@ export interface FileRoutesByTo {
   '/ask': typeof AskRoute
   '/auth': typeof AuthRoute
   '/briefing': typeof BriefingRoute
+  '/delete-account': typeof DeleteAccountRoute
   '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
@@ -140,6 +148,7 @@ export interface FileRoutesById {
   '/ask': typeof AskRoute
   '/auth': typeof AuthRoute
   '/briefing': typeof BriefingRoute
+  '/delete-account': typeof DeleteAccountRoute
   '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
@@ -158,6 +167,7 @@ export interface FileRouteTypes {
     | '/ask'
     | '/auth'
     | '/briefing'
+    | '/delete-account'
     | '/notifications'
     | '/privacy'
     | '/profile'
@@ -174,6 +184,7 @@ export interface FileRouteTypes {
     | '/ask'
     | '/auth'
     | '/briefing'
+    | '/delete-account'
     | '/notifications'
     | '/privacy'
     | '/profile'
@@ -191,6 +202,7 @@ export interface FileRouteTypes {
     | '/ask'
     | '/auth'
     | '/briefing'
+    | '/delete-account'
     | '/notifications'
     | '/privacy'
     | '/profile'
@@ -209,6 +221,7 @@ export interface RootRouteChildren {
   AskRoute: typeof AskRoute
   AuthRoute: typeof AuthRoute
   BriefingRoute: typeof BriefingRoute
+  DeleteAccountRoute: typeof DeleteAccountRoute
   NotificationsRoute: typeof NotificationsRoute
   PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
@@ -261,6 +274,13 @@ declare module '@tanstack/react-router' {
       path: '/briefing'
       fullPath: '/briefing'
       preLoaderRoute: typeof BriefingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/delete-account': {
+      id: '/delete-account'
+      path: '/delete-account'
+      fullPath: '/delete-account'
+      preLoaderRoute: typeof DeleteAccountRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/notifications': {
@@ -347,6 +367,7 @@ const rootRouteChildren: RootRouteChildren = {
   AskRoute: AskRoute,
   AuthRoute: AuthRoute,
   BriefingRoute: BriefingRoute,
+  DeleteAccountRoute: DeleteAccountRoute,
   NotificationsRoute: NotificationsRoute,
   PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,

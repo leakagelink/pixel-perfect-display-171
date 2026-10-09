@@ -28,7 +28,7 @@ export const Route = createFileRoute("/privacy")({
 const sectionsBn: { title: string; body: string }[] = [
   {
     title: "১. আমরা কী তথ্য সংগ্রহ করি",
-    body: "অ্যাকাউন্ট তৈরি করলে আপনার ইমেল ঠিকানা, নাম (যদি দেন) ও এনক্রিপ্ট করা পাসওয়ার্ড সংরক্ষিত হয়। লগইনের সময় নিরাপত্তার জন্য আমাদের সার্ভার স্বয়ংক্রিয়ভাবে প্রযুক্তিগত তথ্য (যেমন IP ঠিকানা, ডিভাইস/ব্রাউজারের ধরন, সময়) লগ করতে পারে। ভাষা পছন্দ শুধু আপনার ডিভাইসে থাকে। অ্যাকাউন্ট ছাড়াও খবর পড়া যায়। আমরা অবস্থান, পরিচিতি, ছবি বা মাইক্রোফোন অ্যাক্সেস করি না এবং কোনো বিজ্ঞাপন বা অ্যানালিটিক্স SDK ব্যবহার করি না।",
+    body: "অ্যাকাউন্ট তৈরি করলে আপনার ইমেল ঠিকানা, নাম (যদি দেন) সংরক্ষিত হয়; পাসওয়ার্ড শুধু একমুখী হ্যাশ হিসেবে রাখা হয়, আমরা আসল পাসওয়ার্ড দেখতে পাই না। লগইনের সময় নিরাপত্তার জন্য আমাদের সার্ভার স্বয়ংক্রিয়ভাবে প্রযুক্তিগত তথ্য (যেমন IP ঠিকানা, ডিভাইস/ব্রাউজারের ধরন, সময়) লগ করতে পারে। ভাষা পছন্দ শুধু আপনার ডিভাইসে থাকে। অ্যাকাউন্ট ছাড়াও খবর পড়া যায়। আমরা অবস্থান, পরিচিতি, ছবি বা মাইক্রোফোন অ্যাক্সেস করি না এবং কোনো বিজ্ঞাপন বা অ্যানালিটিক্স SDK ব্যবহার করি না।",
   },
   {
     title: "২. তথ্যের ব্যবহার",
@@ -40,11 +40,11 @@ const sectionsBn: { title: string; body: string }[] = [
   },
   {
     title: "৪. তথ্য সংরক্ষণ ও নিরাপত্তা",
-    body: "তথ্য এনক্রিপ্ট করা সংযোগ (HTTPS) দিয়ে পাঠানো হয় এবং প্রবেশাধিকার নিয়ন্ত্রিত সার্ভারে রাখা হয়। কোনো ব্যবস্থাই সম্পূর্ণ নিরাপদ নয়, তবে আমরা যুক্তিসঙ্গত সুরক্ষা ব্যবস্থা নিই। অ্যাকাউন্ট থাকা পর্যন্ত তথ্য রাখা হয়; অ্যাকাউন্ট মুছলে তা সরিয়ে ফেলা হয়।",
+    body: "তথ্য এনক্রিপ্ট করা সংযোগ (HTTPS) দিয়ে পাঠানো হয় এবং প্রবেশাধিকার নিয়ন্ত্রিত সার্ভারে রাখা হয়। কোনো ব্যবস্থাই সম্পূর্ণ নিরাপদ নয়, তবে আমরা যুক্তিসঙ্গত সুরক্ষা ব্যবস্থা নিই। অ্যাকাউন্ট থাকা পর্যন্ত তথ্য রাখা হয় এবং অ্যাকাউন্ট মুছলে সঙ্গে সঙ্গে সরানো হয়। নিরাপত্তা লগ হোস্টিং প্রদানকারীর নিয়ম অনুযায়ী সীমিত সময় পরে স্বয়ংক্রিয়ভাবে মুছে যায়।",
   },
   {
     title: "৫. অ্যাকাউন্ট ও তথ্য মুছে ফেলা",
-    body: "প্রোফাইল পাতা থেকে \"অ্যাকাউন্ট মুছুন\" চাপলে আপনার অ্যাকাউন্ট ও সংশ্লিষ্ট তথ্য স্থায়ীভাবে মুছে যায়। অ্যাপ ছাড়াও নিচের ইমেলে অনুরোধ পাঠিয়ে মুছে ফেলতে পারেন। মুছে ফেলার পর তথ্য পুনরুদ্ধার সম্ভব নয়।",
+    body: "প্রোফাইল পাতা থেকে \"অ্যাকাউন্ট মুছুন\" চাপলে আপনার অ্যাকাউন্ট ও সংশ্লিষ্ট তথ্য স্থায়ীভাবে মুছে যায়। ইমেলেও অনুরোধ করতে পারেন — 7adigital.com/delete-account দেখুন। মুছে ফেলার পর তথ্য পুনরুদ্ধার সম্ভব নয়।",
   },
   {
     title: "৬. শিশুদের গোপনীয়তা",
@@ -59,7 +59,7 @@ const sectionsBn: { title: string; body: string }[] = [
 const sectionsEn: { title: string; body: string }[] = [
   {
     title: "1. Information we collect",
-    body: "If you create an account, we store your email address, name (if provided) and an encrypted password. For security, our servers may automatically log technical data during sign-in (such as IP address, device/browser type and time). Your language choice stays on your device. You can read news without an account. We do not access your location, contacts, photos or microphone, and we use no advertising or analytics SDKs.",
+    body: "If you create an account, we store your email address and name (if provided); your password is stored only as a one-way hash, so we cannot see it. For security, our servers may automatically log technical data during sign-in (such as IP address, device/browser type and time). Your language choice stays on your device. You can read news without an account. We do not access your location, contacts, photos or microphone, and we use no advertising or analytics SDKs.",
   },
   {
     title: "2. How we use information",
@@ -71,11 +71,11 @@ const sectionsEn: { title: string; body: string }[] = [
   },
   {
     title: "4. Storage and security",
-    body: "Data is sent over encrypted connections (HTTPS) and stored on access-controlled servers. No system is perfectly secure, but we apply reasonable safeguards. We keep your data while your account exists and remove it when you delete the account.",
+    body: "Data is sent over encrypted connections (HTTPS) and stored on access-controlled servers. No system is perfectly secure, but we apply reasonable safeguards. We keep account data while your account exists and remove it immediately when you delete the account. Security logs are deleted automatically after a limited period under our hosting provider's retention rules.",
   },
   {
     title: "5. Account and data deletion",
-    body: "Tap \"Delete account\" on the Profile page to permanently delete your account and associated data. You can also request deletion by emailing us at the address below. Deletion cannot be undone.",
+    body: "Tap \"Delete account\" on the Profile page to permanently delete your account and associated data. You can also request deletion by email — see 7adigital.com/delete-account. Deletion cannot be undone.",
   },
   {
     title: "6. Children's privacy",
