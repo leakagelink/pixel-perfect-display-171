@@ -11,13 +11,16 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as AskRouteImport } from './routes/ask'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BriefingRouteImport } from './routes/briefing'
 import { Route as NotificationsRouteImport } from './routes/notifications'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as ShortsRouteImport } from './routes/shorts'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as VideoRouteImport } from './routes/video'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ArticleArticleIdRouteImport } from './routes/article.$articleId'
@@ -29,6 +32,11 @@ const IndexRoute = IndexRouteImport.update({
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AskRoute = AskRouteImport.update({
@@ -51,6 +59,11 @@ const NotificationsRoute = NotificationsRouteImport.update({
   path: '/notifications',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -64,6 +77,11 @@ const SearchRoute = SearchRouteImport.update({
 const ShortsRoute = ShortsRouteImport.update({
   id: '/shorts',
   path: '/shorts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const VideoRoute = VideoRouteImport.update({
@@ -84,26 +102,32 @@ const ArticleArticleIdRoute = ArticleArticleIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/ask': typeof AskRoute
   '/auth': typeof AuthRoute
   '/briefing': typeof BriefingRoute
   '/notifications': typeof NotificationsRoute
+  '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/search': typeof SearchRoute
   '/shorts': typeof ShortsRoute
+  '/terms': typeof TermsRoute
   '/video': typeof VideoRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/article/$articleId': typeof ArticleArticleIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/ask': typeof AskRoute
   '/auth': typeof AuthRoute
   '/briefing': typeof BriefingRoute
   '/notifications': typeof NotificationsRoute
+  '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/search': typeof SearchRoute
   '/shorts': typeof ShortsRoute
+  '/terms': typeof TermsRoute
   '/video': typeof VideoRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/article/$articleId': typeof ArticleArticleIdRoute
@@ -112,13 +136,16 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/about': typeof AboutRoute
   '/ask': typeof AskRoute
   '/auth': typeof AuthRoute
   '/briefing': typeof BriefingRoute
   '/notifications': typeof NotificationsRoute
+  '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/search': typeof SearchRoute
   '/shorts': typeof ShortsRoute
+  '/terms': typeof TermsRoute
   '/video': typeof VideoRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/article/$articleId': typeof ArticleArticleIdRoute
@@ -127,26 +154,32 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
     | '/ask'
     | '/auth'
     | '/briefing'
     | '/notifications'
+    | '/privacy'
     | '/profile'
     | '/search'
     | '/shorts'
+    | '/terms'
     | '/video'
     | '/admin'
     | '/article/$articleId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
     | '/ask'
     | '/auth'
     | '/briefing'
     | '/notifications'
+    | '/privacy'
     | '/profile'
     | '/search'
     | '/shorts'
+    | '/terms'
     | '/video'
     | '/admin'
     | '/article/$articleId'
@@ -154,13 +187,16 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/about'
     | '/ask'
     | '/auth'
     | '/briefing'
     | '/notifications'
+    | '/privacy'
     | '/profile'
     | '/search'
     | '/shorts'
+    | '/terms'
     | '/video'
     | '/_authenticated/admin'
     | '/article/$articleId'
@@ -169,13 +205,16 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AboutRoute: typeof AboutRoute
   AskRoute: typeof AskRoute
   AuthRoute: typeof AuthRoute
   BriefingRoute: typeof BriefingRoute
   NotificationsRoute: typeof NotificationsRoute
+  PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
   SearchRoute: typeof SearchRoute
   ShortsRoute: typeof ShortsRoute
+  TermsRoute: typeof TermsRoute
   VideoRoute: typeof VideoRoute
   ArticleArticleIdRoute: typeof ArticleArticleIdRoute
 }
@@ -194,6 +233,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ask': {
@@ -224,6 +270,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/profile': {
       id: '/profile'
       path: '/profile'
@@ -243,6 +296,13 @@ declare module '@tanstack/react-router' {
       path: '/shorts'
       fullPath: '/shorts'
       preLoaderRoute: typeof ShortsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/video': {
@@ -283,13 +343,16 @@ const AuthenticatedRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AboutRoute: AboutRoute,
   AskRoute: AskRoute,
   AuthRoute: AuthRoute,
   BriefingRoute: BriefingRoute,
   NotificationsRoute: NotificationsRoute,
+  PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
   SearchRoute: SearchRoute,
   ShortsRoute: ShortsRoute,
+  TermsRoute: TermsRoute,
   VideoRoute: VideoRoute,
   ArticleArticleIdRoute: ArticleArticleIdRoute,
 }

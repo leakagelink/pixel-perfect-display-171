@@ -1,10 +1,14 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import { AppShell } from "@/components/app/AppShell";
 import { TopHeader } from "@/components/app/TopHeader";
 import { SectionHeader } from "@/components/app/SectionHeader";
 import { followables } from "@/lib/news-data";
 import { useLanguage } from "@/lib/language";
 import { getHomeFeed } from "@/lib/content.functions";
+import { deleteMyAccount } from "@/lib/account.functions";
+import { supabase } from "@/integrations/supabase/client";
+import { SITE } from "@/lib/site";
 
 const interests = [
   "AI",
@@ -16,13 +20,10 @@ const interests = [
 ];
 
 const settings = [
-  ["Saved news", "3 folders · 12 stories"],
-  ["Reading history", "48 stories this week"],
-  ["Notification preferences", "Breaking, Markets"],
-  ["Language", "English"],
-  ["Location", "United States · San Francisco"],
-  ["Privacy", "Personalization on"],
-  ["Account settings", "theo@newsai.app"],
+  { label: "About us", value: "7adigital.com", to: "/about" },
+  { label: "Contact", value: "7awakenewsnetworkdigital@gmail.com", to: "/about" },
+  { label: "Privacy Policy", value: "How we handle your data", to: "/privacy" },
+  { label: "Terms of Use", value: "Rules for using the app", to: "/terms" },
 ];
 
 export const Route = createFileRoute("/profile")({
